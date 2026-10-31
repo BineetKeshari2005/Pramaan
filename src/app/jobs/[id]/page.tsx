@@ -18,6 +18,8 @@ import sampleData from "../../../../tests/fixtures/reports/sample-report.json";
 
 // ---------- Helpers ----------
 
+const MAX_POLL_FAILURES = 5;
+
 function shortCommit(commit: string | null): string | null {
   return commit ? commit.slice(0, 7) : null;
 }
@@ -53,6 +55,7 @@ export default function JobPage() {
   const [job, setJob] = useState<JobStatusResponse | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const failuresRef = useRef(0);
 
   const stopPolling = useCallback(() => {
     if (intervalRef.current !== null) {
@@ -69,13 +72,18 @@ export default function JobPage() {
       } else {
         data = await getJobStatus(id);
       }
+      failuresRef.current = 0;
       setJob(data);
       if (data.status === "done" || data.status === "failed") {
         stopPolling();
       }
     } catch (err) {
-      setLoadError(err instanceof Error ? err.message : "Failed to load job status.");
-      stopPolling();
+      // A dropped request or a server restart mid-poll should not end the page; give up after ~7 s.
+      failuresRef.current += 1;
+      if (failuresRef.current >= MAX_POLL_FAILURES || isSample) {
+        setLoadError(err instanceof Error ? err.message : "Failed to load job status.");
+        stopPolling();
+      }
     }
   }, [id, isSample, stopPolling]);
 
@@ -126,7 +134,8 @@ export default function JobPage() {
     a.href = url;
     a.download = `pramaan-${target.owner}-${target.repo}-${target.number}.json`;
     a.click();
-    URL.revokeObjectURL(url);
+    // Revoking synchronously can cancel the download in some browsers.
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   async function copyReport() {

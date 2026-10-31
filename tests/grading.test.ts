@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assessClaim, type ClaimAssessment, type Evidence, triage } from "../src/core";
+import { assessClaim, CONTEXT_ONLY, type ClaimAssessment, type Evidence, triage } from "../src/core";
 import { makeClaim } from "./fakes";
 
 const ev = (kind: Evidence["kind"]): Evidence => ({ kind, source: "test", summary: kind });
@@ -9,11 +9,33 @@ describe("assessClaim", () => {
   const claim = makeClaim({ id: "c1" });
 
   it("abstains when no check produced a result", () => {
-    const a = assessClaim(claim, []);
+    const a = assessClaim(makeClaim({ id: "b", type: "behavior" }), []);
     expect(a.verdict).toBe("insufficient_evidence");
     expect(a.confidence).toBe("none");
     expect(a.needsHumanReview).toBe(true);
     expect(a.missing.length).toBeGreaterThan(0);
+  });
+
+  it("reports partial (low) evidence when code checks support an unsettled claim", () => {
+    const a = assessClaim(makeClaim({ id: "b", type: "behavior" }), [
+      { verdict: "insufficient_evidence", evidence: [ev("static_proof")], missing: ["not executed"] },
+    ]);
+    expect(a).toMatchObject({ verdict: "insufficient_evidence", confidence: "low", needsHumanReview: true });
+    const weak = assessClaim(makeClaim({ id: "b", type: "behavior" }), [
+      { verdict: "insufficient_evidence", evidence: [ev("plausible_text")], missing: [] },
+    ]);
+    expect(weak.confidence).toBe("none");
+  });
+
+  it("records bare version and environment details as context, not as work for a human", () => {
+    const a = assessClaim(makeClaim({ id: "v", type: "version" }), []);
+    expect(a.needsHumanReview).toBe(false);
+    expect(a.missing).toEqual([CONTEXT_ONLY]);
+  });
+
+  it("does not flag an unsettled location claim, but does flag behavior and PR claims", () => {
+    expect(assessClaim(makeClaim({ id: "l", type: "code_location" }), []).needsHumanReview).toBe(false);
+    expect(assessClaim(makeClaim({ id: "p", type: "pr_claim" }), []).needsHumanReview).toBe(true);
   });
 
   it("derives confidence from evidence type, strongest wins", () => {

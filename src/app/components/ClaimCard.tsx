@@ -7,6 +7,7 @@ import {
   verdictLabel,
   verdictTone,
 } from "../lib/present";
+import RichText from "./RichText";
 
 interface ClaimCardProps {
   assessment: ClaimAssessment;
@@ -30,7 +31,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
           <span className={`verdict-badge ${tone}`} aria-label={`Verdict: ${verdictLabel(verdict)}`}>
             {verdictLabel(verdict)}
           </span>
-          <span className="confidence-label">{confidenceLabel(confidence)}</span>
+          <span className="confidence-label">{confidenceLabel(confidence, verdict)}</span>
           {needsHumanReview && (
             <span className="human-review-flag" aria-label="Needs human review">
               ⚠ Needs human review
@@ -40,12 +41,16 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
       </div>
 
       <div className="claim-card-body">
-        <h3 id={`claim-heading-${index}`}>{claim.statement}</h3>
+        <h3 id={`claim-heading-${index}`}>
+          <RichText text={claim.statement} />
+        </h3>
 
         {claim.quote && (
           <>
             <p className="claim-section-label">From the report</p>
-            <blockquote className="claim-quote">{claim.quote}</blockquote>
+            <blockquote className="claim-quote">
+              <RichText text={claim.quote} />
+            </blockquote>
           </>
         )}
 
@@ -92,7 +97,9 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
                   <span className="evidence-source">via {ev.source}</span>
                 </div>
                 <div className="evidence-item-body">
-                  <p style={{ margin: "0 0 6px" }}>{ev.summary}</p>
+                  <p style={{ margin: "0 0 6px" }}>
+                    <RichText text={ev.summary} />
+                  </p>
                   {ev.location?.permalink && (
                     <a href={ev.location.permalink} target="_blank" rel="noopener noreferrer">
                       View code at this commit →
@@ -115,7 +122,9 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
             <p className="claim-section-label">What is missing</p>
             <ul className="missing-list">
               {missing.map((m, i) => (
-                <li key={i}>{m}</li>
+                <li key={i}>
+                  <RichText text={m} />
+                </li>
               ))}
             </ul>
           </>

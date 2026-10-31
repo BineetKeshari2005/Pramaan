@@ -38,6 +38,11 @@ describe("confidenceLabel", () => {
   it("medium", () => expect(confidenceLabel("medium")).toBe("Medium confidence"));
   it("low", () => expect(confidenceLabel("low")).toBe("Low confidence"));
   it("none", () => expect(confidenceLabel("none")).toBe("No confidence"));
+  it("describes unsettled claims by how much evidence was found", () => {
+    expect(confidenceLabel("low", "insufficient_evidence")).toBe("Partial evidence");
+    expect(confidenceLabel("none", "insufficient_evidence")).toBe("Nothing verifiable yet");
+    expect(confidenceLabel("medium", "contradicted")).toBe("Medium confidence");
+  });
 });
 
 // ---------- triageLabelText ----------
@@ -170,7 +175,7 @@ describe("sortAssessments", () => {
     ];
     const sorted = sortAssessments(assessments);
     const ids = sorted.map((a) => a.claim.id);
-    expect(ids).toEqual(["a3", "a4", "a2", "a1"]);
+    expect(ids).toEqual(["a4", "a3", "a2", "a1"]);
   });
 
   it("does not mutate the original array", () => {

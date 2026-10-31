@@ -35,13 +35,21 @@ export function assessClaim(claim: Claim, results: VerificationResult[]): ClaimA
   const allEvidence = results.flatMap((r) => r.evidence);
 
   if (decisive.length === 0) {
+    // No verdict, but code checks may still have found supporting facts (the referenced code exists,
+    // the stack trace lines up). That is partial evidence: "low", never more, because nothing ran.
+    const supported = strength(allEvidence) >= STRENGTH.static_proof;
+    const context = claim.type === "version" && allEvidence.length === 0;
     return {
       claim,
       verdict: "insufficient_evidence",
-      confidence: "none",
+      confidence: supported ? "low" : "none",
       evidence: allEvidence,
-      missing: missing.length > 0 ? missing : ["No check could test this claim automatically."],
-      needsHumanReview: true,
+      missing:
+        missing.length > 0
+          ? missing
+          : [context ? CONTEXT_ONLY : "No check could test this claim automatically."],
+      // Environment and version details are context, not a decision a maintainer must make.
+      needsHumanReview: needsReview(claim, "insufficient_evidence") && !context,
     };
   }
 
@@ -65,12 +73,19 @@ export function assessClaim(claim: Claim, results: VerificationResult[]): ClaimA
     confidence,
     evidence: allEvidence,
     missing,
-    needsHumanReview:
-      confidence === "low" ||
-      confidence === "none" ||
-      // Wrongly dismissing a real security bug costs more than a human look.
-      (claim.type === "security_impact" && best.verdict !== "reproduced"),
+    needsHumanReview: confidence === "low" || confidence === "none" || needsReview(claim, best.verdict),
   };
+}
+
+export const CONTEXT_ONLY =
+  "Recorded as context: environment and version details are not verified against the code.";
+
+/** Claims a maintainer must look at even though the tool reached a (weak or no) verdict. */
+function needsReview(claim: Claim, verdict: ClaimAssessment["verdict"]): boolean {
+  // Wrongly dismissing a real security bug costs more than a human look.
+  if (claim.type === "security_impact") return verdict !== "reproduced";
+  // An unsettled behavior or PR claim is the heart of the report; a location claim either checks out or not.
+  return verdict === "insufficient_evidence" && (claim.type === "behavior" || claim.type === "pr_claim");
 }
 
 const atLeastMedium = (a: ClaimAssessment) => a.confidence === "high" || a.confidence === "medium";

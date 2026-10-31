@@ -29,7 +29,11 @@ export function verdictTone(verdict: Verdict): "confirmed" | "refuted" | "warnin
   }
 }
 
-export function confidenceLabel(confidence: Confidence): string {
+export function confidenceLabel(confidence: Confidence, verdict?: Verdict): string {
+  // "Low confidence" next to "Insufficient evidence" reads as a contradiction; say what was found instead.
+  if (verdict === "insufficient_evidence") {
+    return confidence === "none" ? "Nothing verifiable yet" : "Partial evidence";
+  }
   switch (confidence) {
     case "high":
       return "High confidence";
@@ -120,8 +124,8 @@ export function summarizeReport(report: Report): ReportSummary {
 
 const VERDICT_ORDER: Record<Verdict, number> = {
   // needsHumanReview bucket comes before verdict ordering
-  reproduced: 1,
-  contradicted: 2,
+  contradicted: 1,
+  reproduced: 2,
   not_reproduced: 3,
   insufficient_evidence: 4,
 };

@@ -23,7 +23,8 @@ export async function POST(request: Request): Promise<Response> {
     if (err instanceof JobInputError) {
       return Response.json({ error: err.message }, { status: 400 });
     }
-    const message = err instanceof Error ? err.message : "Invalid request";
-    return Response.json({ error: message }, { status: 400 });
+    // Anything else is our fault, not the caller's: don't leak internals, and say so with a 500.
+    console.error("POST /api/analyze failed:", err);
+    return Response.json({ error: "Internal error while starting the analysis" }, { status: 500 });
   }
 }

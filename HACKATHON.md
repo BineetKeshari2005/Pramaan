@@ -7,16 +7,15 @@ Problem 2: Triage that tests the claims
 We are building Pramaan, a tool that checks whether the technical claims in a GitHub issue or pull request are true. It does not judge who wrote a report. It extracts each claim, verifies it against the real source code and, where possible, in an isolated sandbox, and shows maintainers the evidence. When it cannot verify a claim, it says so instead of guessing.
 
 ## Models
-All models are open-weight and run locally through Ollama. No closed or cloud AI APIs are used at runtime.
+The model is open-weight and runs locally through Ollama. No closed or cloud AI APIs are used at runtime. This table lists only models our code actually calls.
 
 | Model | Used for | Why |
 |---|---|---|
-| Gemma 4 e4b | Primary extraction of claims from issues and PRs as structured JSON | Small open model that runs on a laptop; the task only needs reading text and producing JSON |
-| Qwen2.5-Coder 7B | Drafting a reproduction script when a report has no steps (treated as untrusted code and run only in the sandbox) | Code-tuned model, better with code and stack traces |
-| Llama 3.2 3B | Independent second extraction to cross-check Gemma, and automatic fallback if Gemma fails | If two models disagree on the claims, the report is flagged for human review |
-| Phi-3 mini | Last-resort fallback on low-memory machines | Very small, runs where larger models cannot |
+| Gemma 4 E2B, QAT 4-bit (`gemma4:e2b-it-qat`, Ollama 0.40+) | Extracting atomic technical claims from issue and PR text as schema-constrained JSON (`src/core/claims`) | The task is reading text and producing structured JSON, which a small model handles. At 4.3 GB it runs on an 8 GB laptop next to the rest of the stack, where Gemma 4 E4B (~9.5 GB) does not. Quantization-aware training keeps quality close to full precision. Thinking mode is on by default because it roughly triples the number of claims found; `PRAMAAN_EXTRACT_THINK=false` trades that for about 6x lower latency. |
 
-The models only read text and draft. They never decide a verdict. All verdicts come from code: source search, sandboxed test runs, and rule-based evidence grading.
+Any Ollama model can be swapped in with `PRAMAAN_EXTRACT_MODEL` (for example `gemma4:e4b` on a 16 GB machine).
+
+The model only reads text. It never decides a verdict. Every claim it returns must quote the report word for word, or it is dropped. All verdicts come from code: file, symbol and line checks against the repository at the right commit, stack-trace matching, and rule-based evidence grading.
 
 ## Members
 - Bineet Keshari
