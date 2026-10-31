@@ -3,7 +3,7 @@ import { parseStackTrace, reportText } from "../static/stack-trace";
 import type { Claim, ProvidedEvidence } from "../types";
 
 const STACK = /Traceback \(most recent call last\)|Exception in thread "|^\s+at [\w$.<>]+ ?\(?[^()\s]+:\d+(?::\d+)?\)?\s*$|panic: |thread '.*' panicked at/m;
-const REPRO = /steps to reproduce|to reproduce|reproduction steps|minimal (example|repro)|^\s*(?:>>>|\$|>|PS [^>]*>)\s+\S/im;
+const REPRO = /steps to reproduce|to reproduce|reproduction steps|minimal (example|repro)|^\s*command(?: line)?:\s*\S|^\s*(?:>>>|\$|>|PS [^>]*>)\s+\S/im;
 const FENCE = /```|^(?: {4}|\t)\S/m;
 const LOGS = /^\s*(?:\[?\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}|\[(?:INFO|WARN|WARNING|ERROR|DEBUG|TRACE)\]|(?:INFO|WARN|WARNING|ERROR|DEBUG|FATAL)[:\s]\s*\S)/m;
 const SCREENSHOT = /!\[[^\]]*\]\([^)]+\)|<img\s|user-attachments\/assets|\.(?:png|jpe?g|gif)\b/i;

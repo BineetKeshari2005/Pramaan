@@ -1,0 +1,83 @@
+[
+  {
+    "id": "sqlmap-6154",
+    "url": "https://github.com/sqlmapproject/sqlmap/issues/6154",
+    "reference": "invalid",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 56209
+  },
+  {
+    "id": "js-abbreviation-number-39",
+    "url": "https://github.com/moh3n9595/js-abbreviation-number/issues/39",
+    "reference": "invalid",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 24936
+  },
+  {
+    "id": "nebra-157",
+    "url": "https://github.com/nebra-lang/nebra/issues/157",
+    "reference": "invalid",
+    "predicted": "needs-info",
+    "bestGuess": "invalid",
+    "bestGuessRule": "The report has no checkable technical detail: no code references, steps, logs or traces.",
+    "durationMs": 24814
+  },
+  {
+    "id": "exabgp-955",
+    "url": "https://github.com/Exa-Networks/exabgp/issues/955",
+    "reference": "cannot-reproduce",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 35438
+  },
+  {
+    "id": "hass-oidc-auth-334",
+    "url": "https://github.com/christiaangoossens/hass-oidc-auth/issues/334",
+    "reference": "cannot-reproduce",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 51955
+  },
+  {
+    "id": "gopro-dashboard-overlay-241",
+    "url": "https://github.com/time4tea/gopro-dashboard-overlay/issues/241",
+    "reference": "cannot-reproduce",
+    "predicted": "needs-human-review",
+    "bestGuess": "invalid",
+    "bestGuessRule": "The report names code that does not exist at the checked commit.",
+    "durationMs": 53307
+  },
+  {
+    "id": "jentic-one-1712",
+    "url": "https://github.com/jentic/jentic-one/issues/1712",
+    "reference": "confirmed",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 58743
+  },
+  {
+    "id": "kalinkaplayer-159",
+    "url": "https://github.com/Kalinka-Player/KalinkaPlayer/issues/159",
+    "reference": "confirmed",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 40342
+  },
+  {
+    "id": "memanga-234",
+    "url": "https://github.com/meellm/MeManga/issues/234",
+    "reference": "confirmed",
+    "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
+    "durationMs": 38142
+  }
+]

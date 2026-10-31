@@ -1,0 +1,241 @@
+{
+  "target": {
+    "owner": "meellm",
+    "repo": "MeManga",
+    "number": 234,
+    "kind": "issue",
+    "url": "https://github.com/meellm/MeManga/issues/234",
+    "title": "Handle Ctrl+C consistently in installed CLI entry points",
+    "commit": "f1b07bd97edbaf6ab7266870fa782ea2afca4ca9"
+  },
+  "generatedAt": "2026-10-31T20:44:20.659Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Ctrl+C handling is currently only installed when `memanga/cli.py` is executed directly.",
+        "quote": "Ctrl+C handling is only installed when `memanga/cli.py` is executed directly.",
+        "references": {
+          "files": [
+            "memanga/cli.py"
+          ],
+          "symbols": [
+            "KeyboardInterrupt"
+          ],
+          "lines": [],
+          "versions": [
+            "current cli branch source checkout"
+          ],
+          "commands": [
+            "memanga check"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `memanga/cli.py` exists in meellm/MeManga at f1b07bd.",
+          "location": {
+            "file": "memanga/cli.py",
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/cli.py"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`KeyboardInterrupt` appears in `memanga/cli.py` line 1931, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "memanga/cli.py",
+            "startLine": 1931,
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/cli.py#L1931"
+          },
+          "log": "except KeyboardInterrupt:"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "code_location",
+        "statement": "The `KeyboardInterrupt` handler is currently located under `if __name__ == \"__main__\":` in `memanga/cli.py`.",
+        "quote": "if __name__ == \"__main__\":\n    try:\n        main()\n    except KeyboardInterrupt:\n        console.print(\"\\n[dim]Interrupted.[/dim]\")\n        sys.exit(1)",
+        "references": {
+          "files": [
+            "memanga/cli.py"
+          ],
+          "symbols": [
+            "KeyboardInterrupt"
+          ],
+          "lines": [],
+          "versions": [
+            "current cli branch source checkout"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `memanga/cli.py` exists in meellm/MeManga at f1b07bd.",
+          "location": {
+            "file": "memanga/cli.py",
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/cli.py"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`KeyboardInterrupt` appears in `memanga/cli.py` line 1931, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "memanga/cli.py",
+            "startLine": 1931,
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/cli.py#L1931"
+          },
+          "log": "except KeyboardInterrupt:"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "Normal entry points, such as `memanga = memanga.cli:main` and `python -m memanga`, do not run the `KeyboardInterrupt` handling block.",
+        "quote": "The normal entry points do not run that block: - The console script is `memanga = memanga.cli:main`. - `python -m memanga` imports `main` in `memanga/__main__.py` and calls it directly.",
+        "references": {
+          "files": [
+            "pyproject.toml",
+            "memanga/__main__.py",
+            "memanga/cli.py"
+          ],
+          "symbols": [
+            "main"
+          ],
+          "lines": [
+            {
+              "file": "memanga/__main__.py",
+              "line": 1
+            }
+          ],
+          "versions": [
+            "current cli branch source checkout"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `pyproject.toml` exists in meellm/MeManga at f1b07bd.",
+          "location": {
+            "file": "pyproject.toml",
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/pyproject.toml"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `memanga/__main__.py` exists in meellm/MeManga at f1b07bd.",
+          "location": {
+            "file": "memanga/__main__.py",
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/__main__.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `memanga/cli.py` exists in meellm/MeManga at f1b07bd.",
+          "location": {
+            "file": "memanga/cli.py",
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/cli.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 1 of `memanga/__main__.py` exists; the code there is shown below.",
+          "location": {
+            "file": "memanga/__main__.py",
+            "startLine": 1,
+            "endLine": 1,
+            "permalink": "https://github.com/meellm/MeManga/blob/f1b07bd97edbaf6ab7266870fa782ea2afca4ca9/memanga/__main__.py#L1"
+          },
+          "log": "1 | #!/usr/bin/env python3\n2 | \"\"\"\n3 | Entry point for running MeManga as a module:\n4 |     python -m memanga"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "Expected behavior is to print a short interruption message without a traceback.",
+        "quote": "Expected behavior: - Print a short interruption message without a traceback.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "current cli branch source checkout"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}

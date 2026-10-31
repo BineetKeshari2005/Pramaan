@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { CONTEXT_ONLY } from "../../src/core/grading";
 import { buildReporterReply } from "../../src/core/report/reply";
 import { ReportSchema, type Report } from "../../src/core/types";
 
@@ -70,7 +71,50 @@ describe("buildReporterReply", () => {
     expect(buildReporterReply(report)).toBeNull();
   });
 
-  it("triggers version request when commit is null or version reference/type is present", () => {
+  it("does not ask for a version the reporter already gave, and leaves context claims out", () => {
+    const report = makeReport({
+      triage: { label: "needs-info", rationale: "Need more" },
+      assessments: [
+        {
+          claim: {
+            id: "c1",
+            type: "version",
+            statement: "The Python version is 3.14.7.",
+            quote: "Python version: 3.14.7",
+            references: { files: [], symbols: [], lines: [], versions: ["3.14.7"], commands: [] },
+            evidenceProvided: [],
+          },
+          verdict: "insufficient_evidence",
+          confidence: "none",
+          needsHumanReview: false,
+          evidence: [],
+          missing: [CONTEXT_ONLY],
+        },
+        {
+          claim: {
+            id: "c2",
+            type: "behavior",
+            statement: "Saving a widget raises KeyError.",
+            quote: "raises KeyError",
+            references: { files: [], symbols: [], lines: [], versions: [], commands: [] },
+            evidenceProvided: ["stack_trace", "repro_steps"],
+          },
+          verdict: "insufficient_evidence",
+          confidence: "low",
+          needsHumanReview: true,
+          evidence: [],
+          missing: ["The crash itself was not reproduced."],
+        },
+      ],
+    });
+    const reply = buildReporterReply(report) ?? "";
+    expect(reply).not.toContain("exact version");
+    expect(reply).not.toContain("The Python version is 3.14.7.");
+    expect(reply).not.toContain(CONTEXT_ONLY);
+    expect(reply).toContain("Saving a widget raises KeyError.");
+  });
+
+  it("asks for the exact version when the report gives none", () => {
     const report = makeReport({
       target: {
         owner: "acme",
@@ -86,10 +130,10 @@ describe("buildReporterReply", () => {
         {
           claim: {
             id: "c1",
-            type: "version",
-            statement: "Bug on v2.0",
-            quote: "v2.0",
-            references: { files: [], symbols: [], lines: [], versions: ["2.0"], commands: [] },
+            type: "behavior",
+            statement: "The export button does nothing",
+            quote: "export button does nothing",
+            references: { files: [], symbols: [], lines: [], versions: [], commands: [] },
             evidenceProvided: ["logs"],
           },
           verdict: "insufficient_evidence",
@@ -221,8 +265,8 @@ describe("buildReporterReply", () => {
     const reply = buildReporterReply(report)!;
     expect(reply).not.toBeNull();
 
-    // Requests are numbered
-    expect(reply).toMatch(/1\. Minimal, step-by-step reproduction instructions/);
+    // Requests are numbered (the report gives no version, so that request comes first)
+    expect(reply).toMatch(/1\. The exact version[^\n]*\n2\. Minimal, step-by-step reproduction instructions/);
 
     // Repro request is not duplicated
     const matches = reply.match(/Minimal, step-by-step reproduction instructions/g);

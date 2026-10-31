@@ -1,5 +1,5 @@
 import { detectProvidedEvidence, withDetectedEvidence } from "./claims/evidence";
-import { assessClaim, triage } from "./grading";
+import { assessClaim, bestGuess, triage } from "./grading";
 import type {
   Checkout,
   ClaimExtractor,
@@ -85,6 +85,7 @@ export async function runPipeline(
   }
 
   progress({ stage: "grade", message: "Grading evidence" });
+  const decision = triage(extraction, assessments);
   const report = ReportSchema.parse({
     target: {
       owner: ref.owner,
@@ -102,7 +103,7 @@ export async function runPipeline(
         ? { status: "ok", claimCount: claims.length }
         : { status: "abstained", reason: extraction.reason },
     assessments,
-    triage: triage(extraction, assessments),
+    triage: { ...decision, bestGuess: bestGuess(decision.label, extraction.status === "ok", assessments) },
   });
 
   progress({ stage: "done", message: `Triage: ${report.triage.label}` });

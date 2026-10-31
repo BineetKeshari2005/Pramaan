@@ -1,0 +1,239 @@
+{
+  "target": {
+    "owner": "jentic",
+    "repo": "jentic-one",
+    "number": 1712,
+    "kind": "issue",
+    "url": "https://github.com/jentic/jentic-one/issues/1712",
+    "title": "[bug] Streaming mid-body upstream disconnect logs unhandled_exception (no request_id) from HttpRunner._cap_iter",
+    "commit": "f02936a77de5aac97478f3d7fb1be78521626cc0"
+  },
+  "generatedAt": "2026-10-31T20:43:02.170Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 5
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "When the upstream drops the connection mid-body on the streaming passthrough, `httpx.RemoteProtocolError` escapes from `broker/adapters/runners/http.py:268 _cap_iter` through the streaming response and is logged by the ASGI layer as `unhandled_exception` at error level without a `request_id` or `trace_id` for each affected request.",
+        "quote": "On the streaming passthrough, when the upstream drops the connection mid-body, `httpx.RemoteProtocolError` escapes from `broker/adapters/runners/http.py:268 _cap_iter` through the streaming response and is logged by the ASGI layer as `unhandled_exception` at error level, without `request_id` / `trace_id`, one per affected request.",
+        "references": {
+          "files": [
+            "broker/adapters/runners/http.py"
+          ],
+          "symbols": [
+            "_cap_iter"
+          ],
+          "lines": [
+            {
+              "file": "broker/adapters/runners/http.py",
+              "line": 268
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `src/jentic_one/broker/adapters/runners/http.py` exists in jentic/jentic-one at f02936a.",
+          "location": {
+            "file": "src/jentic_one/broker/adapters/runners/http.py",
+            "permalink": "https://github.com/jentic/jentic-one/blob/f02936a77de5aac97478f3d7fb1be78521626cc0/src/jentic_one/broker/adapters/runners/http.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_cap_iter` is defined in `src/jentic_one/broker/adapters/runners/http.py` line 256.",
+          "location": {
+            "file": "src/jentic_one/broker/adapters/runners/http.py",
+            "startLine": 256,
+            "endLine": 256,
+            "permalink": "https://github.com/jentic/jentic-one/blob/f02936a77de5aac97478f3d7fb1be78521626cc0/src/jentic_one/broker/adapters/runners/http.py#L256"
+          },
+          "log": "254 |         return b\"\".join(chunks)\n255 | \n256 |     async def _cap_iter(\n257 |         self, source: AsyncIterator[bytes], status_code: int\n258 |     ) -> AsyncIterator[bytes]:\n259 |         \"\"\"Re-yield ``source`` chunks, enforcing ``max_response_bytes`` mid-stream.\n260 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 268 of `src/jentic_one/broker/adapters/runners/http.py` exists; the code there is shown below.",
+          "location": {
+            "file": "src/jentic_one/broker/adapters/runners/http.py",
+            "startLine": 268,
+            "endLine": 268,
+            "permalink": "https://github.com/jentic/jentic-one/blob/f02936a77de5aac97478f3d7fb1be78521626cc0/src/jentic_one/broker/adapters/runners/http.py#L268"
+          },
+          "log": "265 |         \"\"\"\n266 |         cap = self._max_response_bytes\n267 |         total = 0\n268 |         async for chunk in source:\n269 |             total += len(chunk)\n270 |             if cap and total > cap:\n271 |                 raise UpstreamResponseTooLargeError("
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The client sees a truncated 200 response, while operators receive an untraceable error log with a full traceback instead of a structured `upstream_network_failure` like the buffered path emits.",
+        "quote": "The client sees a truncated 200 (expected for streaming), but operators get an untraceable error log with a full traceback instead of a structured `upstream_network_failure` like the buffered path emits.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "The expected behavior is to catch transport errors in the streaming body iterator, log a structured warning/error with request id, host and error type, mark the execution failed in `_persist_streaming_outcome`, and abort the response cleanly.",
+        "quote": "Expected: catch transport errors in the streaming body iterator, log a structured warning/error with request id, host and error type, mark the execution failed in `_persist_streaming_outcome`, and abort the response cleanly.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "code_location",
+        "statement": "The behavior described is grouped under `src/jentic_one/broker/adapters/runners/http.py:268 _cap_iter` when running `make perf-agent-resilience` (60 per 15 s run).",
+        "quote": "`make perf-agent-resilience` groups these under `src/jentic_one/broker/adapters/runners/http.py:268 _cap_iter` (60 per 15 s run).",
+        "references": {
+          "files": [
+            "src/jentic_one/broker/adapters/runners/http.py"
+          ],
+          "symbols": [
+            "_cap_iter"
+          ],
+          "lines": [
+            {
+              "file": "src/jentic_one/broker/adapters/runners/http.py",
+              "line": 268
+            }
+          ],
+          "versions": [],
+          "commands": [
+            "make perf-agent-resilience"
+          ]
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "reproduced",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `src/jentic_one/broker/adapters/runners/http.py` exists in jentic/jentic-one at f02936a.",
+          "location": {
+            "file": "src/jentic_one/broker/adapters/runners/http.py",
+            "permalink": "https://github.com/jentic/jentic-one/blob/f02936a77de5aac97478f3d7fb1be78521626cc0/src/jentic_one/broker/adapters/runners/http.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_cap_iter` is defined in `src/jentic_one/broker/adapters/runners/http.py` line 256.",
+          "location": {
+            "file": "src/jentic_one/broker/adapters/runners/http.py",
+            "startLine": 256,
+            "endLine": 256,
+            "permalink": "https://github.com/jentic/jentic-one/blob/f02936a77de5aac97478f3d7fb1be78521626cc0/src/jentic_one/broker/adapters/runners/http.py#L256"
+          },
+          "log": "254 |         return b\"\".join(chunks)\n255 | \n256 |     async def _cap_iter(\n257 |         self, source: AsyncIterator[bytes], status_code: int\n258 |     ) -> AsyncIterator[bytes]:\n259 |         \"\"\"Re-yield ``source`` chunks, enforcing ``max_response_bytes`` mid-stream.\n260 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 268 of `src/jentic_one/broker/adapters/runners/http.py` exists; the code there is shown below.",
+          "location": {
+            "file": "src/jentic_one/broker/adapters/runners/http.py",
+            "startLine": 268,
+            "endLine": 268,
+            "permalink": "https://github.com/jentic/jentic-one/blob/f02936a77de5aac97478f3d7fb1be78521626cc0/src/jentic_one/broker/adapters/runners/http.py#L268"
+          },
+          "log": "265 |         \"\"\"\n266 |         cap = self._max_response_bytes\n267 |         total = 0\n268 |         async for chunk in source:\n269 |             total += len(chunk)\n270 |             if cap and total > cap:\n271 |                 raise UpstreamResponseTooLargeError("
+        }
+      ],
+      "missing": [],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "version",
+        "statement": "The issue is relevant to commit `253f462a0` (main as of 2026-10-16) and also applies to commit `f02936a77`.",
+        "quote": "Commit: `253f462a0` (main as of 2026-10-16; still applies to `f02936a77`)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "253f462a0",
+            "f02936a77"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}

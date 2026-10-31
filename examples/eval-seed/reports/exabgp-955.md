@@ -1,0 +1,127 @@
+# Pramaan evidence report: Exa-Networks/exabgp#[955](https://github.com/Exa-Networks/exabgp/issues/955)
+
+**Verified commit:** [c7b1ebd](https://github.com/Exa-Networks/exabgp/commit/c7b1ebd631699b2912267a740aa22393ea4fe330)
+
+**Suggested label:** **Needs more information**
+The evidence is not strong enough for a verdict; the report needs more detail.
+
+**Best guess if a label must be chosen:** Confirmed: The report gives a trace or steps, and the code it names exists at the checked commit. _(a guess from fixed evidence rules, not a verdict)_
+
+_Suggested label only — Pramaan never closes issues._
+
+| # | Claim | Verdict | Confidence | Human review |
+|---|---|---|---|---|
+| 1 | Running exabgpcli s a o e without any routes being announced causes the program to crash. | Insufficient evidence | Low | Yes |
+
+### Claim 1: Running exabgpcli s a o e without any routes being announced causes the program to crash.
+
+> Sorry, you encountered a problem with ExaBGP and we could not keep the program running.
+
+**Evidence:**
+
+- **Static code check:** File `bin/exabgpcli` exists in Exa-Networks/exabgp at c7b1ebd. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/bin/exabgpcli)
+
+- **Static code check:** File `lib/exabgp/application/cli.py` exists in Exa-Networks/exabgp at c7b1ebd. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py)
+
+- **Static code check:** `AnswerStream` is defined in `lib/exabgp/application/cli.py` line 57. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py#L57)
+  <details><summary>Output</summary>
+
+  ```
+  55 | 
+  56 | 
+  57 | class AnswerStream:
+  58 | 	done = '\n%s\n' % Answer.done
+  59 | 	error = '\n%s\n' % Answer.error
+  60 | 	shutdown = '\n%s\n' % Answer.error
+  61 | 	buffer_size = Answer.buffer_size + 2
+  ```
+  </details>
+
+- **Static code check:** Line 11 of `bin/exabgpcli` exists; the code there is shown below. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/bin/exabgpcli#L11)
+  <details><summary>Output</summary>
+
+  ```
+   8 |     INTERPRETER="$(command -v "$INTERPRETER")" && break
+   9 | done
+  10 | 
+  11 | if [ "$INTERPRETER" = "" ]; then
+  12 | 	echo "ExaBGP could not find a python3 interpreter"
+  13 | 	exit 1
+  14 | fi
+  ```
+  </details>
+
+- **Static code check:** Line 28 of `lib/exabgp/application/__init__.py` exists; the code there is shown below. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/__init__.py#L28)
+  <details><summary>Output</summary>
+
+  ```
+  25 | 
+  26 | def run_cli ():
+  27 | 	from exabgp.application.cli import main
+  28 | 	main()
+  29 | 
+  30 | 
+  31 | def run_control ():
+  ```
+  </details>
+
+- **Static code check:** Line 194 of `lib/exabgp/application/cli.py` exists; the code there is shown below. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py#L194)
+  <details><summary>Output</summary>
+
+  ```
+  191 | 		# we read some data but it is not ending by a new line (ie: not a command completion)
+  192 | 		if rbuffer[-1] != 10:  # \n
+  193 | 			continue
+  194 | 		if AnswerStream.done.endswith(rbuffer[-len(AnswerStream.done):]):
+  195 | 			break
+  196 | 		if AnswerStream.error.endswith(rbuffer[-len(AnswerStream.error):]):
+  197 | 			break
+  ```
+  </details>
+
+- **Static code check:** All 3 stack frames inside the repository match the code at c7b1ebd, so the trace is consistent with this code path.
+
+- **Static code check:** Frame `bin/exabgpcli:11` in `&lt;module&gt;` matches the code. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/bin/exabgpcli#L11)
+  <details><summary>Output</summary>
+
+  ```
+   9 | done
+  10 | 
+  11 | if [ "$INTERPRETER" = "" ]; then
+  12 | 	echo "ExaBGP could not find a python3 interpreter"
+  13 | 	exit 1
+  ```
+  </details>
+
+- **Static code check:** Frame `lib/exabgp/application/__init__.py:28` in `run_cli` matches the code. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/__init__.py#L28)
+  <details><summary>Output</summary>
+
+  ```
+  26 | def run_cli ():
+  27 | 	from exabgp.application.cli import main
+  28 | 	main()
+  29 | 
+  30 | 
+  ```
+  </details>
+
+- **Static code check:** Frame `lib/exabgp/application/cli.py:194` in `main` matches the code. [code](https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py#L194)
+  <details><summary>Output</summary>
+
+  ```
+  192 | 		if rbuffer[-1] != 10:  # \n
+  193 | 			continue
+  194 | 		if AnswerStream.done.endswith(rbuffer[-len(AnswerStream.done):]):
+  195 | 			break
+  196 | 		if AnswerStream.error.endswith(rbuffer[-len(AnswerStream.error):]):
+  ```
+  </details>
+
+**What is missing:**
+
+- The referenced code exists, but the described behavior was not executed.
+
+- The crash itself was not reproduced by running the reported command.
+
+---
+Generated by Pramaan at 2026-10-31T20:40:18.166Z using gemma4:e2b-it-qat. Verdicts come from code checks, not from the model.

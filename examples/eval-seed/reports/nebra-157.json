@@ -1,0 +1,129 @@
+{
+  "target": {
+    "owner": "nebra-lang",
+    "repo": "nebra",
+    "number": 157,
+    "kind": "issue",
+    "url": "https://github.com/nebra-lang/nebra/issues/157",
+    "title": "Latest VSCode extension does not work at all (0.5.10)",
+    "commit": "a10aefbb2f58c81e327aa61010957c669b781b7f"
+  },
+  "generatedAt": "2026-10-31T20:39:42.730Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The VSCode extension version 0.5.10 does not work at all.",
+        "quote": "Latest VSCode extension does not work at all (0.5.10)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "0.5.10"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "In the Nebra Declaration language mode, pressing <kbd>CTRL+Space</kbd> results in no code suggestions regardless of context.",
+        "quote": "<kbd>CTRL+Space</kbd>: No code suggestions regardless of context.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "CTRL+Space"
+          ]
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "Mouse hover over class/function/variables in the extension yields no hints/popups.",
+        "quote": "Mouse hover over class/function/variables: No hints/popups.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "Only syntax highlighting works.",
+        "quote": "Nothing works except syntax highlighting.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}
