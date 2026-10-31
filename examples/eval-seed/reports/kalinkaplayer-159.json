@@ -1,0 +1,158 @@
+{
+  "target": {
+    "owner": "Kalinka-Player",
+    "repo": "KalinkaPlayer",
+    "number": 159,
+    "kind": "issue",
+    "url": "https://github.com/Kalinka-Player/KalinkaPlayer/issues/159",
+    "title": "make dev-setup fails on Python 3.11, though the Makefile says 3.11 is enough",
+    "commit": "738cd8ec7118e042af880dd4d5768048c5e755aa"
+  },
+  "generatedAt": "2026-10-31T20:43:42.514Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Calling `make dev-setup` fails on Python 3.11 with an `AttributeError` during an import check.",
+        "quote": "AttributeError: type object 'InputModule' has no attribute '__protocol_attrs__'",
+        "references": {
+          "files": [
+            "Makefile"
+          ],
+          "symbols": [
+            "dev-setup"
+          ],
+          "lines": [
+            {
+              "file": "Makefile",
+              "line": 73
+            }
+          ],
+          "versions": [
+            "Python 3.11"
+          ],
+          "commands": [
+            "python3.11 -m venv .venv && make dev-setup PYTHON=python3.11"
+          ]
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "logs",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 73 of `Makefile` exists; the code there is shown below.",
+          "location": {
+            "file": "Makefile",
+            "startLine": 73,
+            "endLine": 73,
+            "permalink": "https://github.com/Kalinka-Player/KalinkaPlayer/blob/738cd8ec7118e042af880dd4d5768048c5e755aa/Makefile#L73"
+          },
+          "log": "70 | \t@echo \"Installing sdk, server and plugins (editable)...\"\n71 | \t@$(PIP) install $(addprefix -e ,$(DEV_PACKAGES))\n72 | \t@echo \"Verifying the server imports (catches missing runtime deps)...\"\n73 | \t@$(PY) -c \"import kalinka_server.__main__\" || { \\\n74 | \t\techo \"ERROR: kalinka_server failed to import after install — likely an\"; \\\n75 | \t\techo \"  undeclared runtime dependency. See the traceback above.\"; \\\n76 | \t\texit 1; }"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The same steps work on Python 3.13.",
+        "quote": "The same steps work on Python 3.13 (Debian 13).",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "Python 3.13"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "__protocol_attrs__ is a `typing.Protocol` detail that only exists from Python 3.12.",
+        "quote": "__protocol_attrs__ is a `typing.Protocol` detail that only exists from Python 3.12",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "Python 3.12"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "The code either needs Python 3.12+ and the Makefile, pyproject and docs should state this, or the code should stop relying on it.",
+        "quote": "either the code needs 3.12+ and the Makefile, pyproject and docs should say so, or the code should stop relying on it.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "logs",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}

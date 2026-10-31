@@ -1,0 +1,184 @@
+{
+  "target": {
+    "owner": "Exa-Networks",
+    "repo": "exabgp",
+    "number": 955,
+    "kind": "issue",
+    "url": "https://github.com/Exa-Networks/exabgp/issues/955",
+    "title": "Running exabgpcli \"show adj-rib out extensive\" without any routes being announced crashes.",
+    "commit": "c7b1ebd631699b2912267a740aa22393ea4fe330"
+  },
+  "generatedAt": "2026-10-31T20:40:18.166Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 1
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Running exabgpcli s a o e without any routes being announced causes the program to crash.",
+        "quote": "Sorry, you encountered a problem with ExaBGP and we could not keep the program running.",
+        "references": {
+          "files": [
+            "/usr/local/bin/exabgpcli",
+            "exabgp/application/cli.py"
+          ],
+          "symbols": [
+            "exabgpcli",
+            "AnswerStream"
+          ],
+          "lines": [
+            {
+              "file": "/usr/local/bin/exabgpcli",
+              "line": 11
+            },
+            {
+              "file": "exabgp/application/__init__.py",
+              "line": 28
+            },
+            {
+              "file": "exabgp/application/cli.py",
+              "line": 194
+            }
+          ],
+          "versions": [
+            "4.2.6"
+          ],
+          "commands": [
+            "exabgpcli s a o e"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "stack_trace",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `bin/exabgpcli` exists in Exa-Networks/exabgp at c7b1ebd.",
+          "location": {
+            "file": "bin/exabgpcli",
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/bin/exabgpcli"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `lib/exabgp/application/cli.py` exists in Exa-Networks/exabgp at c7b1ebd.",
+          "location": {
+            "file": "lib/exabgp/application/cli.py",
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`AnswerStream` is defined in `lib/exabgp/application/cli.py` line 57.",
+          "location": {
+            "file": "lib/exabgp/application/cli.py",
+            "startLine": 57,
+            "endLine": 57,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py#L57"
+          },
+          "log": "55 | \n56 | \n57 | class AnswerStream:\n58 | \tdone = '\\n%s\\n' % Answer.done\n59 | \terror = '\\n%s\\n' % Answer.error\n60 | \tshutdown = '\\n%s\\n' % Answer.error\n61 | \tbuffer_size = Answer.buffer_size + 2"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 11 of `bin/exabgpcli` exists; the code there is shown below.",
+          "location": {
+            "file": "bin/exabgpcli",
+            "startLine": 11,
+            "endLine": 11,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/bin/exabgpcli#L11"
+          },
+          "log": " 8 |     INTERPRETER=\"$(command -v \"$INTERPRETER\")\" && break\n 9 | done\n10 | \n11 | if [ \"$INTERPRETER\" = \"\" ]; then\n12 | \techo \"ExaBGP could not find a python3 interpreter\"\n13 | \texit 1\n14 | fi"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 28 of `lib/exabgp/application/__init__.py` exists; the code there is shown below.",
+          "location": {
+            "file": "lib/exabgp/application/__init__.py",
+            "startLine": 28,
+            "endLine": 28,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/__init__.py#L28"
+          },
+          "log": "25 | \n26 | def run_cli ():\n27 | \tfrom exabgp.application.cli import main\n28 | \tmain()\n29 | \n30 | \n31 | def run_control ():"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 194 of `lib/exabgp/application/cli.py` exists; the code there is shown below.",
+          "location": {
+            "file": "lib/exabgp/application/cli.py",
+            "startLine": 194,
+            "endLine": 194,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py#L194"
+          },
+          "log": "191 | \t\t# we read some data but it is not ending by a new line (ie: not a command completion)\n192 | \t\tif rbuffer[-1] != 10:  # \\n\n193 | \t\t\tcontinue\n194 | \t\tif AnswerStream.done.endswith(rbuffer[-len(AnswerStream.done):]):\n195 | \t\t\tbreak\n196 | \t\tif AnswerStream.error.endswith(rbuffer[-len(AnswerStream.error):]):\n197 | \t\t\tbreak"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 3 stack frames inside the repository match the code at c7b1ebd, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/exabgpcli:11` in `<module>` matches the code.",
+          "location": {
+            "file": "bin/exabgpcli",
+            "startLine": 11,
+            "endLine": 11,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/bin/exabgpcli#L11"
+          },
+          "log": " 9 | done\n10 | \n11 | if [ \"$INTERPRETER\" = \"\" ]; then\n12 | \techo \"ExaBGP could not find a python3 interpreter\"\n13 | \texit 1"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/exabgp/application/__init__.py:28` in `run_cli` matches the code.",
+          "location": {
+            "file": "lib/exabgp/application/__init__.py",
+            "startLine": 28,
+            "endLine": 28,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/__init__.py#L28"
+          },
+          "log": "26 | def run_cli ():\n27 | \tfrom exabgp.application.cli import main\n28 | \tmain()\n29 | \n30 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/exabgp/application/cli.py:194` in `main` matches the code.",
+          "location": {
+            "file": "lib/exabgp/application/cli.py",
+            "startLine": 194,
+            "endLine": 194,
+            "permalink": "https://github.com/Exa-Networks/exabgp/blob/c7b1ebd631699b2912267a740aa22393ea4fe330/lib/exabgp/application/cli.py#L194"
+          },
+          "log": "192 | \t\tif rbuffer[-1] != 10:  # \\n\n193 | \t\t\tcontinue\n194 | \t\tif AnswerStream.done.endswith(rbuffer[-len(AnswerStream.done):]):\n195 | \t\t\tbreak\n196 | \t\tif AnswerStream.error.endswith(rbuffer[-len(AnswerStream.error):]):"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}

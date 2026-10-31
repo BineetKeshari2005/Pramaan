@@ -1,0 +1,702 @@
+{
+  "target": {
+    "owner": "time4tea",
+    "repo": "gopro-dashboard-overlay",
+    "number": 241,
+    "kind": "issue",
+    "url": "https://github.com/time4tea/gopro-dashboard-overlay/issues/241",
+    "title": "Libraqm dependncy issue",
+    "commit": "034342e790a87bff2bce697123e4fc1204348f63"
+  },
+  "generatedAt": "2026-10-31T20:42:03.430Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 3
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The script fails during the final render process.",
+        "quote": "I have tried to follow instructions but am running into issues when doing the final render",
+        "references": {
+          "files": [
+            "venv/bin/gopro-dashboard.py",
+            "venv/lib/python3.9/site-packages/gopro_overlay/timing.py",
+            "venv/lib/python3.9/site-packages/gopro_overlay/layout.py",
+            "venv/lib/python3.9/site-packages/gopro_overlay/widgets/widgets.py",
+            "venv/lib/python3.9/site-packages/gopro_overlay/widgets/text.py",
+            "PIL/ImageFont.py"
+          ],
+          "symbols": [
+            "gopro-dashboard.py",
+            "draw_timer",
+            "overlay",
+            "draw",
+            "self.scene.draw",
+            "w.draw(image, draw)",
+            "self.widget.draw(ivp, dvp)",
+            "self.font.getbbox"
+          ],
+          "lines": [
+            {
+              "file": "venv/bin/gopro-dashboard.py",
+              "line": 291
+            },
+            {
+              "file": "venv/lib/python3.9/site-packages/gopro_overlay/timing.py",
+              "line": 20
+            },
+            {
+              "file": "venv/lib/python3.9/site-packages/gopro_overlay/layout.py",
+              "line": 106
+            },
+            {
+              "file": "venv/lib/python3.9/site-packages/gopro_overlay/widgets/widgets.py",
+              "line": 231
+            },
+            {
+              "file": "venv/lib/python3.9/site-packages/gopro_overlay/widgets/widgets.py",
+              "line": 27
+            },
+            {
+              "file": "venv/lib/python3.9/site-packages/gopro_overlay/widgets/widgets.py",
+              "line": 145
+            },
+            {
+              "file": "venv/lib/python3.9/site-packages/gopro_overlay/widgets/text.py",
+              "line": 36
+            },
+            {
+              "file": "PIL/ImageFont.py",
+              "line": 421
+            }
+          ],
+          "versions": [
+            "MAC OS 14.6.1"
+          ],
+          "commands": [
+            "venv/bin/gopro-dashboard.py --use-gpx-only --gpx staple.gpx --overlay-size 1920x1080 docker.mov"
+          ]
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "code_snippet"
+        ]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `PIL/ImageFont.py` does not exist in time4tea/gopro-dashboard-overlay at 034342e."
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `bin/gopro-dashboard.py` exists in time4tea/gopro-dashboard-overlay at 034342e.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `gopro_overlay/timing.py` exists in time4tea/gopro-dashboard-overlay at 034342e.",
+          "location": {
+            "file": "gopro_overlay/timing.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/timing.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `gopro_overlay/layout.py` exists in time4tea/gopro-dashboard-overlay at 034342e.",
+          "location": {
+            "file": "gopro_overlay/layout.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/layout.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `gopro_overlay/widgets/widgets.py` exists in time4tea/gopro-dashboard-overlay at 034342e.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `gopro_overlay/widgets/text.py` exists in time4tea/gopro-dashboard-overlay at 034342e.",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`draw_timer` appears in `bin/gopro-dashboard.py` line 336, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 336,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L336"
+          },
+          "log": "draw_timer = PoorTimer(\"drawing frames\")"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`draw` is defined in `gopro_overlay/buffering.py` line 16 (and 2 more places).",
+          "location": {
+            "file": "gopro_overlay/buffering.py",
+            "startLine": 16,
+            "endLine": 16,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/buffering.py#L16"
+          },
+          "log": "14 | \n15 | class DrawBuffer:\n16 |     def draw(self, f: Callable[[Image.Image], Any]):\n17 |         raise NotImplementedError()\n18 | \n19 | \n20 | class SingleBuffer(DrawBuffer):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`draw` is defined in `gopro_overlay/buffering.py` line 16 (and 2 more places).",
+          "location": {
+            "file": "gopro_overlay/buffering.py",
+            "startLine": 16,
+            "endLine": 16,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/buffering.py#L16"
+          },
+          "log": "14 | \n15 | class DrawBuffer:\n16 |     def draw(self, f: Callable[[Image.Image], Any]):\n17 |         raise NotImplementedError()\n18 | \n19 | \n20 | class SingleBuffer(DrawBuffer):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`draw` is defined in `gopro_overlay/buffering.py` line 16 (and 2 more places).",
+          "location": {
+            "file": "gopro_overlay/buffering.py",
+            "startLine": 16,
+            "endLine": 16,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/buffering.py#L16"
+          },
+          "log": "14 | \n15 | class DrawBuffer:\n16 |     def draw(self, f: Callable[[Image.Image], Any]):\n17 |         raise NotImplementedError()\n18 | \n19 | \n20 | class SingleBuffer(DrawBuffer):"
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`getbbox` appears in `gopro_overlay/widgets/text.py` line 36, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "startLine": 36,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py#L36"
+          },
+          "log": "x0, y0, x1, y1 = self.font.getbbox("
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 291 of `bin/gopro-dashboard.py` exists; the code there is shown below.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "288 |                         api_key_finder=api_key_finder(config_loader, args)\n289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()\n294 |                 else:"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 20 of `gopro_overlay/timing.py` exists; the code there is shown below.",
+          "location": {
+            "file": "gopro_overlay/timing.py",
+            "startLine": 20,
+            "endLine": 20,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/timing.py#L20"
+          },
+          "log": "17 |             yield\n18 | \n19 | \n20 | class PoorTimer:\n21 | \n22 |     def __init__(self, name, indent=0):\n23 |         self.name = name"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 106 of `gopro_overlay/layout.py` exists; the code there is shown below.",
+          "location": {
+            "file": "gopro_overlay/layout.py",
+            "startLine": 106,
+            "endLine": 106,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/layout.py#L106"
+          },
+          "log": "103 |     def draw(self, pts, image: Image.Image) -> Image.Image:\n104 |         self._entry = self.framemeta.get(pts)\n105 |         return self.scene.draw(image)\n106 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 231 of `gopro_overlay/widgets/widgets.py` exists; the code there is shown below.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 231,
+            "endLine": 231,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L231"
+          },
+          "log": "228 | class FrameSupplier:\n229 |     def drawing_frame(self) -> Image:\n230 |         raise NotImplementedError()\n231 | \n232 | \n233 | class SimpleFrameSupplier(FrameSupplier):\n234 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 27 of `gopro_overlay/widgets/widgets.py` exists; the code there is shown below.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "24 | \n25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | \n30 |     def draw(self, image: Image, draw: ImageDraw):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 145 of `gopro_overlay/widgets/widgets.py` exists; the code there is shown below.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 145,
+            "endLine": 145,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L145"
+          },
+          "log": "142 | \n143 |     def __init__(self, at: Coordinate, widget):\n144 |         self.at = at\n145 |         self.widget = widget\n146 | \n147 |     def draw(self, image: Image, draw: ImageDraw):\n148 |         ivp = ImageTranslate(self.at, image)"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 36 of `gopro_overlay/widgets/text.py` exists; the code there is shown below.",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "startLine": 36,
+            "endLine": 36,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py#L36"
+          },
+          "log": "33 |         cached = self.cache.get(text, None)\n34 | \n35 |         if cached is None:\n36 |             x0, y0, x1, y1 = self.font.getbbox(\n37 |                 text=text,\n38 |                 stroke_width=self.stroke_width,\n39 |                 anchor=self.anchor,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/timing.py:20` in `time` does not line up: `time` is defined at `gopro_overlay/layout.py:22` instead.",
+          "location": {
+            "file": "gopro_overlay/timing.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/timing.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/gopro-dashboard.py:291` in `<module>` matches the code.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/gopro-dashboard.py:291` in `<lambda>` matches the code.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/layout.py:106` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/layout.py",
+            "startLine": 106,
+            "endLine": 106,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/layout.py#L106"
+          },
+          "log": "104 |         self._entry = self.framemeta.get(pts)\n105 |         return self.scene.draw(image)\n106 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:231` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 231,
+            "endLine": 231,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L231"
+          },
+          "log": "229 |     def drawing_frame(self) -> Image:\n230 |         raise NotImplementedError()\n231 | \n232 | \n233 | class SimpleFrameSupplier(FrameSupplier):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:27` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:145` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 145,
+            "endLine": 145,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L145"
+          },
+          "log": "143 |     def __init__(self, at: Coordinate, widget):\n144 |         self.at = at\n145 |         self.widget = widget\n146 | \n147 |     def draw(self, image: Image, draw: ImageDraw):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:27` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/text.py:36` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "startLine": 36,
+            "endLine": 36,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py#L36"
+          },
+          "log": "34 | \n35 |         if cached is None:\n36 |             x0, y0, x1, y1 = self.font.getbbox(\n37 |                 text=text,\n38 |                 stroke_width=self.stroke_width,"
+        }
+      ],
+      "missing": [
+        "The report names code that does not exist at 034342e. Ask the reporter for the exact version or commit they used.",
+        "1 of 9 trace frames are at different lines than at 034342e (1 frame outside the repository was skipped); the report is probably from another version. Ask for the exact version or commit."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The script raises a KeyError indicating that text features are unsupported without libraqm.",
+        "quote": "KeyError: 'setting text direction, language or font features is not supported without libraqm'",
+        "references": {
+          "files": [
+            "venv/lib/python3.9/site-packages/PIL/ImageFont.py"
+          ],
+          "symbols": [
+            "self.font.getbbox"
+          ],
+          "lines": [
+            {
+              "file": "PIL/ImageFont.py",
+              "line": 421
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "code_snippet"
+        ]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `venv/lib/python3.9/site-packages/PIL/ImageFont.py` does not exist in time4tea/gopro-dashboard-overlay at 034342e."
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `PIL/ImageFont.py` (cited at line 421) does not exist in time4tea/gopro-dashboard-overlay at 034342e."
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`getbbox` appears in `gopro_overlay/widgets/text.py` line 36, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "startLine": 36,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py#L36"
+          },
+          "log": "x0, y0, x1, y1 = self.font.getbbox("
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/timing.py:20` in `time` does not line up: `time` is defined at `gopro_overlay/layout.py:22` instead.",
+          "location": {
+            "file": "gopro_overlay/timing.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/timing.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/gopro-dashboard.py:291` in `<module>` matches the code.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/gopro-dashboard.py:291` in `<lambda>` matches the code.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/layout.py:106` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/layout.py",
+            "startLine": 106,
+            "endLine": 106,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/layout.py#L106"
+          },
+          "log": "104 |         self._entry = self.framemeta.get(pts)\n105 |         return self.scene.draw(image)\n106 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:231` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 231,
+            "endLine": 231,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L231"
+          },
+          "log": "229 |     def drawing_frame(self) -> Image:\n230 |         raise NotImplementedError()\n231 | \n232 | \n233 | class SimpleFrameSupplier(FrameSupplier):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:27` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:145` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 145,
+            "endLine": 145,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L145"
+          },
+          "log": "143 |     def __init__(self, at: Coordinate, widget):\n144 |         self.at = at\n145 |         self.widget = widget\n146 | \n147 |     def draw(self, image: Image, draw: ImageDraw):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:27` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/text.py:36` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "startLine": 36,
+            "endLine": 36,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py#L36"
+          },
+          "log": "34 | \n35 |         if cached is None:\n36 |             x0, y0, x1, y1 = self.font.getbbox(\n37 |                 text=text,\n38 |                 stroke_width=self.stroke_width,"
+        }
+      ],
+      "missing": [
+        "The report names code that does not exist at 034342e. Ask the reporter for the exact version or commit they used.",
+        "1 of 9 trace frames are at different lines than at 034342e (1 frame outside the repository was skipped); the report is probably from another version. Ask for the exact version or commit."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "security_impact",
+        "statement": "The functionality of the gopro_overlay library is dependent on libraqm.",
+        "quote": "KeyError: 'setting text direction, language or font features is not supported without libraqm'",
+        "references": {
+          "files": [
+            "gopro_overlay"
+          ],
+          "symbols": [
+            "libraqm"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/timing.py:20` in `time` does not line up: `time` is defined at `gopro_overlay/layout.py:22` instead.",
+          "location": {
+            "file": "gopro_overlay/timing.py",
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/timing.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/gopro-dashboard.py:291` in `<module>` matches the code.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `bin/gopro-dashboard.py:291` in `<lambda>` matches the code.",
+          "location": {
+            "file": "bin/gopro-dashboard.py",
+            "startLine": 291,
+            "endLine": 291,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/bin/gopro-dashboard.py#L291"
+          },
+          "log": "289 |                     )\n290 |             ).open(args.map_style) as renderer:\n291 | \n292 |                 if args.profiler:\n293 |                     profiler = WidgetProfiler()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/layout.py:106` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/layout.py",
+            "startLine": 106,
+            "endLine": 106,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/layout.py#L106"
+          },
+          "log": "104 |         self._entry = self.framemeta.get(pts)\n105 |         return self.scene.draw(image)\n106 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:231` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 231,
+            "endLine": 231,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L231"
+          },
+          "log": "229 |     def drawing_frame(self) -> Image:\n230 |         raise NotImplementedError()\n231 | \n232 | \n233 | class SimpleFrameSupplier(FrameSupplier):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:27` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:145` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 145,
+            "endLine": 145,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L145"
+          },
+          "log": "143 |     def __init__(self, at: Coordinate, widget):\n144 |         self.at = at\n145 |         self.widget = widget\n146 | \n147 |     def draw(self, image: Image, draw: ImageDraw):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/widgets.py:27` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/widgets.py",
+            "startLine": 27,
+            "endLine": 27,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/widgets.py#L27"
+          },
+          "log": "25 | class Composite(Widget):\n26 | \n27 |     def __init__(self, *widgets):\n28 |         self.widgets = widgets\n29 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `gopro_overlay/widgets/text.py:36` in `draw` matches the code.",
+          "location": {
+            "file": "gopro_overlay/widgets/text.py",
+            "startLine": 36,
+            "endLine": 36,
+            "permalink": "https://github.com/time4tea/gopro-dashboard-overlay/blob/034342e790a87bff2bce697123e4fc1204348f63/gopro_overlay/widgets/text.py#L36"
+          },
+          "log": "34 | \n35 |         if cached is None:\n36 |             x0, y0, x1, y1 = self.font.getbbox(\n37 |                 text=text,\n38 |                 stroke_width=self.stroke_width,"
+        }
+      ],
+      "missing": [
+        "1 of 9 trace frames are at different lines than at 034342e (1 frame outside the repository was skipped); the report is probably from another version. Ask for the exact version or commit."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-human-review",
+    "rationale": "A security claim could not be settled automatically; a maintainer should look."
+  }
+}

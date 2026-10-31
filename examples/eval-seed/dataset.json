@@ -1,0 +1,14 @@
+{
+  "description": "Seed evaluation set: 9 real closed GitHub issues, 3 per reference label. Every label was checked with the GitHub API on 2026-11-01. The reference label is what the maintainers set when closing; Pramaan never sees it.",
+  "cases": [
+    { "id": "sqlmap-6154", "url": "https://github.com/sqlmapproject/sqlmap/issues/6154", "reference": "invalid", "sourceLabel": "invalid" },
+    { "id": "js-abbreviation-number-39", "url": "https://github.com/moh3n9595/js-abbreviation-number/issues/39", "reference": "invalid", "sourceLabel": "invalid" },
+    { "id": "nebra-157", "url": "https://github.com/nebra-lang/nebra/issues/157", "reference": "invalid", "sourceLabel": "invalid" },
+    { "id": "exabgp-955", "url": "https://github.com/Exa-Networks/exabgp/issues/955", "reference": "cannot-reproduce", "sourceLabel": "works-for-me" },
+    { "id": "hass-oidc-auth-334", "url": "https://github.com/christiaangoossens/hass-oidc-auth/issues/334", "reference": "cannot-reproduce", "sourceLabel": "cannot-reproduce" },
+    { "id": "gopro-dashboard-overlay-241", "url": "https://github.com/time4tea/gopro-dashboard-overlay/issues/241", "reference": "cannot-reproduce", "sourceLabel": "cannot-reproduce" },
+    { "id": "jentic-one-1712", "url": "https://github.com/jentic/jentic-one/issues/1712", "reference": "confirmed", "sourceLabel": "confirmed" },
+    { "id": "kalinkaplayer-159", "url": "https://github.com/Kalinka-Player/KalinkaPlayer/issues/159", "reference": "confirmed", "sourceLabel": "confirmed" },
+    { "id": "memanga-234", "url": "https://github.com/meellm/MeManga/issues/234", "reference": "confirmed", "sourceLabel": "confirmed" }
+  ]
+}

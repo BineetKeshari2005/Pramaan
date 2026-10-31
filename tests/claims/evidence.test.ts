@@ -9,9 +9,9 @@ const issue = (name: string) =>
   JSON.parse(readFileSync(join(import.meta.dirname, "../fixtures/issues", name), "utf8")) as TargetDocument;
 
 describe("detectProvidedEvidence on real reports", () => {
-  it("finds the traceback and code blocks in the sqlmap report", () => {
+  it("finds the traceback, the exact command line and code blocks in the sqlmap report", () => {
     expect(detectProvidedEvidence(issue("stack-trace-sqlmap-6154.json"))).toEqual(
-      expect.arrayContaining(["stack_trace", "code_snippet"]),
+      expect.arrayContaining(["stack_trace", "repro_steps", "code_snippet"]),
     );
   });
 

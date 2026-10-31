@@ -1,0 +1,270 @@
+{
+  "target": {
+    "owner": "christiaangoossens",
+    "repo": "hass-oidc-auth",
+    "number": 334,
+    "kind": "issue",
+    "url": "https://github.com/christiaangoossens/hass-oidc-auth/issues/334",
+    "title": "Failed to inject OIDC auth page on HA 2026.6.x",
+    "commit": "53e8594e5f2c67abe66c0217a6695383ec2c7951"
+  },
+  "generatedAt": "2026-10-31T20:41:10.123Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 6
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "A routing mechanism change in Home Assistant causes the integration to attempt to inject the hass object instead of the actual frontend path.",
+        "quote": "Some sort of routing mechanism changed within HA causing the integration to try to inject the hass object instead of the actual frontend path",
+        "references": {
+          "files": [
+            "custom_components/auth_oidc/endpoints/injected_auth_page.py"
+          ],
+          "symbols": [
+            "route.handler.args"
+          ],
+          "lines": [
+            {
+              "file": "custom_components/auth_oidc/endpoints/injected_auth_page.py",
+              "line": 59
+            }
+          ],
+          "versions": [
+            "2026.6.0.dev202605070318"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "logs",
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `custom_components/auth_oidc/endpoints/injected_auth_page.py` exists in christiaangoossens/hass-oidc-auth at 53e8594.",
+          "location": {
+            "file": "custom_components/auth_oidc/endpoints/injected_auth_page.py",
+            "permalink": "https://github.com/christiaangoossens/hass-oidc-auth/blob/53e8594e5f2c67abe66c0217a6695383ec2c7951/custom_components/auth_oidc/endpoints/injected_auth_page.py"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`args` appears in `.pylintrc` line 293, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": ".pylintrc",
+            "startLine": 293,
+            "permalink": "https://github.com/christiaangoossens/hass-oidc-auth/blob/53e8594e5f2c67abe66c0217a6695383ec2c7951/.pylintrc#L293"
+          },
+          "log": "max-args=5"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 59 of `custom_components/auth_oidc/endpoints/injected_auth_page.py` exists; the code there is shown below.",
+          "location": {
+            "file": "custom_components/auth_oidc/endpoints/injected_auth_page.py",
+            "startLine": 59,
+            "endLine": 59,
+            "permalink": "https://github.com/christiaangoossens/hass-oidc-auth/blob/53e8594e5f2c67abe66c0217a6695383ec2c7951/custom_components/auth_oidc/endpoints/injected_auth_page.py#L59"
+          },
+          "log": "56 |                 break\n57 | \n58 |             # The original frontend path is the first argument of the handler\n59 |             frontend_path = route.handler.args[0]\n60 | \n61 |             # Remove the old resource to prevent conflicts with our injected view\n62 |             resource.add_prefix(\"/auth/oidc/unused\")"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "Attempting to log in results in a 404 not found error because the page at /auth/authorize no longer exists.",
+        "quote": "Try to login, a `404 not found` error will occur (since there is no longer a page at /auth/authorize)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The issue occurs on Home Assistant version 2026.6.0.dev202605070318.",
+        "quote": "Home Assistant version: `2026.6.0.dev202605070318`",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "2026.6.0.dev202605070318"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "The integration version is 1.1.0.",
+        "quote": "Integration version: `1.1.0`",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "1.1.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "code_location",
+        "statement": "The error occurs in custom_components/auth_oidc/endpoints/injected_auth_page.py at line 132.",
+        "quote": "Logger: custom_components.auth_oidc.endpoints.injected_auth_page\nBron: custom_components/auth_oidc/endpoints/injected_auth_page.py:132",
+        "references": {
+          "files": [
+            "custom_components/auth_oidc/endpoints/injected_auth_page.py"
+          ],
+          "symbols": [
+            "custom_components.auth_oidc.endpoints.injected_auth_page"
+          ],
+          "lines": [
+            {
+              "file": "custom_components/auth_oidc/endpoints/injected_auth_page.py",
+              "line": 132
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "logs"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `custom_components/auth_oidc/endpoints/injected_auth_page.py` exists in christiaangoossens/hass-oidc-auth at 53e8594.",
+          "location": {
+            "file": "custom_components/auth_oidc/endpoints/injected_auth_page.py",
+            "permalink": "https://github.com/christiaangoossens/hass-oidc-auth/blob/53e8594e5f2c67abe66c0217a6695383ec2c7951/custom_components/auth_oidc/endpoints/injected_auth_page.py"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`injected_auth_page` appears in `custom_components/auth_oidc/endpoints/__init__.py` line 5, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "custom_components/auth_oidc/endpoints/__init__.py",
+            "startLine": 5,
+            "permalink": "https://github.com/christiaangoossens/hass-oidc-auth/blob/53e8594e5f2c67abe66c0217a6695383ec2c7951/custom_components/auth_oidc/endpoints/__init__.py#L5"
+          },
+          "log": "from .injected_auth_page import OIDCInjectedAuthPage as OIDCInjectedAuthPage"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 132 of `custom_components/auth_oidc/endpoints/injected_auth_page.py` exists; the code there is shown below.",
+          "location": {
+            "file": "custom_components/auth_oidc/endpoints/injected_auth_page.py",
+            "startLine": 132,
+            "endLine": 132,
+            "permalink": "https://github.com/christiaangoossens/hass-oidc-auth/blob/53e8594e5f2c67abe66c0217a6695383ec2c7951/custom_components/auth_oidc/endpoints/injected_auth_page.py#L132"
+          },
+          "log": "129 |                 hass, provider, force_https, has_trusted_networks_provider_first\n130 |             )\n131 |         except Exception as e:  # pylint: disable=broad-except\n132 |             _LOGGER.error(\"Failed to inject OIDC auth page: %s\", e)\n133 | \n134 |     def _should_do_oidc_redirect(self, req: web.Request) -> bool:\n135 |         \"\"\"Check if we should redirect to the OIDC flow.\"\"\""
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "behavior",
+        "statement": "The integration fails with an error stating it expected a str, bytes or os.PathLike object but received HomeAssistant.",
+        "quote": "Failed to inject OIDC auth page: expected str, bytes or os.PathLike object, not HomeAssistant",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "logs",
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}

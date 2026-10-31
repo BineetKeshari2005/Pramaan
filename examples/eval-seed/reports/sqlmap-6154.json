@@ -1,0 +1,257 @@
+{
+  "target": {
+    "owner": "sqlmapproject",
+    "repo": "sqlmap",
+    "number": 6154,
+    "kind": "issue",
+    "url": "https://github.com/sqlmapproject/sqlmap/issues/6154",
+    "title": "Unhandled exception (#b2f0d2e6)",
+    "commit": "11afdcb02640211826b71af11a646a87157d223f"
+  },
+  "generatedAt": "2026-10-31T20:38:52.968Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "version",
+        "statement": "The running version is 1.10.10.18#dev.",
+        "quote": "Running version: 1.10.10.18#dev",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "1.10.10.18#dev"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The Python version is 3.14.7.",
+        "quote": "Python version: 3.14.7",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.14.7"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The operating system is Windows-10-10.0.19045-SP0.",
+        "quote": "Operating system: Windows-10-10.0.19045-SP0",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "Windows-10-10.0.19045-SP0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "An AttributeError is raised when calling conf.dumper.singleString(conf.dbmsHandler.getFingerprint()).",
+        "quote": "AttributeError: 'NoneType' object has no attribute 'getFingerprint'",
+        "references": {
+          "files": [
+            "lib/controller/action.py"
+          ],
+          "symbols": [
+            "conf",
+            "dumper",
+            "singleString",
+            "dbmsHandler",
+            "getFingerprint"
+          ],
+          "lines": [
+            {
+              "file": "lib/controller/action.py",
+              "line": 108
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `lib/controller/action.py` exists in sqlmapproject/sqlmap at 11afdcb.",
+          "location": {
+            "file": "lib/controller/action.py",
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/lib/controller/action.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`singleString` is defined in `lib/core/dump.py` line 140 (and 2 more places).",
+          "location": {
+            "file": "lib/core/dump.py",
+            "startLine": 140,
+            "endLine": 140,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/lib/core/dump.py#L140"
+          },
+          "log": "138 |             raise SqlmapGenericException(errMsg)\n139 | \n140 |     def singleString(self, data, content_type=None):\n141 |         self._reportData(data, content_type)\n142 |         self._write(data, content_type=content_type)\n143 | \n144 |     def string(self, header, data, content_type=None, sort=True):"
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`dbmsHandler` appears in `doc/ARCHITECTURE.md` line 92, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "doc/ARCHITECTURE.md",
+            "startLine": 92,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/doc/ARCHITECTURE.md#L92"
+          },
+          "log": "back-end DBMS and assigns `conf.dbmsHandler`, the object through which all"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`getFingerprint` is defined in `extra/esperanto/handler.py` line 131 (and 2 more places).",
+          "location": {
+            "file": "extra/esperanto/handler.py",
+            "startLine": 131,
+            "endLine": 131,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/extra/esperanto/handler.py#L131"
+          },
+          "log": "129 |             return self._scopeDb() or \"<current>\"\n130 | \n131 |         def getFingerprint(self):\n132 |             # concise fingerprint only; the version banner is shown for --banner, not\n133 |             # printed unbidden on every run (and not re-extracted here)\n134 |             product = self._engine().identify().get(\"product\") or \"unknown\"\n135 |             return \"back-end DBMS: %s (via Esperanto DBMS-agnostic engine)\" % product"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 108 of `lib/controller/action.py` exists; the code there is shown below.",
+          "location": {
+            "file": "lib/controller/action.py",
+            "startLine": 108,
+            "endLine": 108,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/lib/controller/action.py#L108"
+          },
+          "log": "105 | \n106 |         raise SqlmapUnsupportedDBMSException(errMsg)\n107 | \n108 |     conf.dumper.singleString(conf.dbmsHandler.getFingerprint())\n109 | \n110 |     kb.fingerprinted = True\n111 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 4 stack frames inside the repository match the code at 11afdcb, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `sqlmap.py:268` in `main` matches the code.",
+          "location": {
+            "file": "sqlmap.py",
+            "startLine": 268,
+            "endLine": 268,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/sqlmap.py#L268"
+          },
+          "log": "266 |                                         start()\n267 |                         else:\n268 |                             start()\n269 |                     except Exception as ex:\n270 |                         os._exitcode = 1"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/core/decorators.py:108` in `_` matches the code.",
+          "location": {
+            "file": "lib/core/decorators.py",
+            "startLine": 108,
+            "endLine": 108,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/lib/core/decorators.py#L108"
+          },
+          "log": "106 | \n107 |         try:\n108 |             result = f(*args, **kwargs)\n109 |         finally:\n110 |             if len(threadData.valueStack) > originalLevel:"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/controller/controller.py:906` in `start` matches the code.",
+          "location": {
+            "file": "lib/controller/controller.py",
+            "startLine": 906,
+            "endLine": 906,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/lib/controller/controller.py#L906"
+          },
+          "log": "904 |                 if condition:\n905 |                     try:\n906 |                         action()\n907 |                     finally:\n908 |                         if conf.proof:"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/controller/action.py:108` in `action` matches the code.",
+          "location": {
+            "file": "lib/controller/action.py",
+            "startLine": 108,
+            "endLine": 108,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/11afdcb02640211826b71af11a646a87157d223f/lib/controller/action.py#L108"
+          },
+          "log": "106 |         raise SqlmapUnsupportedDBMSException(errMsg)\n107 | \n108 |     conf.dumper.singleString(conf.dbmsHandler.getFingerprint())\n109 | \n110 |     kb.fingerprinted = True"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail."
+  }
+}

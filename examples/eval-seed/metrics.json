@@ -1,0 +1,63 @@
+{
+  "total": 9,
+  "decided": 0,
+  "abstained": 9,
+  "errors": 0,
+  "correct": 0,
+  "coverage": 0,
+  "abstentionRate": 1,
+  "accuracyWhenDecided": null,
+  "overallAccuracy": 0,
+  "macroF1": 0,
+  "perClass": {
+    "invalid": {
+      "support": 3,
+      "predicted": 0,
+      "truePositives": 0,
+      "precision": null,
+      "recall": 0
+    },
+    "cannot-reproduce": {
+      "support": 3,
+      "predicted": 0,
+      "truePositives": 0,
+      "precision": null,
+      "recall": 0
+    },
+    "confirmed": {
+      "support": 3,
+      "predicted": 0,
+      "truePositives": 0,
+      "precision": null,
+      "recall": 0
+    }
+  },
+  "confusion": {
+    "invalid": {
+      "confirmed": 0,
+      "invalid": 0,
+      "cannot-reproduce": 0,
+      "needs-info": 3,
+      "needs-human-review": 0,
+      "error": 0
+    },
+    "cannot-reproduce": {
+      "confirmed": 0,
+      "invalid": 0,
+      "cannot-reproduce": 0,
+      "needs-info": 2,
+      "needs-human-review": 1,
+      "error": 0
+    },
+    "confirmed": {
+      "confirmed": 0,
+      "invalid": 0,
+      "cannot-reproduce": 0,
+      "needs-info": 3,
+      "needs-human-review": 0,
+      "error": 0
+    }
+  },
+  "realBugsDismissed": 0,
+  "invalidConfirmed": 0
+}
