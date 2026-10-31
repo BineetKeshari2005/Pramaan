@@ -10,8 +10,8 @@ import {
   stageLabel,
   summarizeReport,
   triageLabelText,
+  triageMeaning,
   verdictLabel,
-  verdictTone,
 } from "../../lib/present";
 import type { JobStatusResponse } from "../../lib/api";
 import type { Report } from "../../../core/types";
@@ -21,8 +21,29 @@ import sampleData from "../../../../tests/fixtures/reports/sample-report.json";
 
 const MAX_POLL_FAILURES = 5;
 
+const STEPS = [
+  { stage: "fetch", name: "Read GitHub" },
+  { stage: "extract", name: "Find claims" },
+  { stage: "checkout", name: "Get the code" },
+  { stage: "verify", name: "Check claims" },
+  { stage: "grade", name: "Score" },
+] as const;
+
+const STATUS_TEXT: Record<JobStatusResponse["status"], string> = {
+  queued: "Waiting",
+  running: "Checking",
+  done: "Finished",
+  failed: "Failed",
+};
+
 function shortCommit(commit: string | null): string | null {
   return commit ? commit.slice(0, 7) : null;
+}
+
+function stepState(current: number, i: number): string {
+  if (i < current) return "step done";
+  if (i === current) return "step active";
+  return "step";
 }
 
 // ---------- Sample report loader (preview mode) ----------
@@ -102,11 +123,13 @@ export default function JobPage() {
   if (loadError) {
     return (
       <main className="page-container">
-        <h1>Error</h1>
-        <div className="error-banner" role="alert">
-          {loadError}
+        <div className="status-header">
+          <h1>Could not load this analysis</h1>
+          <div className="error-banner" role="alert">
+            {loadError}
+          </div>
+          <a href="/">← Start a new analysis</a>
         </div>
-        <a href="/">← Start a new analysis</a>
       </main>
     );
   }
@@ -114,7 +137,9 @@ export default function JobPage() {
   if (!job) {
     return (
       <main className="page-container">
-        <p>Loading…</p>
+        <div className="status-header">
+          <p className="status-kind">Loading analysis…</p>
+        </div>
       </main>
     );
   }
@@ -148,33 +173,45 @@ export default function JobPage() {
     <main className="page-container">
       {/* ---- Header ---- */}
       <div className="status-header">
-        <h1 style={{ fontSize: "1.4rem", marginBottom: 4 }}>
+        <p className="status-kind">{target.kind === "pull" ? "Pull request" : "Issue"} check</p>
+        <h1>
           <a href={ghUrl} target="_blank" rel="noopener noreferrer">
             {target.owner}/{target.repo}#{target.number}
           </a>
         </h1>
-        <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-          <span className={statusChipClass}>{status}</span>
+        {report?.target.title && <p className="status-title">{report.target.title}</p>}
+        <div className="status-meta">
+          <span className={statusChipClass}>{STATUS_TEXT[status]}</span>
           {commitStr && (
-            <span style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
-              commit: <code style={{ fontFamily: "monospace" }}>{commitStr}</code>
+            <span>
+              Code checked at <code className="commit-chip">{commitStr}</code>
             </span>
           )}
         </div>
-        {isSample && (
-          <p style={{ fontSize: "0.82rem", color: "var(--color-text-muted)", marginTop: 8 }}>
-            🔍 Preview mode — showing sample report
-          </p>
-        )}
+        {isSample && <p className="preview-note">This is a saved sample report, not a live check.</p>}
       </div>
 
       {/* ---- Live progress (queued / running) ---- */}
       {(status === "queued" || status === "running") && (
-        <section aria-live="polite" aria-label="Analysis progress">
-          <h2>Progress</h2>
+        <section className="progress-card" aria-live="polite" aria-label="Analysis progress">
+          <h2>{status === "queued" ? "Waiting for the previous check to finish" : "Checking…"}</h2>
           {status === "queued" && job.queuePosition !== undefined && (
-            <p>Queue position: {job.queuePosition}</p>
+            <p className="progress-now">Place in line: {job.queuePosition}</p>
           )}
+          {(() => {
+            const last = job.progress[job.progress.length - 1];
+            const current = last ? STEPS.findIndex((s) => s.stage === last.stage) : -1;
+            return (
+              <ol className="stepper">
+                {STEPS.map((s, i) => (
+                  <li key={s.stage} className={stepState(current, i)}>
+                    <span className="step-dot" />
+                    <span className="step-name">{s.name}</span>
+                  </li>
+                ))}
+              </ol>
+            );
+          })()}
           <ul className="progress-list">
             {job.progress.map((ev, i) => {
               const isVerify =
@@ -186,7 +223,7 @@ export default function JobPage() {
                   <span className="stage-label">{stageLabel(ev.stage)}</span>
                   <span>
                     {isVerify
-                      ? `Verifying claim ${(ev.claimIndex ?? 0) + 1} of ${ev.claimCount ?? "?"}: ${ev.message}`
+                      ? `Claim ${(ev.claimIndex ?? 0) + 1} of ${ev.claimCount ?? "?"}: ${ev.message}`
                       : ev.message}
                   </span>
                 </li>
@@ -198,12 +235,12 @@ export default function JobPage() {
 
       {/* ---- Failed state ---- */}
       {status === "failed" && (
-        <section>
-          <h2>Analysis failed</h2>
+        <section className="progress-card">
+          <h2>The check could not finish</h2>
           <div className="error-banner" role="alert">
             {job.error ?? "An unknown error occurred."}
           </div>
-          <a href="/">← Start a new analysis</a>
+          <a href="/#analyse">← Try another link</a>
         </section>
       )}
 
@@ -218,70 +255,92 @@ export default function JobPage() {
             {/* a) Triage banner */}
             <section aria-labelledby="triage-heading">
               <div className={`triage-banner ${triageClass}`}>
-                <h2 id="triage-heading" style={{ margin: "0 0 4px" }}>
-                  Suggested label: {triageLabelText(report.triage.label)}
-                </h2>
-                <p style={{ margin: 0 }}>{report.triage.rationale}</p>
+                <p className="triage-eyebrow">Suggested label</p>
+                <h2 id="triage-heading">{triageLabelText(report.triage.label)}</h2>
+                <p className="triage-meaning">{triageMeaning(report.triage.label, target.kind)}</p>
+                <p className="triage-rationale">
+                  <strong>Why:</strong> {report.triage.rationale}
+                </p>
                 {report.triage.bestGuess && report.triage.bestGuess.label !== report.triage.label && (
-                  <p style={{ margin: "8px 0 0" }}>
-                    <strong>Best guess if a label must be chosen:</strong>{" "}
-                    {triageLabelText(report.triage.bestGuess.label)}: {report.triage.bestGuess.rule}{" "}
-                    <em>(a guess from fixed evidence rules, not a verdict)</em>
+                  <p className="triage-guess">
+                    <strong>If you have to pick a label:</strong>{" "}
+                    {triageLabelText(report.triage.bestGuess.label)}. {report.triage.bestGuess.rule}{" "}
+                    <em>This is a best guess, not proof.</em>
                   </p>
                 )}
-                <p className="triage-disclaimer">
-                  Suggested label only — Pramaan never closes issues.
-                </p>
+                <p className="triage-disclaimer">Only a suggestion. Pramaan never closes anything.</p>
               </div>
             </section>
 
-            {/* b) Summary chips */}
-            <div className="summary-chips" aria-label="Verdict summary">
-              {summary.byVerdict.reproduced > 0 && (
-                <span className="verdict-chip confirmed">
-                  ✓ {summary.byVerdict.reproduced} {verdictLabel("reproduced")}
+            {/* b) At-a-glance numbers */}
+            <div className="stat-strip" aria-label="Summary">
+              <div className="stat-cell">
+                <span className="stat-cell-label">Claims found</span>
+                <span className="stat-cell-value">{summary.total}</span>
+                <span className="stat-cell-note">
+                  in this {target.kind === "pull" ? "pull request" : "issue"}
                 </span>
-              )}
-              {summary.byVerdict.contradicted > 0 && (
-                <span className="verdict-chip refuted">
-                  ✗ {summary.byVerdict.contradicted} {verdictLabel("contradicted")}
+              </div>
+              <div className="stat-cell">
+                <span className="stat-cell-label">{verdictLabel("reproduced")}</span>
+                <span className="stat-cell-value">{summary.byVerdict.reproduced}</span>
+                <span className="stat-cell-note">
+                  <span className="tag confirmed">code proves it</span>
                 </span>
-              )}
+              </div>
+              <div className="stat-cell">
+                <span className="stat-cell-label">{verdictLabel("contradicted")}</span>
+                <span className="stat-cell-value">{summary.byVerdict.contradicted}</span>
+                <span className="stat-cell-note">
+                  <span className="tag refuted">code disagrees</span>
+                </span>
+              </div>
               {summary.byVerdict.not_reproduced > 0 && (
-                <span className="verdict-chip warning">
-                  ? {summary.byVerdict.not_reproduced} {verdictLabel("not_reproduced")}
-                </span>
+                <div className="stat-cell">
+                  <span className="stat-cell-label">{verdictLabel("not_reproduced")}</span>
+                  <span className="stat-cell-value">{summary.byVerdict.not_reproduced}</span>
+                  <span className="stat-cell-note">
+                    <span className="tag warning">didn&apos;t show up</span>
+                  </span>
+                </div>
               )}
-              {summary.insufficientSupported > 0 && (
-                <span className="verdict-chip unknown">
-                  – {summary.insufficientSupported} Unverified, consistent with the code
+              <div className="stat-cell">
+                <span className="stat-cell-label">{verdictLabel("insufficient_evidence")}</span>
+                <span className="stat-cell-value">{summary.byVerdict.insufficient_evidence}</span>
+                <span className="stat-cell-note">
+                  {summary.insufficientSupported} code agrees · {summary.insufficientUnverifiable} nothing
+                  to check
                 </span>
-              )}
-              {summary.insufficientUnverifiable > 0 && (
-                <span className="verdict-chip unknown">
-                  – {summary.insufficientUnverifiable} Nothing verifiable
-                </span>
-              )}
-              {summary.needsHumanReview > 0 && (
-                <span className="verdict-chip human-review">
-                  ⚠ {summary.needsHumanReview} need{summary.needsHumanReview === 1 ? "s" : ""} human
-                  review
-                </span>
-              )}
+              </div>
             </div>
+            {summary.needsHumanReview > 0 && (
+              <p className="review-callout">
+                <strong>
+                  {summary.needsHumanReview} claim{summary.needsHumanReview === 1 ? " needs" : "s need"} your
+                  review.
+                </strong>{" "}
+                {summary.needsHumanReview === 1 ? "It is" : "They are"} marked below and listed first.
+              </p>
+            )}
 
             {/* c) Abstain notice */}
             {report.extraction.status === "abstained" && (
               <div className="abstain-notice" role="alert">
-                <strong>Extraction abstained:</strong> {report.extraction.reason}
+                <strong>Pramaan could not read the claims in this report:</strong> {report.extraction.reason}
                 <br />
-                <span>A human should read the full report to assess the claims manually.</span>
+                <span>Please read it yourself to judge it.</span>
               </div>
             )}
 
             {/* d) Claim cards */}
             <section aria-labelledby="claims-heading">
-              <h2 id="claims-heading">Claims ({summary.total})</h2>
+              <h2 id="claims-heading" className="claims-heading">
+                Claim by claim
+              </h2>
+              <p className="claims-sub">
+                Everything the {target.kind === "pull" ? "pull request" : "issue"} says, and what the code
+                shows for each.
+              </p>
               {sorted.map((assessment, i) => (
                 <ClaimCard key={assessment.claim.id} assessment={assessment} index={i} />
               ))}
@@ -304,13 +363,16 @@ export default function JobPage() {
               >
                 ⎘ Copy JSON
               </button>
+              <a href="/#analyse" className="btn btn-secondary">
+                Check another link
+              </a>
             </div>
 
             {/* f) Footer */}
             <footer className="report-footer">
-              {report.models.length > 0 && <p>Models used: {report.models.join(", ")}</p>}
+              {report.models.length > 0 && <p>AI model used to read the report: {report.models.join(", ")}</p>}
               <p>
-                Generated at{" "}
+                Checked on{" "}
                 <time dateTime={report.generatedAt}>
                   {new Date(report.generatedAt).toLocaleString()}
                 </time>

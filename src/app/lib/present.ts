@@ -1,17 +1,26 @@
-import type { ClaimAssessment, Confidence, EvidenceKind, Report, TriageLabel, Verdict } from "../../core/types";
+import type {
+  ClaimAssessment,
+  ClaimType,
+  Confidence,
+  EvidenceKind,
+  Report,
+  TriageLabel,
+  Verdict,
+} from "../../core/types";
 
 // ---------- Label functions ----------
+// Everything here is shown to maintainers, so it uses plain words, not pipeline terms.
 
 export function verdictLabel(verdict: Verdict): string {
   switch (verdict) {
     case "reproduced":
-      return "Reproduced";
+      return "Verified";
     case "contradicted":
-      return "Contradicted";
+      return "Proven false";
     case "not_reproduced":
-      return "Not reproduced";
+      return "Couldn't reproduce";
     case "insufficient_evidence":
-      return "Insufficient evidence";
+      return "Not verified";
   }
 }
 
@@ -30,19 +39,19 @@ export function verdictTone(verdict: Verdict): "confirmed" | "refuted" | "warnin
 }
 
 export function confidenceLabel(confidence: Confidence, verdict?: Verdict): string {
-  // "Low confidence" next to "Insufficient evidence" reads as a contradiction; say what was found instead.
+  // A strength next to "Not verified" reads as a contradiction; say what was found instead.
   if (verdict === "insufficient_evidence") {
-    return confidence === "none" ? "Nothing verifiable yet" : "Partial evidence";
+    return confidence === "none" ? "Nothing to check" : "Code agrees, not proven";
   }
   switch (confidence) {
     case "high":
-      return "High confidence";
+      return "Strong proof";
     case "medium":
-      return "Medium confidence";
+      return "Good proof";
     case "low":
-      return "Low confidence";
+      return "Weak proof";
     case "none":
-      return "No confidence";
+      return "No proof";
   }
 }
 
@@ -51,45 +60,81 @@ export function triageLabelText(label: TriageLabel): string {
     case "confirmed":
       return "Confirmed";
     case "invalid":
-      return "Likely invalid";
+      return "Likely not valid";
     case "cannot-reproduce":
-      return "Could not reproduce";
+      return "Couldn't reproduce";
     case "needs-info":
-      return "Needs more information";
+      return "Needs more info";
     case "needs-human-review":
-      return "Needs human review";
+      return "Needs your review";
+  }
+}
+
+/** One plain sentence telling a maintainer what the suggested label means for them. */
+export function triageMeaning(label: TriageLabel, kind: "issue" | "pull"): string {
+  const thing = kind === "pull" ? "pull request" : "issue";
+  switch (label) {
+    case "confirmed":
+      return `The code backs up what this ${thing} says.`;
+    case "invalid":
+      return `The code contradicts this ${thing}. As written, it does not hold up.`;
+    case "cannot-reproduce":
+      return kind === "pull"
+        ? "Pramaan ran the checks, and the result did not match what the pull request says."
+        : "Pramaan tried it, and the problem did not show up.";
+    case "needs-info":
+      return kind === "pull"
+        ? "The code neither proves nor disproves the main claims. Ask the author how to test the change."
+        : "The code neither proves nor disproves this. Ask for exact steps, the error message or the version.";
+    case "needs-human-review":
+      return "Some claims need a person's judgement, such as how serious a security risk is.";
+  }
+}
+
+export function claimTypeLabel(type: ClaimType): string {
+  switch (type) {
+    case "behavior":
+      return "What happens";
+    case "code_location":
+      return "Where in the code";
+    case "version":
+      return "Version";
+    case "security_impact":
+      return "Security";
+    case "pr_claim":
+      return "What the PR says";
   }
 }
 
 export function evidenceKindLabel(kind: EvidenceKind): string {
   switch (kind) {
     case "executed_repro":
-      return "Executed reproduction";
+      return "Ran the code";
     case "failing_test":
-      return "Failing test";
+      return "Ran the tests";
     case "static_proof":
-      return "Static code check";
+      return "Checked the code";
     case "doc_contradiction":
-      return "Documentation";
+      return "Checked the docs";
     case "plausible_text":
-      return "Text only";
+      return "Report text only";
     case "none":
-      return "No evidence";
+      return "Nothing found";
   }
 }
 
 export function stageLabel(stage: "fetch" | "extract" | "checkout" | "verify" | "grade" | "done"): string {
   switch (stage) {
     case "fetch":
-      return "Fetching issue / PR";
+      return "Reading from GitHub";
     case "extract":
-      return "Extracting claims";
+      return "Finding the claims";
     case "checkout":
-      return "Checking out repository";
+      return "Downloading the code";
     case "verify":
-      return "Verifying claims";
+      return "Checking each claim";
     case "grade":
-      return "Grading evidence";
+      return "Scoring the results";
     case "done":
       return "Done";
   }

@@ -116,9 +116,7 @@ export default function SharePanel({ report }: SharePanelProps) {
   return (
     <section className="share-panel" aria-labelledby="share-heading">
       <div className="share-panel-header">
-        <h2 id="share-heading" style={{ margin: "0 0 6px" }}>
-          Share with GitHub
-        </h2>
+        <h2 id="share-heading">Share with GitHub</h2>
         <p className="share-notice">
           Nothing is posted automatically — review the text, then paste it yourself.
         </p>

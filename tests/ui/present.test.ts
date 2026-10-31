@@ -1,24 +1,26 @@
 import { describe, expect, it } from "vitest";
 import {
+  claimTypeLabel,
   confidenceLabel,
   evidenceKindLabel,
   sortAssessments,
   stageLabel,
   summarizeReport,
   triageLabelText,
+  triageMeaning,
   verdictLabel,
   verdictTone,
 } from "../../src/app/lib/present";
-import type { ClaimAssessment, Report } from "../../src/core/types";
+import { CLAIM_TYPES, type ClaimAssessment, type Report, TRIAGE_LABELS } from "../../src/core/types";
 
 // ---------- verdictLabel ----------
 
 describe("verdictLabel", () => {
-  it("maps reproduced", () => expect(verdictLabel("reproduced")).toBe("Reproduced"));
-  it("maps contradicted", () => expect(verdictLabel("contradicted")).toBe("Contradicted"));
-  it("maps not_reproduced", () => expect(verdictLabel("not_reproduced")).toBe("Not reproduced"));
+  it("maps reproduced", () => expect(verdictLabel("reproduced")).toBe("Verified"));
+  it("maps contradicted", () => expect(verdictLabel("contradicted")).toBe("Proven false"));
+  it("maps not_reproduced", () => expect(verdictLabel("not_reproduced")).toBe("Couldn't reproduce"));
   it("maps insufficient_evidence", () =>
-    expect(verdictLabel("insufficient_evidence")).toBe("Insufficient evidence"));
+    expect(verdictLabel("insufficient_evidence")).toBe("Not verified"));
 });
 
 // ---------- verdictTone ----------
@@ -34,14 +36,14 @@ describe("verdictTone", () => {
 // ---------- confidenceLabel ----------
 
 describe("confidenceLabel", () => {
-  it("high", () => expect(confidenceLabel("high")).toBe("High confidence"));
-  it("medium", () => expect(confidenceLabel("medium")).toBe("Medium confidence"));
-  it("low", () => expect(confidenceLabel("low")).toBe("Low confidence"));
-  it("none", () => expect(confidenceLabel("none")).toBe("No confidence"));
+  it("high", () => expect(confidenceLabel("high")).toBe("Strong proof"));
+  it("medium", () => expect(confidenceLabel("medium")).toBe("Good proof"));
+  it("low", () => expect(confidenceLabel("low")).toBe("Weak proof"));
+  it("none", () => expect(confidenceLabel("none")).toBe("No proof"));
   it("describes unsettled claims by how much evidence was found", () => {
-    expect(confidenceLabel("low", "insufficient_evidence")).toBe("Partial evidence");
-    expect(confidenceLabel("none", "insufficient_evidence")).toBe("Nothing verifiable yet");
-    expect(confidenceLabel("medium", "contradicted")).toBe("Medium confidence");
+    expect(confidenceLabel("low", "insufficient_evidence")).toBe("Code agrees, not proven");
+    expect(confidenceLabel("none", "insufficient_evidence")).toBe("Nothing to check");
+    expect(confidenceLabel("medium", "contradicted")).toBe("Good proof");
   });
 });
 
@@ -49,35 +51,55 @@ describe("confidenceLabel", () => {
 
 describe("triageLabelText", () => {
   it("confirmed", () => expect(triageLabelText("confirmed")).toBe("Confirmed"));
-  it("invalid", () => expect(triageLabelText("invalid")).toBe("Likely invalid"));
+  it("invalid", () => expect(triageLabelText("invalid")).toBe("Likely not valid"));
   it("cannot-reproduce", () =>
-    expect(triageLabelText("cannot-reproduce")).toBe("Could not reproduce"));
-  it("needs-info", () => expect(triageLabelText("needs-info")).toBe("Needs more information"));
+    expect(triageLabelText("cannot-reproduce")).toBe("Couldn't reproduce"));
+  it("needs-info", () => expect(triageLabelText("needs-info")).toBe("Needs more info"));
   it("needs-human-review", () =>
-    expect(triageLabelText("needs-human-review")).toBe("Needs human review"));
+    expect(triageLabelText("needs-human-review")).toBe("Needs your review"));
+});
+
+// ---------- triageMeaning / claimTypeLabel ----------
+
+describe("triageMeaning", () => {
+  it("explains every label for issues and pull requests in one sentence", () => {
+    for (const label of TRIAGE_LABELS) {
+      for (const kind of ["issue", "pull"] as const) {
+        expect(triageMeaning(label, kind).length).toBeGreaterThan(20);
+      }
+    }
+    expect(triageMeaning("confirmed", "pull")).toContain("pull request");
+    expect(triageMeaning("needs-info", "issue")).toContain("Ask for exact steps");
+  });
+});
+
+describe("claimTypeLabel", () => {
+  it("names every claim type", () => {
+    for (const type of CLAIM_TYPES) expect(claimTypeLabel(type)).not.toBe("");
+    expect(claimTypeLabel("pr_claim")).toBe("What the PR says");
+  });
 });
 
 // ---------- evidenceKindLabel ----------
 
 describe("evidenceKindLabel", () => {
-  it("executed_repro", () =>
-    expect(evidenceKindLabel("executed_repro")).toBe("Executed reproduction"));
-  it("failing_test", () => expect(evidenceKindLabel("failing_test")).toBe("Failing test"));
-  it("static_proof", () => expect(evidenceKindLabel("static_proof")).toBe("Static code check"));
+  it("executed_repro", () => expect(evidenceKindLabel("executed_repro")).toBe("Ran the code"));
+  it("failing_test", () => expect(evidenceKindLabel("failing_test")).toBe("Ran the tests"));
+  it("static_proof", () => expect(evidenceKindLabel("static_proof")).toBe("Checked the code"));
   it("doc_contradiction", () =>
-    expect(evidenceKindLabel("doc_contradiction")).toBe("Documentation"));
-  it("plausible_text", () => expect(evidenceKindLabel("plausible_text")).toBe("Text only"));
-  it("none", () => expect(evidenceKindLabel("none")).toBe("No evidence"));
+    expect(evidenceKindLabel("doc_contradiction")).toBe("Checked the docs"));
+  it("plausible_text", () => expect(evidenceKindLabel("plausible_text")).toBe("Report text only"));
+  it("none", () => expect(evidenceKindLabel("none")).toBe("Nothing found"));
 });
 
 // ---------- stageLabel ----------
 
 describe("stageLabel", () => {
-  it("fetch", () => expect(stageLabel("fetch")).toBe("Fetching issue / PR"));
-  it("extract", () => expect(stageLabel("extract")).toBe("Extracting claims"));
-  it("checkout", () => expect(stageLabel("checkout")).toBe("Checking out repository"));
-  it("verify", () => expect(stageLabel("verify")).toBe("Verifying claims"));
-  it("grade", () => expect(stageLabel("grade")).toBe("Grading evidence"));
+  it("fetch", () => expect(stageLabel("fetch")).toBe("Reading from GitHub"));
+  it("extract", () => expect(stageLabel("extract")).toBe("Finding the claims"));
+  it("checkout", () => expect(stageLabel("checkout")).toBe("Downloading the code"));
+  it("verify", () => expect(stageLabel("verify")).toBe("Checking each claim"));
+  it("grade", () => expect(stageLabel("grade")).toBe("Scoring the results"));
   it("done", () => expect(stageLabel("done")).toBe("Done"));
 });
 
