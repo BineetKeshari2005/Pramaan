@@ -1,4 +1,4 @@
-import { detectProvidedEvidence, withDetectedEvidence } from "./claims/evidence";
+import { detectProvidedEvidence, mineReferences, withDetectedEvidence } from "./claims/evidence";
 import { assessClaim, bestGuess, triage } from "./grading";
 import type {
   Checkout,
@@ -46,7 +46,10 @@ export async function runPipeline(
 
   progress({ stage: "extract", message: "Extracting technical claims" });
   const extraction = await deps.extractor.extract(target);
-  const claims = extraction.status === "ok" ? withDetectedEvidence(extraction.claims, detectProvidedEvidence(target)) : [];
+  const claims =
+    extraction.status === "ok"
+      ? mineReferences(withDetectedEvidence(extraction.claims, detectProvidedEvidence(target)))
+      : [];
   const models = new Set<string>(extraction.model ? [extraction.model] : []);
 
   let checkout: Checkout | null = null;

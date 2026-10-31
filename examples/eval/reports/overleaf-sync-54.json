@@ -8,7 +8,7 @@
     "title": "no olclient?",
     "commit": "0af515b1d6e6e885af7034afdb557605b68d15ca"
   },
-  "generatedAt": "2026-10-31T22:25:41.867Z",
+  "generatedAt": "2026-10-31T22:56:30.385Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -30,7 +30,8 @@
           ],
           "symbols": [
             "olsync",
-            "olbrowserlogin"
+            "olbrowserlogin",
+            "PyQt5.QtWebEngineWidgets"
           ],
           "lines": [
             {
@@ -70,6 +71,17 @@
             "file": "olsync/olbrowserlogin.py",
             "permalink": "https://github.com/moritzgloeckl/overleaf-sync/blob/0af515b1d6e6e885af7034afdb557605b68d15ca/olsync/olbrowserlogin.py"
           }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`QtWebEngineWidgets` appears in `olsync/olbrowserlogin.py` line 13, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "olsync/olbrowserlogin.py",
+            "startLine": 13,
+            "permalink": "https://github.com/moritzgloeckl/overleaf-sync/blob/0af515b1d6e6e885af7034afdb557605b68d15ca/olsync/olbrowserlogin.py#L13"
+          },
+          "log": "from PySide6.QtWebEngineWidgets import *"
         },
         {
           "kind": "static_proof",

@@ -8,7 +8,7 @@
     "title": "Google Safe Browsing flags mailcow pages as dangerous",
     "commit": "eb26bcbc9417c6d0d2fa35db7ea5e648b48e016f"
   },
-  "generatedAt": "2026-10-31T22:26:16.258Z",
+  "generatedAt": "2026-10-31T22:57:06.625Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],

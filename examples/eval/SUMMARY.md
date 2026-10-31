@@ -1,6 +1,6 @@
 # Pramaan evaluation results
 
-Dataset: `eval/dataset.json` · 27 closed issues · models: gemma4:e2b-it-qat · generated 2026-10-31T22:26:16.259Z
+Dataset: `eval/dataset.json` · 27 closed issues · models: gemma4:e2b-it-qat · generated 2026-10-31T22:57:06.627Z
 
 Reference answers are the labels maintainers gave the issues when closing them. Pramaan never saw those labels.
 
@@ -40,13 +40,13 @@ Rows: maintainers' label. Columns: Pramaan's committed label.
 | Accuracy over all cases | 44% (12 of 27) |
 | Baseline: always answer "invalid" | 33% |
 | Macro F1 over the three labels | 0.44 |
-| **Real bugs dismissed as invalid** | **1** |
+| **Real bugs dismissed as invalid** | **0** |
 | Invalid reports labelled confirmed | 4 |
 
 | Reference label | Cases | Predicted as this | Correct | Precision | Recall |
 |---|---|---|---|---|---|
-| invalid | 9 | 5 | 3 | 60% | 33% |
-| cannot-reproduce | 9 | 13 | 6 | 46% | 67% |
+| invalid | 9 | 4 | 3 | 75% | 33% |
+| cannot-reproduce | 9 | 14 | 6 | 43% | 67% |
 | confirmed | 9 | 9 | 3 | 33% | 33% |
 
 Rows: maintainers' label. Columns: Pramaan's best guess.
@@ -55,7 +55,7 @@ Rows: maintainers' label. Columns: Pramaan's best guess.
 |---|---|---|---|---|
 | **invalid** | 4 | 3 | 2 | 0 |
 | **cannot-reproduce** | 2 | 1 | 6 | 0 |
-| **confirmed** | 3 | 1 | 5 | 0 |
+| **confirmed** | 3 | 0 | 6 | 0 |
 
 ## Every case
 
@@ -79,14 +79,14 @@ Rows: maintainers' label. Columns: Pramaan's best guess.
 | [printrun-1444](https://github.com/kliment/Printrun/issues/1444) | cannot-reproduce | ➖ needs-info | ✅ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/printrun-1444.json) · [md](reports/printrun-1444.md) |
 | [coc-nvim-5703](https://github.com/neoclide/coc.nvim/issues/5703) | cannot-reproduce | ➖ needs-info | ✅ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/coc-nvim-5703.json) · [md](reports/coc-nvim-5703.md) |
 | [ublock-issues-4183](https://github.com/uBlockOrigin/uBlock-issues/issues/4183) | cannot-reproduce | ➖ needs-info | ✅ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/ublock-issues-4183.json) · [md](reports/ublock-issues-4183.md) |
-| [fastapi-12313](https://github.com/tiangolo/fastapi/issues/12313) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 4s | [json](reports/fastapi-12313.json) · [md](reports/fastapi-12313.md) |
+| [fastapi-12313](https://github.com/tiangolo/fastapi/issues/12313) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 3s | [json](reports/fastapi-12313.json) · [md](reports/fastapi-12313.md) |
 | [fastapi-10321](https://github.com/tiangolo/fastapi/issues/10321) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 3s | [json](reports/fastapi-10321.json) · [md](reports/fastapi-10321.md) |
-| [flaresolverr-1741](https://github.com/FlareSolverr/FlareSolverr/issues/1741) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 3s | [json](reports/flaresolverr-1741.json) · [md](reports/flaresolverr-1741.md) |
+| [flaresolverr-1741](https://github.com/FlareSolverr/FlareSolverr/issues/1741) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/flaresolverr-1741.json) · [md](reports/flaresolverr-1741.md) |
 | [flaresolverr-1534](https://github.com/FlareSolverr/FlareSolverr/issues/1534) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/flaresolverr-1534.json) · [md](reports/flaresolverr-1534.md) |
 | [torrent-889](https://github.com/anacrolix/torrent/issues/889) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/torrent-889.json) · [md](reports/torrent-889.md) |
 | [torrent-795](https://github.com/anacrolix/torrent/issues/795) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 2s | [json](reports/torrent-795.json) · [md](reports/torrent-795.md) |
-| [plugins-2](https://github.com/memroot/plugins/issues/2) | confirmed | ➖ needs-info | ❌ invalid | The report has no checkable technical detail: no code references, steps, logs or traces. | 2s | [json](reports/plugins-2.json) · [md](reports/plugins-2.md) |
-| [plugins-1](https://github.com/memroot/plugins/issues/1) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/plugins-1.json) · [md](reports/plugins-1.md) |
+| [plugins-2](https://github.com/memroot/plugins/issues/2) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/plugins-2.json) · [md](reports/plugins-2.md) |
+| [plugins-1](https://github.com/memroot/plugins/issues/1) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 3s | [json](reports/plugins-1.json) · [md](reports/plugins-1.md) |
 | [mailcow-dockerized-6747](https://github.com/mailcow/mailcow-dockerized/issues/6747) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/mailcow-dockerized-6747.json) · [md](reports/mailcow-dockerized-6747.md) |
 
 ✅ matches the maintainers · ➖ abstained (asked for more information or a human) · ❌ wrong label · ⚠️ could not run

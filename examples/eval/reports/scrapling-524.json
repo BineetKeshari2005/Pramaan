@@ -8,7 +8,7 @@
     "title": "solve_cloudflare: post-click _wait_for_networkidle(page) has no timeout (~60s wasted per attempt)",
     "commit": "fd531313a499092d8471bf24a0e08dc5771f2b40"
   },
-  "generatedAt": "2026-10-31T22:25:36.724Z",
+  "generatedAt": "2026-10-31T22:56:25.253Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -28,7 +28,8 @@
             "scrapling/engines/_browsers/_stealth.py"
           ],
           "symbols": [
-            "self._wait_for_networkidle"
+            "self._wait_for_networkidle",
+            "self._wait_for_networkidle(page)"
           ],
           "lines": [
             {
@@ -58,6 +59,18 @@
             "file": "scrapling/engines/_browsers/_stealth.py",
             "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_stealth.py"
           }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_wait_for_networkidle` is defined in `scrapling/engines/_browsers/_base.py` line 176 (and 1 more place).",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "startLine": 176,
+            "endLine": 176,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py#L176"
+          },
+          "log": "174 | \n175 |     @staticmethod\n176 |     def _wait_for_networkidle(page: Page | Frame, timeout: Optional[int] = None):\n177 |         \"\"\"Wait for the page to become idle (no network activity) even if there are never-ending requests.\"\"\"\n178 |         try:\n179 |             page.wait_for_load_state(\"networkidle\", timeout=timeout)\n180 |         except Exception:"
         },
         {
           "kind": "static_proof",
@@ -175,7 +188,9 @@
         "references": {
           "files": [],
           "symbols": [
-            "_wait_for_networkidle"
+            "_wait_for_networkidle",
+            "_wait_for_networkidle(timeout=5000)",
+            "_wait_for_networkidle(timeout=None)"
           ],
           "lines": [],
           "versions": [
@@ -191,6 +206,30 @@
       "verdict": "insufficient_evidence",
       "confidence": "low",
       "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_wait_for_networkidle` is defined in `scrapling/engines/_browsers/_base.py` line 176 (and 1 more place).",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "startLine": 176,
+            "endLine": 176,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py#L176"
+          },
+          "log": "174 | \n175 |     @staticmethod\n176 |     def _wait_for_networkidle(page: Page | Frame, timeout: Optional[int] = None):\n177 |         \"\"\"Wait for the page to become idle (no network activity) even if there are never-ending requests.\"\"\"\n178 |         try:\n179 |             page.wait_for_load_state(\"networkidle\", timeout=timeout)\n180 |         except Exception:"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_wait_for_networkidle` is defined in `scrapling/engines/_browsers/_base.py` line 176 (and 1 more place).",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "startLine": 176,
+            "endLine": 176,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py#L176"
+          },
+          "log": "174 | \n175 |     @staticmethod\n176 |     def _wait_for_networkidle(page: Page | Frame, timeout: Optional[int] = None):\n177 |         \"\"\"Wait for the page to become idle (no network activity) even if there are never-ending requests.\"\"\"\n178 |         try:\n179 |             page.wait_for_load_state(\"networkidle\", timeout=timeout)\n180 |         except Exception:"
+        },
         {
           "kind": "static_proof",
           "source": "code-references",

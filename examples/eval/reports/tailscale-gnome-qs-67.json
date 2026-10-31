@@ -8,7 +8,7 @@
     "title": "Nodes submenu does not open on GNOME 50",
     "commit": "5330071aae8868c9f4daec35869be79c072fdf19"
   },
-  "generatedAt": "2026-10-31T22:25:45.354Z",
+  "generatedAt": "2026-10-31T22:56:34.260Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -181,10 +181,12 @@
         "quote": "this.menu._needsScrollbar = () => true; this.menu.box.height = 200;",
         "references": {
           "files": [
-            "extension.js"
+            "extension.js",
+            "this.menu.box.height"
           ],
           "symbols": [
-            "this.menu"
+            "this.menu",
+            "this.menu._needsScrollbar"
           ],
           "lines": [
             {
@@ -214,6 +216,11 @@
         {
           "kind": "plausible_text",
           "source": "code-references",
+          "summary": "`this.menu.box.height` is not in the repository; it may be the reporter's own file."
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
           "summary": "`menu` appears in `LICENSE` line 110, but no definition was found (it may come from a dependency or be generated).",
           "location": {
             "file": "LICENSE",
@@ -221,6 +228,18 @@
             "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/LICENSE#L110"
           },
           "log": "menu, a prominent item in the list meets this criterion."
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_needsScrollbar` is defined in `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` line 208.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "startLine": 208,
+            "endLine": 208,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js#L208"
+          },
+          "log": "206 |           super._init(props);\n207 | \n208 |           this.menu._needsScrollbar = () => true;\n209 |           this.menu.box.height = 200;\n210 |       }\n211 |   }\n212 | );"
         },
         {
           "kind": "static_proof",

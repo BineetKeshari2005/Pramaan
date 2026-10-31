@@ -91,11 +91,54 @@ export class RepoIndex {
     }
   }
 
-  /** Definitions of a function, method, class, type or variable, across common languages. */
+  /**
+   * Definitions of a function, method, class, type or variable, across common languages.
+   * Exact case first; if nothing matches, retried case-insensitively, because models often
+   * lowercase names ("isvalid" for isValid) and the real casing shows in the matched line.
+   */
   findDefinitions(symbol: string, limit = 5): CodeLocation[] {
-    const name = escapeRegex(symbol);
-    const pattern = new RegExp(
-      [
+    const source = definitionPattern(escapeRegex(symbol));
+    const exact = this.search(new RegExp(source, "m"), limit, true, symbol);
+    if (exact.length > 0) return exact;
+    return this.search(new RegExp(source, "mi"), limit, true, symbol, true);
+  }
+
+  /** Any whole-word occurrence (or literal occurrence for flags like --force-ssl), exact case first. */
+  findMentions(token: string, limit = 5): CodeLocation[] {
+    const escaped = escapeRegex(token);
+    const source = /^[\w$]/.test(token) && /[\w$]$/.test(token) ? `\\b${escaped}\\b` : escaped;
+    const exact = this.search(new RegExp(source), limit, false, token);
+    if (exact.length > 0) return exact;
+    return this.search(new RegExp(source, "i"), limit, false, token, true);
+  }
+
+  /**
+   * Scans files without caching them, so a search over a very large repository holds one file in
+   * memory at a time. `needle` is a plain substring every match must contain: a cheap pre-filter.
+   */
+  private search(pattern: RegExp, limit: number, sourceOnly: boolean, needle: string, ci = false): CodeLocation[] {
+    const want = ci ? needle.toLowerCase() : needle;
+    const out: CodeLocation[] = [];
+    for (const file of this.files) {
+      if (sourceOnly && !SOURCE_EXT.test(file)) continue;
+      const text = this.readText(file);
+      if (text === null || !(ci ? text.toLowerCase() : text).includes(want)) continue;
+      const lines = text.split(/\r?\n/);
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i] ?? "";
+        if (line.length < 2000 && pattern.test(line)) {
+          out.push({ file, line: i + 1, text: line.trim() });
+          if (out.length >= limit) return out;
+        }
+      }
+    }
+    return out;
+  }
+}
+
+/** The multi-language definition pattern for one symbol name (already regex-escaped). */
+function definitionPattern(name: string): string {
+  return [
         `^\\s*(?:async\\s+)?def\\s+${name}\\s*\\(`, // Python
         `\\bclass\\s+${name}\\b`, // Python, Ruby, JS (incl. export class), Java...
         `\\bfunction\\s*\\*?\\s*${name}\\s*\\(`, // JS function
@@ -108,40 +151,7 @@ export class RepoIndex {
         `^\\s*def\\s+(?:self\\.)?${name}\\b`, // Ruby
         `^[\\w<>\\[\\],?\\s]*\\b[\\w<>\\[\\]]+\\s+${name}\\s*\\([^;]*$`, // Java, C#, C-like
         `^${name}\\s*=`, // module-level assignment
-      ].join("|"),
-      "m",
-    );
-    return this.search(pattern, limit, true, symbol);
-  }
-
-  /** Any whole-word occurrence (or literal occurrence for flags like --force-ssl). */
-  findMentions(token: string, limit = 5): CodeLocation[] {
-    const escaped = escapeRegex(token);
-    const pattern = /^[\w$]/.test(token) && /[\w$]$/.test(token) ? new RegExp(`\\b${escaped}\\b`) : new RegExp(escaped);
-    return this.search(pattern, limit, false, token);
-  }
-
-  /**
-   * Scans files without caching them, so a search over a very large repository holds one file in
-   * memory at a time. `needle` is a plain substring every match must contain: a cheap pre-filter.
-   */
-  private search(pattern: RegExp, limit: number, sourceOnly: boolean, needle: string): CodeLocation[] {
-    const out: CodeLocation[] = [];
-    for (const file of this.files) {
-      if (sourceOnly && !SOURCE_EXT.test(file)) continue;
-      const text = this.readText(file);
-      if (text === null || !text.includes(needle)) continue;
-      const lines = text.split(/\r?\n/);
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i] ?? "";
-        if (line.length < 2000 && pattern.test(line)) {
-          out.push({ file, line: i + 1, text: line.trim() });
-          if (out.length >= limit) return out;
-        }
-      }
-    }
-    return out;
-  }
+      ].join("|");
 }
 
 function isInside(root: string, target: string): boolean {
