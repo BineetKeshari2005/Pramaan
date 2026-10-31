@@ -9,8 +9,10 @@ describe("hackathon repository requirements", () => {
   it.each([
     "LICENSE",
     "HACKATHON.md",
+    "README.md",
     ".github/pull_request_template.md",
     ".github/workflows/ci.yml",
+    "examples/README.md",
   ])("%s exists", (file) => {
     expect(existsSync(join(root, file))).toBe(true);
   });
