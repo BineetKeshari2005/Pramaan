@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ClaimCard from "../../components/ClaimCard";
+import SharePanel from "../../components/SharePanel";
 import { getJobStatus } from "../../lib/api";
 import {
   sortAssessments,
@@ -273,6 +274,9 @@ export default function JobPage() {
                 <ClaimCard key={assessment.claim.id} assessment={assessment} index={i} />
               ))}
             </section>
+
+            {/* Share panel */}
+            <SharePanel report={report} />
 
             {/* e) Download / copy */}
             <div className="actions-row">
