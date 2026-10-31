@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { headline, MAX_LINKS, parseQueueInput, rankItems, type RankInput } from "../../src/app/lib/queue";
+import {
+  headline,
+  MAX_LINKS,
+  parseQueueInput,
+  rankFieldsFromJob,
+  rankItems,
+  type RankInput,
+} from "../../src/app/lib/queue";
 import type { ClaimAssessment, EvidenceKind, Report, Verdict } from "../../src/core/types";
 import { ReportSchema } from "../../src/core/types";
 import sampleData from "../fixtures/reports/sample-report.json";
@@ -92,6 +99,22 @@ describe("rankItems", () => {
       done(4, [claim("f", "contradicted", "static_proof")]),
     ];
     expect(rankItems(items).map((i) => i.index)).toEqual([1, 0, 3, 2, 4]);
+  });
+
+  it("ranks a finished job by the report in its status response", () => {
+    const job = {
+      id: "j1",
+      status: "done" as const,
+      createdAt: "",
+      updatedAt: "",
+      input: { targetUrl: sample.target.url },
+      target: { owner: "acme-org", repo: "widget-engine", number: 42, kind: "issue" as const },
+      progress: [],
+      report: report([claim("r", "reproduced", "static_proof"), claim("i", "insufficient_evidence", null)]),
+    };
+    const h = headline({ index: 0, ...rankFieldsFromJob(job) });
+    expect(h.verdict).toBe("reproduced");
+    expect(h.bucket).toBe(0);
   });
 
   it("keeps unfinished items after finished ones and does not reorder the input array", () => {

@@ -12,7 +12,9 @@ import {
   MAX_LINKS,
   parseQueueInput,
   type QueueState,
+  rankFieldsFromJob,
   rankItems,
+  type RankInput,
 } from "../lib/queue";
 
 const EXAMPLE_LINKS = [
@@ -24,8 +26,7 @@ const EXAMPLE_LINKS = [
 const POLL_MS = 2000;
 const MAX_POLL_FAILURES = 5;
 
-interface Item {
-  index: number;
+interface Item extends RankInput {
   key: string;
   url: string;
   kind: "issue" | "pull" | null;
@@ -45,8 +46,8 @@ function fromJob(item: Item, job: JobStatusResponse): Item {
   const t = job.target;
   return {
     ...item,
+    ...rankFieldsFromJob(job),
     job,
-    state: job.status,
     url: job.input.targetUrl,
     kind: t.kind,
     label: `${t.owner}/${t.repo}#${t.number}`,

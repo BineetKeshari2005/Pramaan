@@ -1,6 +1,6 @@
 import { evidenceLevelText, evidenceStrength } from "../../core/report";
 import type { ClaimAssessment, Report, Verdict } from "../../core/types";
-import type { JobStatus } from "./api";
+import type { JobStatus, JobStatusResponse } from "./api";
 
 export const MIN_LINKS = 2;
 export const MAX_LINKS = 10;
@@ -65,6 +65,11 @@ export interface RankInput {
   index: number;
   state: QueueState;
   report?: Report;
+}
+
+/** The fields ranking reads, taken from a job's latest status. */
+export function rankFieldsFromJob(job: JobStatusResponse): Pick<RankInput, "state" | "report"> {
+  return { state: job.status, report: job.report };
 }
 
 export interface Headline {

@@ -756,6 +756,7 @@ textarea:disabled {
 .status-header h1 {
   margin: 0 0 8px;
   font-size: 1.4rem;
+  overflow-wrap: anywhere;
 }
 
 .status-header h1 a {
