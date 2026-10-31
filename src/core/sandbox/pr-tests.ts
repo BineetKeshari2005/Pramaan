@@ -12,6 +12,9 @@ export const PYTHON_TEST_IMAGE = "pramaan-python-test:1";
 const TEST_FILE = /(^|\/)(tests?|testing|__tests__)\/|(^|\/)test_[^/]+\.py$|_test\.py$|\.(test|spec)\.[cm]?[jt]sx?$/;
 const NOT_CODE = /\.(md|rst|txt|adoc|png|jpe?g|gif|svg|ico|lock)$|(^|\/)(docs?|\.github)\/|(^|\/)(CHANGELOG|CHANGES|NEWS|LICENSE|AUTHORS)[^/]*$/i;
 
+const ABOUT_FIX = /\b(fix(es|ed)?|bug|regression|guards?|validat\w*|tests?|fails?|failing|broken|crash\w*)\b/i;
+const ABOUT_TOOLING = /\b(ruff|lint\w*|flake8|black|isort|mypy|pyright|prettier|eslint|format(ting|ted)?|coverage|subtests?|\d[\d,]*\s+tests)\b/i;
+
 export function splitChangedFiles(changed: string[]): { tests: string[]; fix: string[] } {
   const tests = changed.filter((f) => TEST_FILE.test(f));
   const fix = changed.filter((f) => !TEST_FILE.test(f) && !NOT_CODE.test(f));
@@ -118,8 +121,13 @@ export class PrTestHonestyVerifier implements Verifier {
 
   constructor(private readonly options: PrTestOptions = DEFAULT_PR_TEST_OPTIONS) {}
 
+  /**
+   * Only claims about the fix or its tests: the two runs say nothing about "ruff passed" or
+   * "767 tests passed in CI", so attaching their result there would over-claim.
+   */
   appliesTo(claim: Claim): boolean {
-    return claim.type === "pr_claim";
+    const text = `${claim.statement} ${claim.quote}`;
+    return claim.type === "pr_claim" && ABOUT_FIX.test(text) && !ABOUT_TOOLING.test(text);
   }
 
   verify(claim: Claim, ctx: VerifyContext): Promise<VerificationResult | null> {

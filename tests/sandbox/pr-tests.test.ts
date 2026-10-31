@@ -131,6 +131,16 @@ describe("PrTestHonestyVerifier", () => {
     expect(jsTests?.missing[0]).toContain("only runs pytest");
   });
 
+  it("applies only to claims about the fix or its tests, not lint or test-count claims", () => {
+    const v = new PrTestHonestyVerifier();
+    const pr = (statement: string) => makeClaim({ id: "x", type: "pr_claim", statement, quote: statement });
+    expect(v.appliesTo(pr("The fix adds guards at the top of chunked_even to validate sizes."))).toBe(true);
+    expect(v.appliesTo(pr("The new tests fail on the base commit with ValueError."))).toBe(true);
+    expect(v.appliesTo(pr("ruff check and ruff format --check passed."))).toBe(false);
+    expect(v.appliesTo(pr("pytest -q passed with 767 tests and 21,194 subtests."))).toBe(false);
+    expect(v.appliesTo(pr("Updated the README wording."))).toBe(false);
+  });
+
   it("stays silent for issues and docs-only PRs, and only applies to PR claims", async () => {
     const headDir = head();
     const sandbox = new ByDirSandbox(headDir, 0, 0);
