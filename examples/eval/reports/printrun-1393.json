@@ -8,7 +8,7 @@
     "title": "ValueError: could not convert string to float: line 1995 pronterface.py",
     "commit": "ef96f010ebd8a4020f26e913c316a3f0fd3a6420"
   },
-  "generatedAt": "2026-10-31T21:30:18.683Z",
+  "generatedAt": "2026-10-31T22:25:34.492Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -164,7 +164,7 @@
         "The referenced code exists, but the described behavior was not executed.",
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -355,7 +355,7 @@
       "missing": [
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -461,7 +461,7 @@
       "missing": [
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -567,7 +567,7 @@
       "missing": [
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -673,7 +673,7 @@
       "missing": [
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {

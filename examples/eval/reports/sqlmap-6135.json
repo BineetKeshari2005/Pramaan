@@ -8,7 +8,7 @@
     "title": "Unhandled exception (#daf7515f)",
     "commit": "1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590"
   },
-  "generatedAt": "2026-10-31T21:30:11.548Z",
+  "generatedAt": "2026-10-31T22:25:26.943Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -210,7 +210,7 @@
         "The referenced code exists, but the described behavior was not executed.",
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     }
   ],
   "triage": {

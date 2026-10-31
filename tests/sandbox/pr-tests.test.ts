@@ -141,11 +141,18 @@ describe("PrTestHonestyVerifier", () => {
     expect(v.appliesTo(pr("Updated the README wording."))).toBe(false);
   });
 
+  it("applies to behavior claims about the bug the tests cover, but not unrelated ones", () => {
+    const v = new PrTestHonestyVerifier();
+    const behavior = (statement: string) => makeClaim({ id: "b", type: "behavior", statement, quote: statement });
+    expect(v.appliesTo(behavior("A negative size causes a ValueError when calling chunked_even."))).toBe(true);
+    expect(v.appliesTo(behavior("The settings page shows a new tab."))).toBe(false);
+  });
+
   it("stays silent for issues and docs-only PRs, and only applies to PR claims", async () => {
     const headDir = head();
     const sandbox = new ByDirSandbox(headDir, 0, 0);
     expect(await new PrTestHonestyVerifier().verify(claim, { ...ctx(headDir, sandbox), target: makeTarget() })).toBeNull();
     expect(await new PrTestHonestyVerifier().verify(claim, ctx(headDir, sandbox, ["README.md"]))).toBeNull();
-    expect(new PrTestHonestyVerifier().appliesTo(makeClaim({ id: "b", type: "behavior" }))).toBe(false);
+    expect(new PrTestHonestyVerifier().appliesTo(makeClaim({ id: "l", type: "code_location", statement: "The fix lives in src/url.py." }))).toBe(false);
   });
 });

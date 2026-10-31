@@ -101,6 +101,10 @@ export interface ReportSummary {
   total: number;
   byVerdict: Record<Verdict, number>;
   needsHumanReview: number;
+  /** Unsettled claims whose references checked out against the code (partial evidence). */
+  insufficientSupported: number;
+  /** Unsettled claims with nothing verifiable at all. */
+  insufficientUnverifiable: number;
 }
 
 export function summarizeReport(report: Report): ReportSummary {
@@ -111,13 +115,19 @@ export function summarizeReport(report: Report): ReportSummary {
     insufficient_evidence: 0,
   };
   let needsHumanReview = 0;
+  let insufficientSupported = 0;
+  let insufficientUnverifiable = 0;
 
   for (const a of report.assessments) {
     byVerdict[a.verdict]++;
     if (a.needsHumanReview) needsHumanReview++;
+    if (a.verdict === "insufficient_evidence") {
+      if (a.confidence === "none") insufficientUnverifiable++;
+      else insufficientSupported++;
+    }
   }
 
-  return { total: report.assessments.length, byVerdict, needsHumanReview };
+  return { total: report.assessments.length, byVerdict, needsHumanReview, insufficientSupported, insufficientUnverifiable };
 }
 
 // ---------- Sort assessments ----------

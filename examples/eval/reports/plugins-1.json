@@ -8,7 +8,7 @@
     "title": "Recall gate denies subagents that have no Memroot tools",
     "commit": "a7cf82b1c3cb2a723e2d76009d4b552bb81b4954"
   },
-  "generatedAt": "2026-10-31T21:30:57.492Z",
+  "generatedAt": "2026-10-31T22:26:14.474Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -82,7 +82,7 @@
       "missing": [
         "The referenced code exists, but the described behavior was not executed."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {

@@ -61,7 +61,7 @@ Each claim gets one verdict:
 Each report gets two labels:
 
 - **Committed label:** `confirmed`, `invalid` or `cannot-reproduce`, given only when code settles it. Otherwise `needs-info` or `needs-human-review`.
-- **Best guess:** the closest closed-issue label when forced to choose, shown to maintainers as a guess. It comes from fixed rules in [`src/core/grading.ts`](src/core/grading.ts), checked in order:
+- **Best guess** (issues only; on pull requests the test check below is the decisive signal): the closest closed-issue label when forced to choose, shown to maintainers as a guess. It comes from fixed rules in [`src/core/grading.ts`](src/core/grading.ts), checked in order:
   1. executed result → confirmed / cannot-reproduce,
   2. contradicted code → invalid,
   3. no code references and no technical evidence → invalid,

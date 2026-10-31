@@ -48,8 +48,12 @@ export function assessClaim(claim: Claim, results: VerificationResult[]): ClaimA
         missing.length > 0
           ? missing
           : [context ? CONTEXT_ONLY : "No check could test this claim automatically."],
-      // Environment and version details are context, not a decision a maintainer must make.
-      needsHumanReview: needsReview(claim, "insufficient_evidence") && !context,
+      // Flag only where a human adds value: unresolved security claims always, and claims with
+      // nothing to go on. A claim whose references all check out (partial evidence) is shown as
+      // unverified, not as work for a maintainer; version/environment context is neither.
+      needsHumanReview:
+        claim.type === "security_impact" ||
+        (needsReview(claim, "insufficient_evidence") && !context && !supported),
     };
   }
 

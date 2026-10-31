@@ -8,7 +8,7 @@
     "title": "Pydantic 2 Regression: Openapi error when \"examples\" contains models",
     "commit": "69a7c99b447c9ef103dc03e93d172cabd99ac832"
   },
-  "generatedAt": "2026-10-31T21:30:46.939Z",
+  "generatedAt": "2026-10-31T22:26:02.932Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -137,7 +137,7 @@
       "missing": [
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     }
   ],
   "triage": {

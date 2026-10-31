@@ -8,7 +8,7 @@
     "title": "no olclient?",
     "commit": "0af515b1d6e6e885af7034afdb557605b68d15ca"
   },
-  "generatedAt": "2026-10-31T21:30:26.292Z",
+  "generatedAt": "2026-10-31T22:25:41.867Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -141,7 +141,7 @@
         "The referenced code exists, but the described behavior was not executed.",
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -240,7 +240,7 @@
         "The referenced code exists, but the described behavior was not executed.",
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {

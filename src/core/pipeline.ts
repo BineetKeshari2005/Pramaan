@@ -108,7 +108,14 @@ export async function runPipeline(
         ? { status: "ok", claimCount: claims.length }
         : { status: "abstained", reason: extraction.reason },
     assessments,
-    triage: { ...decision, bestGuess: bestGuess(decision.label, extraction.status === "ok", assessments) },
+    triage: {
+      ...decision,
+      // The best guess maps to closed-issue labels; on a pull request "cannot reproduce" would be
+      // meaningless, and the PR test check is the decisive signal there.
+      ...(ref.kind === "issue"
+        ? { bestGuess: bestGuess(decision.label, extraction.status === "ok", assessments) }
+        : {}),
+    },
   });
 
   progress({ stage: "done", message: `Triage: ${report.triage.label}` });

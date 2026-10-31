@@ -1,6 +1,6 @@
 # Pramaan evaluation results
 
-Dataset: `eval/dataset.json` · 27 closed issues · models: gemma4:e2b-it-qat · generated 2026-10-31T21:30:59.366Z
+Dataset: `eval/dataset.json` · 27 closed issues · models: gemma4:e2b-it-qat · generated 2026-10-31T22:26:16.259Z
 
 Reference answers are the labels maintainers gave the issues when closing them. Pramaan never saw those labels.
 
@@ -81,7 +81,7 @@ Rows: maintainers' label. Columns: Pramaan's best guess.
 | [ublock-issues-4183](https://github.com/uBlockOrigin/uBlock-issues/issues/4183) | cannot-reproduce | ➖ needs-info | ✅ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/ublock-issues-4183.json) · [md](reports/ublock-issues-4183.md) |
 | [fastapi-12313](https://github.com/tiangolo/fastapi/issues/12313) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 4s | [json](reports/fastapi-12313.json) · [md](reports/fastapi-12313.md) |
 | [fastapi-10321](https://github.com/tiangolo/fastapi/issues/10321) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 3s | [json](reports/fastapi-10321.json) · [md](reports/fastapi-10321.md) |
-| [flaresolverr-1741](https://github.com/FlareSolverr/FlareSolverr/issues/1741) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/flaresolverr-1741.json) · [md](reports/flaresolverr-1741.md) |
+| [flaresolverr-1741](https://github.com/FlareSolverr/FlareSolverr/issues/1741) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 3s | [json](reports/flaresolverr-1741.json) · [md](reports/flaresolverr-1741.md) |
 | [flaresolverr-1534](https://github.com/FlareSolverr/FlareSolverr/issues/1534) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/flaresolverr-1534.json) · [md](reports/flaresolverr-1534.md) |
 | [torrent-889](https://github.com/anacrolix/torrent/issues/889) | confirmed | ➖ needs-info | ❌ cannot-reproduce | The claims could not be checked and the report gives no trace or steps to reproduce. | 2s | [json](reports/torrent-889.json) · [md](reports/torrent-889.md) |
 | [torrent-795](https://github.com/anacrolix/torrent/issues/795) | confirmed | ➖ needs-info | ✅ confirmed | The report gives a trace or steps, and the code it names exists at the checked commit. | 2s | [json](reports/torrent-795.json) · [md](reports/torrent-795.md) |

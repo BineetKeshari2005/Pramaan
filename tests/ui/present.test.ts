@@ -87,6 +87,7 @@ function makeAssessment(
   id: string,
   verdict: ClaimAssessment["verdict"],
   needsHumanReview: boolean,
+  confidence: ClaimAssessment["confidence"] = "high",
 ): ClaimAssessment {
   return {
     claim: {
@@ -98,7 +99,7 @@ function makeAssessment(
       evidenceProvided: [],
     },
     verdict,
-    confidence: "high",
+    confidence,
     evidence: [],
     missing: [],
     needsHumanReview,
@@ -146,6 +147,19 @@ describe("summarizeReport", () => {
   it("counts needsHumanReview", () => {
     const s = summarizeReport(report);
     expect(s.needsHumanReview).toBe(1);
+  });
+
+  it("splits insufficient evidence into supported and unverifiable", () => {
+    const s = summarizeReport({
+      ...report,
+      assessments: [
+        makeAssessment("a1", "insufficient_evidence", false, "low"),
+        makeAssessment("a2", "insufficient_evidence", true, "none"),
+        makeAssessment("a3", "reproduced", false),
+      ],
+    });
+    expect(s.insufficientSupported).toBe(1);
+    expect(s.insufficientUnverifiable).toBe(1);
   });
 });
 
