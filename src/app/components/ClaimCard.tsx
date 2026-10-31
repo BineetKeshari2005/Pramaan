@@ -37,6 +37,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
               ⚠ Needs human review
             </span>
           )}
+          <span className="claim-type">{claim.type.replace(/_/g, " ")}</span>
         </div>
       </div>
 
@@ -54,33 +55,40 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
           </>
         )}
 
-        <p className="claim-section-label">Claim type</p>
-        <p style={{ margin: "0 0 8px", fontSize: "0.9rem" }}>{claim.type.replace(/_/g, " ")}</p>
-
         {hasRefs && (
           <>
             <p className="claim-section-label">References</p>
             <ul className="refs-list">
               {claim.references.files.map((f) => (
                 <li key={`file-${f}`}>
-                  <span className="ref-tag">📄 {f}</span>
+                  <span className="ref-tag">
+                    <span className="ref-kind">file</span>
+                    {f}
+                  </span>
                 </li>
               ))}
               {claim.references.symbols.map((s) => (
                 <li key={`sym-${s}`}>
-                  <span className="ref-tag">⚙ {s}</span>
+                  <span className="ref-tag">
+                    <span className="ref-kind">symbol</span>
+                    {s}
+                  </span>
                 </li>
               ))}
               {claim.references.lines.map((l) => (
                 <li key={`line-${l.file}-${l.line}`}>
                   <span className="ref-tag">
+                    <span className="ref-kind">line</span>
                     {l.file}:{l.line}
                   </span>
                 </li>
               ))}
               {claim.references.versions.map((v) => (
                 <li key={`ver-${v}`}>
-                  <span className="ref-tag">🏷 {v}</span>
+                  <span className="ref-tag">
+                    <span className="ref-kind">version</span>
+                    {v}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -97,7 +105,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
                   <span className="evidence-source">via {ev.source}</span>
                 </div>
                 <div className="evidence-item-body">
-                  <p style={{ margin: "0 0 6px" }}>
+                  <p className="evidence-summary">
                     <RichText text={ev.summary} />
                   </p>
                   {ev.location?.permalink && (
@@ -106,7 +114,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
                     </a>
                   )}
                   {ev.log && (
-                    <details className="evidence-log" style={{ marginTop: 8 }}>
+                    <details className="evidence-log">
                       <summary>Show output</summary>
                       <pre>{ev.log}</pre>
                     </details>

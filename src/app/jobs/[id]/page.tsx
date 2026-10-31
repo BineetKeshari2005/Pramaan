@@ -21,8 +21,22 @@ import sampleData from "../../../../tests/fixtures/reports/sample-report.json";
 
 const MAX_POLL_FAILURES = 5;
 
+const STEPS = [
+  { stage: "fetch", name: "Fetch" },
+  { stage: "extract", name: "Read claims" },
+  { stage: "checkout", name: "Check out" },
+  { stage: "verify", name: "Verify" },
+  { stage: "grade", name: "Grade" },
+] as const;
+
 function shortCommit(commit: string | null): string | null {
   return commit ? commit.slice(0, 7) : null;
+}
+
+function stepState(current: number, i: number): string {
+  if (i < current) return "step done";
+  if (i === current) return "step active";
+  return "step";
 }
 
 // ---------- Sample report loader (preview mode) ----------
@@ -102,11 +116,13 @@ export default function JobPage() {
   if (loadError) {
     return (
       <main className="page-container">
-        <h1>Error</h1>
-        <div className="error-banner" role="alert">
-          {loadError}
+        <div className="status-header">
+          <h1>Could not load this analysis</h1>
+          <div className="error-banner" role="alert">
+            {loadError}
+          </div>
+          <a href="/">← Start a new analysis</a>
         </div>
-        <a href="/">← Start a new analysis</a>
       </main>
     );
   }
@@ -114,7 +130,9 @@ export default function JobPage() {
   if (!job) {
     return (
       <main className="page-container">
-        <p>Loading…</p>
+        <div className="status-header">
+          <p className="status-kind">Loading analysis…</p>
+        </div>
       </main>
     );
   }
@@ -148,33 +166,49 @@ export default function JobPage() {
     <main className="page-container">
       {/* ---- Header ---- */}
       <div className="status-header">
-        <h1 style={{ fontSize: "1.4rem", marginBottom: 4 }}>
+        <p className="status-kind">
+          {target.kind === "pull" ? "Pull request" : "Issue"} analysis
+        </p>
+        <h1>
           <a href={ghUrl} target="_blank" rel="noopener noreferrer">
             {target.owner}/{target.repo}#{target.number}
           </a>
         </h1>
-        <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        {report?.target.title && <p className="status-title">{report.target.title}</p>}
+        <div className="status-meta">
           <span className={statusChipClass}>{status}</span>
           {commitStr && (
-            <span style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
-              commit: <code style={{ fontFamily: "monospace" }}>{commitStr}</code>
+            <span>
+              at commit <code className="commit-chip">{commitStr}</code>
             </span>
           )}
         </div>
         {isSample && (
-          <p style={{ fontSize: "0.82rem", color: "var(--color-text-muted)", marginTop: 8 }}>
-            🔍 Preview mode — showing sample report
-          </p>
+          <p className="preview-note">Preview mode: this is a saved sample report, not a live run.</p>
         )}
       </div>
 
       {/* ---- Live progress (queued / running) ---- */}
       {(status === "queued" || status === "running") && (
-        <section aria-live="polite" aria-label="Analysis progress">
-          <h2>Progress</h2>
+        <section className="progress-card" aria-live="polite" aria-label="Analysis progress">
+          <h2>{status === "queued" ? "Waiting to start" : "Analysing"}</h2>
           {status === "queued" && job.queuePosition !== undefined && (
-            <p>Queue position: {job.queuePosition}</p>
+            <p className="progress-now">Queue position: {job.queuePosition}</p>
           )}
+          {(() => {
+            const last = job.progress[job.progress.length - 1];
+            const current = last ? STEPS.findIndex((s) => s.stage === last.stage) : -1;
+            return (
+              <ol className="stepper">
+                {STEPS.map((s, i) => (
+                  <li key={s.stage} className={stepState(current, i)}>
+                    <span className="step-dot" />
+                    <span className="step-name">{s.name}</span>
+                  </li>
+                ))}
+              </ol>
+            );
+          })()}
           <ul className="progress-list">
             {job.progress.map((ev, i) => {
               const isVerify =
@@ -198,7 +232,7 @@ export default function JobPage() {
 
       {/* ---- Failed state ---- */}
       {status === "failed" && (
-        <section>
+        <section className="progress-card">
           <h2>Analysis failed</h2>
           <div className="error-banner" role="alert">
             {job.error ?? "An unknown error occurred."}
@@ -218,12 +252,11 @@ export default function JobPage() {
             {/* a) Triage banner */}
             <section aria-labelledby="triage-heading">
               <div className={`triage-banner ${triageClass}`}>
-                <h2 id="triage-heading" style={{ margin: "0 0 4px" }}>
-                  Suggested label: {triageLabelText(report.triage.label)}
-                </h2>
-                <p style={{ margin: 0 }}>{report.triage.rationale}</p>
+                <p className="triage-eyebrow">Suggested label</p>
+                <h2 id="triage-heading">{triageLabelText(report.triage.label)}</h2>
+                <p className="triage-rationale">{report.triage.rationale}</p>
                 {report.triage.bestGuess && report.triage.bestGuess.label !== report.triage.label && (
-                  <p style={{ margin: "8px 0 0" }}>
+                  <p className="triage-guess">
                     <strong>Best guess if a label must be chosen:</strong>{" "}
                     {triageLabelText(report.triage.bestGuess.label)}: {report.triage.bestGuess.rule}{" "}
                     <em>(a guess from fixed evidence rules, not a verdict)</em>
@@ -281,7 +314,9 @@ export default function JobPage() {
 
             {/* d) Claim cards */}
             <section aria-labelledby="claims-heading">
-              <h2 id="claims-heading">Claims ({summary.total})</h2>
+              <h2 id="claims-heading" className="claims-heading">
+                Claims checked ({summary.total})
+              </h2>
               {sorted.map((assessment, i) => (
                 <ClaimCard key={assessment.claim.id} assessment={assessment} index={i} />
               ))}
@@ -304,6 +339,9 @@ export default function JobPage() {
               >
                 ⎘ Copy JSON
               </button>
+              <a href="/#analyse" className="btn btn-secondary">
+                Analyse another
+              </a>
             </div>
 
             {/* f) Footer */}

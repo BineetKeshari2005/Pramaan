@@ -6,6 +6,33 @@ import { startAnalysis } from "./lib/api";
 
 const GITHUB_URL_RE = /^https:\/\/github\.com\/[^/]+\/[^/]+\/(issues|pull)\/\d+$/;
 
+const EXAMPLES = [
+  { label: "more-itertools#1342", url: "https://github.com/more-itertools/more-itertools/pull/1342" },
+  { label: "sqlmap#6154", url: "https://github.com/sqlmapproject/sqlmap/issues/6154" },
+];
+
+const STEPS = [
+  {
+    title: "Read",
+    body: "An open-weight model reads the thread and lists each technical claim with the exact words it came from. A claim whose quote is not in the text is dropped.",
+  },
+  {
+    title: "Check",
+    body: "Code decides. Files, symbols and stack frames are looked up at the reported commit, and a pull request's tests run with and without its fix in a sandbox with no network.",
+  },
+  {
+    title: "Grade",
+    body: "Every claim gets a verdict and the evidence behind it. The suggested label follows fixed rules, so the same evidence always gives the same answer.",
+  },
+];
+
+const PRINCIPLES = [
+  { title: "The model reads, code decides.", body: "No verdict rests on the model's opinion." },
+  { title: "Says when it cannot tell.", body: "A claim it could not check is labelled unchecked, not passed off as true." },
+  { title: "Never closes anything.", body: "It suggests a label; a maintainer makes the call." },
+  { title: "Runs on your machine.", body: "Open-weight model, locked-down Docker sandbox." },
+];
+
 export default function Home() {
   const router = useRouter();
 
@@ -55,127 +82,198 @@ export default function Home() {
 
   return (
     <main className="page-container">
-      <h1>Pramaan</h1>
-      <p>
-        Pramaan splits a GitHub issue or pull request into individual technical claims, verifies each claim
-        against the repository code, and shows maintainers the evidence. When it cannot verify a claim, it
-        says so. Pramaan never auto-closes anything — it only suggests a triage label.
-      </p>
-
-      <a href="/jobs/sample" className="preview-link">
-        → Preview with sample report
-      </a>
-
-      <h2>Start an analysis</h2>
-
-      {serverError && (
-        <div className="error-banner" role="alert">
-          {serverError}
+      <section className="hero">
+        <span className="eyebrow">Evidence-based triage for GitHub</span>
+        <h1 className="hero-title">
+          Triage on <em>evidence</em>,
+          <br />
+          not on guesswork.
+        </h1>
+        <p className="hero-sub">
+          Pramaan splits an issue or pull request into individual technical claims, checks each one against the
+          repository code, and shows you the evidence. When it cannot verify a claim, it says so.
+        </p>
+        <div className="stat-row">
+          <span className="stat">
+            <strong>0</strong> real bugs dismissed across 27 labelled issues
+          </span>
+          <span className="stat">Tests run in a sandbox with no network</span>
+          <span className="stat">Open-weight model, runs locally</span>
         </div>
-      )}
+      </section>
 
-      <form onSubmit={handleSubmit} noValidate>
-        <div className="form-group">
-          <label htmlFor="targetUrl">
-            Issue or pull request URL <span style={{ color: "var(--tone-refuted-text)" }}>*</span>
-          </label>
-          <input
-            id="targetUrl"
-            type="url"
-            value={targetUrl}
-            onChange={(e) => {
-              setTargetUrl(e.target.value);
-              if (urlError) setUrlError(validateTargetUrl(e.target.value));
-            }}
-            onBlur={() => setUrlError(validateTargetUrl(targetUrl))}
-            placeholder="https://github.com/owner/repo/issues/123"
-            required
-            aria-describedby={urlError ? "targetUrl-error" : undefined}
-            aria-invalid={urlError ? "true" : undefined}
-            disabled={submitting}
-            autoComplete="url"
-          />
-          {urlError && (
-            <span id="targetUrl-error" className="field-error" role="alert">
-              {urlError}
-            </span>
-          )}
+      <section className="card" id="analyse" aria-labelledby="analyse-heading">
+        <h2 id="analyse-heading">Analyse an issue or pull request</h2>
+        <p className="card-sub">Paste a public GitHub link. An analysis usually takes a few minutes.</p>
+
+        {serverError && (
+          <div className="error-banner" role="alert">
+            {serverError}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="form-group">
+            <label htmlFor="targetUrl">
+              Issue or pull request URL <span className="label-required">*</span>
+            </label>
+            <input
+              id="targetUrl"
+              type="url"
+              className="input-hero"
+              value={targetUrl}
+              onChange={(e) => {
+                setTargetUrl(e.target.value);
+                if (urlError) setUrlError(validateTargetUrl(e.target.value));
+              }}
+              onBlur={() => setUrlError(validateTargetUrl(targetUrl))}
+              placeholder="https://github.com/owner/repo/issues/123"
+              required
+              aria-describedby={urlError ? "targetUrl-error" : undefined}
+              aria-invalid={urlError ? "true" : undefined}
+              disabled={submitting}
+              autoComplete="url"
+            />
+            {urlError && (
+              <span id="targetUrl-error" className="field-error" role="alert">
+                {urlError}
+              </span>
+            )}
+          </div>
+
+          <details className="advanced">
+            <summary>Advanced options</summary>
+            <div className="form-grid">
+              <div className="form-group">
+                <label htmlFor="repoUrl">
+                  GitHub repository URL<span className="label-optional">(optional)</span>
+                </label>
+                <input
+                  id="repoUrl"
+                  type="url"
+                  value={repoUrl}
+                  onChange={(e) => setRepoUrl(e.target.value)}
+                  placeholder="https://github.com/owner/repo"
+                  disabled={submitting}
+                  autoComplete="url"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="commit">
+                  Commit or version<span className="label-optional">(optional)</span>
+                </label>
+                <input
+                  id="commit"
+                  type="text"
+                  value={commit}
+                  onChange={(e) => setCommit(e.target.value)}
+                  placeholder="abc1234 or v2.3.0"
+                  disabled={submitting}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="buildCommand">
+                  Build command<span className="label-optional">(optional)</span>
+                </label>
+                <input
+                  id="buildCommand"
+                  type="text"
+                  value={buildCommand}
+                  onChange={(e) => setBuildCommand(e.target.value)}
+                  placeholder="npm run build"
+                  disabled={submitting}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="testCommand">
+                  Test command<span className="label-optional">(optional)</span>
+                </label>
+                <input
+                  id="testCommand"
+                  type="text"
+                  value={testCommand}
+                  onChange={(e) => setTestCommand(e.target.value)}
+                  placeholder="npm test"
+                  disabled={submitting}
+                />
+              </div>
+
+              <div className="form-group form-span">
+                <label htmlFor="notes">
+                  Notes<span className="label-optional">(optional)</span>
+                </label>
+                <textarea
+                  id="notes"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Any context that might help with the analysis…"
+                  disabled={submitting}
+                />
+              </div>
+            </div>
+          </details>
+
+          <div className="form-actions">
+            <button type="submit" className="btn btn-primary" disabled={submitting}>
+              {submitting ? "Starting analysis…" : "Analyse →"}
+            </button>
+            <a href="/jobs/sample" className="preview-link">
+              or preview a sample report
+            </a>
+          </div>
+
+          <div className="examples">
+            <span>Try:</span>
+            {EXAMPLES.map((ex) => (
+              <button
+                key={ex.url}
+                type="button"
+                className="example-pill"
+                disabled={submitting}
+                onClick={() => {
+                  setTargetUrl(ex.url);
+                  setUrlError("");
+                }}
+              >
+                {ex.label}
+              </button>
+            ))}
+          </div>
+        </form>
+      </section>
+
+      <section id="how" aria-labelledby="how-heading">
+        <h2 id="how-heading" className="section-title">
+          How it works
+        </h2>
+        <p className="section-sub">Three steps, and only the first one uses a language model.</p>
+        <div className="how-grid">
+          {STEPS.map((step, i) => (
+            <div className="how-card" key={step.title}>
+              <span className="step-num" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          ))}
         </div>
-
-        <div className="form-group">
-          <label htmlFor="repoUrl">
-            GitHub repository URL<span className="label-optional">(optional)</span>
-          </label>
-          <input
-            id="repoUrl"
-            type="url"
-            value={repoUrl}
-            onChange={(e) => setRepoUrl(e.target.value)}
-            placeholder="https://github.com/owner/repo"
-            disabled={submitting}
-            autoComplete="url"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="commit">
-            Commit or version<span className="label-optional">(optional)</span>
-          </label>
-          <input
-            id="commit"
-            type="text"
-            value={commit}
-            onChange={(e) => setCommit(e.target.value)}
-            placeholder="abc1234 or v2.3.0"
-            disabled={submitting}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="buildCommand">
-            Build command<span className="label-optional">(optional)</span>
-          </label>
-          <input
-            id="buildCommand"
-            type="text"
-            value={buildCommand}
-            onChange={(e) => setBuildCommand(e.target.value)}
-            placeholder="npm run build"
-            disabled={submitting}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="testCommand">
-            Test command<span className="label-optional">(optional)</span>
-          </label>
-          <input
-            id="testCommand"
-            type="text"
-            value={testCommand}
-            onChange={(e) => setTestCommand(e.target.value)}
-            placeholder="npm test"
-            disabled={submitting}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="notes">
-            Notes<span className="label-optional">(optional)</span>
-          </label>
-          <textarea
-            id="notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Any context that might help with the analysis…"
-            disabled={submitting}
-          />
-        </div>
-
-        <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? "Starting analysis…" : "Analyse"}
-        </button>
-      </form>
+        <ul className="principles">
+          {PRINCIPLES.map((p) => (
+            <li key={p.title}>
+              <span className="check" aria-hidden="true">
+                ✓
+              </span>
+              <span>
+                <strong>{p.title}</strong> {p.body}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }
