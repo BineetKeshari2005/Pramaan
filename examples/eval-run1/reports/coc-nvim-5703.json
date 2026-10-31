@@ -1,0 +1,276 @@
+{
+  "target": {
+    "owner": "neoclide",
+    "repo": "coc.nvim",
+    "number": 5703,
+    "kind": "issue",
+    "url": "https://github.com/neoclide/coc.nvim/issues/5703",
+    "title": "The cursor flashes in the bottom right of the pum",
+    "commit": "b7075840479f1c56ba98756d74af940b7490a50b"
+  },
+  "generatedAt": "2026-10-31T21:19:05.436Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 8
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "version",
+        "statement": "The Vim version is VIM - Vi IMproved 9.2 9020804.",
+        "quote": "vim version: VIM - Vi IMproved 9.2 9020804",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "9.2 9020804"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The node version is v25.4.0.",
+        "quote": "node version: v25.4.0",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "v25.4.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The coc.nvim version is 0.0.82-b707584.",
+        "quote": "coc.nvim version: 0.0.82-b707584 2026-07-22 18:59:19 +0800",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "0.0.82-b707584"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "code_location",
+        "statement": "The coc.nvim directory is located at /home/lrne/.vim/plugged/coc.nvim.",
+        "quote": "coc.nvim directory: /home/lrne/.vim/plugged/coc.nvim",
+        "references": {
+          "files": [
+            "/home/lrne/.vim/plugged/coc.nvim"
+          ],
+          "symbols": [
+            "coc.nvim"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `/home/lrne/.vim/plugged/coc.nvim` does not exist in neoclide/coc.nvim at b707584."
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`nvim` is defined in `src/__tests__/client/diagnostics.test.ts` line 126 (and 2 more places).",
+          "location": {
+            "file": "src/__tests__/client/diagnostics.test.ts",
+            "startLine": 126,
+            "endLine": 126,
+            "permalink": "https://github.com/neoclide/coc.nvim/blob/b7075840479f1c56ba98756d74af940b7490a50b/src/__tests__/client/diagnostics.test.ts#L126"
+          },
+          "log": "124 | \n125 | describe('DiagnosticFeature', () => {\n126 |   let nvim: Neovim\n127 |   beforeAll(async () => {\n128 |     await helper.setup()\n129 |     nvim = workspace.nvim\n130 |   })"
+        }
+      ],
+      "missing": [
+        "The report names code that does not exist at b707584. Ask the reporter for the exact version or commit they used."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "The bug is not present in Vim version 9.2.0204 but is reproducible in Vim version 9.2.0804.",
+        "quote": "There is no such bug in Vim 9.2.0204, reproduce it in Vim 9.2.0804",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "9.2.0204",
+            "9.2.0804"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "logs",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "code_location",
+        "statement": "A minimal `mini.vim` configuration file is required for reproduction.",
+        "quote": "Create file `mini.vim` with：\n\n  ```vim\n  set background=dark nocompatible\n  set nu et\n  set laststatus=2\n  packadd coc.nvim\n  filetype plugin indent on\n  syn on\n  ```",
+        "references": {
+          "files": [
+            "mini.vim"
+          ],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `mini.vim` does not exist in neoclide/coc.nvim at b707584."
+        }
+      ],
+      "missing": [
+        "The report names code that does not exist at b707584. Ask the reporter for the exact version or commit they used."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c7",
+        "type": "behavior",
+        "statement": "The reproduction steps involve starting neo-vim with the command `vim -u mini.vim`.",
+        "quote": "Start (neo)vim with command: `vim -u mini.vim`",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "vim -u mini.vim"
+          ]
+        },
+        "evidenceProvided": [
+          "logs",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c8",
+        "type": "behavior",
+        "statement": "The reproduction steps involve inputting `foo far` followed by repeating input `f` some times.",
+        "quote": "1. Input `foo far` `<cr>` 2. Repeat input some times `f` `<bs>`",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "logs",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "invalid",
+    "rationale": "Every checkable claim (2) is contradicted by the code or docs.",
+    "bestGuess": {
+      "label": "invalid",
+      "rule": "Same as the committed label."
+    }
+  }
+}

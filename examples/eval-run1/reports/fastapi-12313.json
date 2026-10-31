@@ -1,0 +1,105 @@
+{
+  "target": {
+    "owner": "tiangolo",
+    "repo": "fastapi",
+    "number": 12313,
+    "kind": "issue",
+    "url": "https://github.com/tiangolo/fastapi/issues/12313",
+    "title": "Required with Ellipsis may not work",
+    "commit": "847296e885ed83bc333b6cc0a3000d6242083b87"
+  },
+  "generatedAt": "2026-10-31T21:20:26.852Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 2
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Calling the function with `q: Annotated[str, Query(min_length = 3)] = ...` raises a `ValueError` in the provided code.",
+        "quote": "ValueError: [TypeError(\"'ellipsis' object is not iterable\"), TypeError('vars() argument must have __dict__ attribute')]",
+        "references": {
+          "files": [
+            "my codes"
+          ],
+          "symbols": [
+            "read_items"
+          ],
+          "lines": [],
+          "versions": [
+            "python interpreter:3.12.4",
+            "fastapi version:0.115.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`read_items` is defined in `docs_src/app_testing/tutorial003.py` line 16 (and 2 more places).",
+          "location": {
+            "file": "docs_src/app_testing/tutorial003.py",
+            "startLine": 16,
+            "endLine": 16,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/847296e885ed83bc333b6cc0a3000d6242083b87/docs_src/app_testing/tutorial003.py#L16"
+          },
+          "log": "14 | \n15 | @app.get(\"/items/{item_id}\")\n16 | async def read_items(item_id: str):\n17 |     return items[item_id]\n18 | \n19 | \n20 | def test_read_items():"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The author suggests that the best practice to make a parameter required is to simply not assign a default value to it.",
+        "quote": "So, I understand that the best practice to make a parameter required is to simply not assign a default value to it",
+        "references": {
+          "files": [
+            "my codes"
+          ],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

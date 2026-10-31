@@ -1,0 +1,115 @@
+{
+  "target": {
+    "owner": "mailcow",
+    "repo": "mailcow-dockerized",
+    "number": 6747,
+    "kind": "issue",
+    "url": "https://github.com/mailcow/mailcow-dockerized/issues/6747",
+    "title": "Google Safe Browsing flags mailcow pages as dangerous",
+    "commit": "eb26bcbc9417c6d0d2fa35db7ea5e648b48e016f"
+  },
+  "generatedAt": "2026-10-31T21:26:38.020Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 3
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Since versions 2025-09a and 2025-09b, Google Safe Browsing has started flagging the mailcow user domain login page as dangerous and blocks the entire domain.",
+        "quote": "Since versions 2025-09a and 2025-09b, Google Safe Browsing has started flagging the mailcow user domain login page as dangerous and blocks the entire domain.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "2025-09a",
+            "2025-09b"
+          ],
+          "commands": [
+            "Install 2025-09a/b and wait"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "Version 2025-07 did not cause the issue where Google Safe Browsing flagged the mailcow login page.",
+        "quote": "Previously, version 2025-07 was installed, where this problem did not occur.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "2025-07"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "pr_claim",
+        "statement": "The user asks for a recommended method in Mailcow to add custom HTTP security headers (e.g., CSP, HSTS, X-Frame-Options, Referrer-Policy, X-Robots-Tag) in an update-safe way.",
+        "quote": "Is there a way in Mailcow to add custom HTTP security headers (e.g. CSP, HSTS, X-Frame-Options, Referrer-Policy, X-Robots-Tag) in an update-safe way?",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

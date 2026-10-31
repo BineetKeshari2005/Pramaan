@@ -1,0 +1,444 @@
+{
+  "target": {
+    "owner": "tailscale-qs",
+    "repo": "tailscale-gnome-qs",
+    "number": 67,
+    "kind": "issue",
+    "url": "https://github.com/tailscale-qs/tailscale-gnome-qs/issues/67",
+    "title": "Nodes submenu does not open on GNOME 50",
+    "commit": "5330071aae8868c9f4daec35869be79c072fdf19"
+  },
+  "generatedAt": "2026-10-31T21:15:07.028Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 9
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The Nodes submenu in the Tailscale quick settings menu does not open when clicked on GNOME Shell 50.6.",
+        "quote": "On GNOME Shell 50.6 (Fedora 44) the **Nodes** submenu in the Tailscale quick settings menu does not open when clicked.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "GNOME Shell 50.6"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The issue occurs on GNOME Shell 50.6, Wayland, and Fedora 44.",
+        "quote": "GNOME Shell 50.6 (Fedora 44)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "GNOME Shell 50.6",
+            "Fedora 44"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The extension is Tailscale QS v11 (version 18).",
+        "quote": "Tailscale QS v11 (version 18)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "Tailscale QS v11 (version 18)"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "code_location",
+        "statement": "The cause is attributed to `PopupScrollableSubMenuMenuItem` in `extension.js` overriding internals of `PopupSubMenu`.",
+        "quote": "`PopupScrollableSubMenuMenuItem` in `extension.js` overrides internals of `PopupSubMenu`:",
+        "references": {
+          "files": [
+            "extension.js"
+          ],
+          "symbols": [
+            "PopupScrollableSubMenuMenuItem",
+            "PopupSubMenu"
+          ],
+          "lines": [
+            {
+              "file": "extension.js",
+              "line": 1
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`PopupSubMenu` is not defined or used anywhere in tailscale-qs/tailscale-gnome-qs at 5330071."
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists in tailscale-qs/tailscale-gnome-qs at 5330071.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`PopupScrollableSubMenuMenuItem` is defined in `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` line 203 (and 1 more place).",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "startLine": 203,
+            "endLine": 203,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js#L203"
+          },
+          "log": "201 | );\n202 | \n203 | const PopupScrollableSubMenuMenuItem = GObject.registerClass(\n204 |   class PopupScrollableSubMenuMenuItem extends PopupMenu.PopupSubMenuMenuItem {\n205 |       _init(props) {\n206 |           super._init(props);\n207 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 1 of `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists; the code there is shown below.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "startLine": 1,
+            "endLine": 1,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js#L1"
+          },
+          "log": "1 | /* extension.js\n2 |  *\n3 |  * This program is free software: you can redistribute it and/or modify\n4 |  * it under the terms of the GNU General Public License as published by"
+        }
+      ],
+      "missing": [
+        "The report names code that does not exist at 5330071. Ask the reporter for the exact version or commit they used."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "code_location",
+        "statement": "The override includes setting `this.menu._needsScrollbar` to true and setting `this.menu.box.height` to 200.",
+        "quote": "this.menu._needsScrollbar = () => true; this.menu.box.height = 200;",
+        "references": {
+          "files": [
+            "extension.js"
+          ],
+          "symbols": [
+            "this.menu"
+          ],
+          "lines": [
+            {
+              "file": "extension.js",
+              "line": 2
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists in tailscale-qs/tailscale-gnome-qs at 5330071.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`menu` appears in `LICENSE` line 110, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "LICENSE",
+            "startLine": 110,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/LICENSE#L110"
+          },
+          "log": "menu, a prominent item in the list meets this criterion."
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 2 of `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists; the code there is shown below.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "startLine": 2,
+            "endLine": 2,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js#L2"
+          },
+          "log": "1 | /* extension.js\n2 |  *\n3 |  * This program is free software: you can redistribute it and/or modify\n4 |  * it under the terms of the GNU General Public License as published by\n5 |  * the Free Software Foundation, either version 2 of the License, or"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "behavior",
+        "statement": "Replacing the two lines with `this.menu.actor.style = 'max-height: 200px;'` fixes the issue, allowing the Nodes submenu to open and scroll normally.",
+        "quote": "this.menu.actor.style = 'max-height: 200px;'; The Nodes submenu then opens and scrolls normally.",
+        "references": {
+          "files": [
+            "extension.js"
+          ],
+          "symbols": [
+            "this.menu"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists in tailscale-qs/tailscale-gnome-qs at 5330071.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`menu` appears in `LICENSE` line 110, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "LICENSE",
+            "startLine": 110,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/LICENSE#L110"
+          },
+          "log": "menu, a prominent item in the list meets this criterion."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c7",
+        "type": "behavior",
+        "statement": "Replacing the lines with the CSS fix did not fix the issue after a full reboot.",
+        "quote": "Correction to the workaround in the description: replacing the two lines with `this.menu.actor.style = 'max-height: 200px;';` did **not** fix it after a full reboot (an earlier test was misleading).",
+        "references": {
+          "files": [
+            "extension.js"
+          ],
+          "symbols": [
+            "this.menu"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists in tailscale-qs/tailscale-gnome-qs at 5330071.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`menu` appears in `LICENSE` line 110, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "LICENSE",
+            "startLine": 110,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/LICENSE#L110"
+          },
+          "log": "menu, a prominent item in the list meets this criterion."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c8",
+        "type": "behavior",
+        "statement": "Using `const mnodes = new PopupMenu.PopupSubMenuMenuItem(_('Nodes'), false, {});` works by creating the Nodes item as a plain submenu.",
+        "quote": "const mnodes = new PopupMenu.PopupSubMenuMenuItem(_('Nodes'), false, {}); The Nodes submenu then opens and lists the nodes.",
+        "references": {
+          "files": [
+            "extension.js"
+          ],
+          "symbols": [
+            "PopupMenu"
+          ],
+          "lines": [
+            {
+              "file": "extension.js",
+              "line": 4
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists in tailscale-qs/tailscale-gnome-qs at 5330071.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`PopupMenu` appears in `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` line 29, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "startLine": 29,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js#L29"
+          },
+          "log": "import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 4 of `tailscale-gnome-qs@tailscale-qs.github.io/extension.js` exists; the code there is shown below.",
+          "location": {
+            "file": "tailscale-gnome-qs@tailscale-qs.github.io/extension.js",
+            "startLine": 4,
+            "endLine": 4,
+            "permalink": "https://github.com/tailscale-qs/tailscale-gnome-qs/blob/5330071aae8868c9f4daec35869be79c072fdf19/tailscale-gnome-qs%40tailscale-qs.github.io/extension.js#L4"
+          },
+          "log": "1 | /* extension.js\n2 |  *\n3 |  * This program is free software: you can redistribute it and/or modify\n4 |  * it under the terms of the GNU General Public License as published by\n5 |  * the Free Software Foundation, either version 2 of the License, or\n6 |  * (at your option) any later version.\n7 |  *"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c9",
+        "type": "behavior",
+        "statement": "Deleting and reinstalling the extension resolves the issue.",
+        "quote": "After deleting and reinstalling the extension seems to work fine!",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "invalid",
+    "rationale": "Every checkable claim (1) is contradicted by the code or docs.",
+    "bestGuess": {
+      "label": "invalid",
+      "rule": "Same as the committed label."
+    }
+  }
+}

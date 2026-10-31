@@ -1,0 +1,116 @@
+{
+  "target": {
+    "owner": "FlareSolverr",
+    "repo": "FlareSolverr",
+    "number": 1741,
+    "kind": "issue",
+    "url": "https://github.com/FlareSolverr/FlareSolverr/issues/1741",
+    "title": "Failing with timeout after 60 seconds.",
+    "commit": "237faf1730e7de4d126532a75b9ac16bd5f7539b"
+  },
+  "generatedAt": "2026-10-31T21:21:46.786Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 3
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The software fails with a timeout after 60 seconds.",
+        "quote": "Fails to solve with 60 second timeout",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.4.6",
+            "3.5.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "logs",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The failure occurs on FlareSolverr versions 3.4.6 and 3.5.0.",
+        "quote": "fails on both 3.4.6 & 3.5.0 versions",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.4.6",
+            "3.5.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "The process eventually fails with the error message \"Error solving the challenge. Timeout after 60.0 seconds.\".",
+        "quote": "Eventually fails with \" Error solving the challenge. Timeout after 60.0 seconds.\"",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "logs",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}
