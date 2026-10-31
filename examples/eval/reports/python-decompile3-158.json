@@ -8,7 +8,7 @@
     "title": "Exception:  'Instruction' object has no attribute 'tos_str'",
     "commit": "ed375df6b21ecbddd21cf6aaa37c7673da876751"
   },
-  "generatedAt": "2026-10-31T21:30:32.984Z",
+  "generatedAt": "2026-10-31T22:25:48.834Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -167,7 +167,7 @@
         "The referenced code exists, but the described behavior was not executed.",
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -429,9 +429,7 @@
           "log": "670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),"
         }
       ],
-      "missing": [
-        "The crash itself was not reproduced by running the reported command."
-      ],
+      "missing": [],
       "needsHumanReview": false
     },
     {
@@ -577,7 +575,7 @@
       "missing": [
         "The crash itself was not reproduced by running the reported command."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     }
   ],
   "triage": {

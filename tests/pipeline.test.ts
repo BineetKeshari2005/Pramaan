@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { type ProgressEvent, ReportSchema, runPipeline } from "../src/core";
-import { FakeExtractor, FakeGitHub, FakeVerifier, makeClaim, sampleRef } from "./fakes";
+import { type ProgressEvent, ReportSchema, runPipeline, targetUrl } from "../src/core";
+import { FakeExtractor, FakeGitHub, FakeVerifier, makeClaim, makeTarget, sampleRef } from "./fakes";
 
 const fixedNow = () => new Date("2026-10-31T20:00:00Z");
 
@@ -33,6 +33,19 @@ describe("runPipeline", () => {
     expect(report.assessments[0]?.verdict).toBe("contradicted");
     expect(report.triage.label).toBe("invalid");
     expect(events.map((e) => e.stage)).toEqual(["fetch", "extract", "checkout", "verify", "grade", "done"]);
+  });
+
+  it("gives issues a best guess but leaves it off pull requests", async () => {
+    const run = async (kind: "issue" | "pull") => {
+      const ref = { owner: "acme", repo: "widgets", number: 7, kind };
+      return runPipeline(ref, {
+        github: new FakeGitHub(makeTarget({ ref, url: targetUrl(ref) })),
+        extractor: new FakeExtractor({ status: "ok", claims: [makeClaim({ id: "c1" })], model: "m", attempts: 1 }),
+        verifiers: [],
+      });
+    };
+    expect((await run("issue")).triage.bestGuess).toBeDefined();
+    expect((await run("pull")).triage.bestGuess).toBeUndefined();
   });
 
   it("prefers an explicit commit over the adapter's hint", async () => {

@@ -3,17 +3,17 @@
 **Verified commit:** [fbd5513](https://github.com/more-itertools/more-itertools/commit/fbd55137fe47b44f55190c3714c75f1b21bf834d)
 
 **Suggested label:** **Confirmed**
-3 claim(s) reproduced by execution.
+7 claim(s) reproduced by execution.
 
 _Suggested label only — Pramaan never closes issues._
 
 | # | Claim | Verdict | Confidence | Human review |
 |---|---|---|---|---|
-| 1 | The function `chunked_even(iterable, n)` did not validate `n` before passing it to `islice`. | Insufficient evidence | Low | Yes |
-| 2 | A negative size causes a `ValueError: Indices for islice()...` error. | Insufficient evidence | Low | Yes |
-| 3 | A zero size causes a `ValueError: Step for islice()...` error and consumes two source items before raising. | Insufficient evidence | Low | Yes |
+| 1 | The function `chunked_even(iterable, n)` did not validate `n` before passing it to `islice`. | Reproduced | High | No |
+| 2 | A negative size causes a `ValueError: Indices for islice()...` error. | Reproduced | High | No |
+| 3 | A zero size causes a `ValueError: Step for islice()...` error and consumes two source items before raising. | Reproduced | High | No |
 | 4 | The fix adds guards at the top of `chunked_even`, before `iter(iterable)`, to validate sizes. | Reproduced | High | No |
-| 5 | Invalid sizes fail before any source consumption and match the rest of the module. | Insufficient evidence | Low | Yes |
+| 5 | Invalid sizes fail before any source consumption and match the rest of the module. | Reproduced | High | No |
 | 6 | The new tests `test_zero_chunk_size` and `test_negative_chunk_size` fail on commit `4aeb433` with `islice` errors and pass on this branch. | Reproduced | High | No |
 | 7 | The new tests assert that the source iterator is untouched after an error or empty result. | Reproduced | High | No |
 | 8 | `pytest -q` passed with 767 tests and 21,194 subtests. | Insufficient evidence | None | Yes |
@@ -39,9 +39,54 @@ _Suggested label only — Pramaan never closes issues._
   ```
   </details>
 
+- **Failing test:** The PR's tests fail without its code changes and pass with them (more-itertools/more-itertools 4aeb433..fbd5513), so they demonstrate the fix.
+  <details><summary>Output</summary>
+
+  ```
+  # pytest tests/test_more.py
+  ## with the PR's changes: exit 0
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ........................................................................ [ 81%]
+  ........................................................................ [ 92%]
+  ..............................................                           [100%]
+  622 passed in 5.63s
+  ## with the PR's code changes reverted (tests kept): exit 1
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ....................................................F
+  =================================== FAILURES ===================================
+  __________________ ChunkedEvenTests.test_negative_chunk_size ___________________
+  ValueError: Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize.
+  
+  During handling of the above exception, another exception occurred:
+  
+  self = <tests.test_more.ChunkedEvenTests testMethod=test_negative_chunk_size>
+  
+      def test_negative_chunk_size(self):
+          source = iter('ABC')
+  >       with self.assertRaisesRegex(ValueError, 'n must be at least 0'):
+  E       AssertionError: "n must be at least 0" does not match "Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize."
+  
+  tests/test_more.py:5566: AssertionError
+  =========================== short test summary info ============================
+  FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
+  !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  1 failed, 484 passed in 1.05s
+  ```
+  </details>
+
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 2: A negative size causes a `ValueError: Indices for islice()...` error.
 
@@ -63,9 +108,54 @@ _Suggested label only — Pramaan never closes issues._
   ```
   </details>
 
+- **Failing test:** The PR's tests fail without its code changes and pass with them (more-itertools/more-itertools 4aeb433..fbd5513), so they demonstrate the fix.
+  <details><summary>Output</summary>
+
+  ```
+  # pytest tests/test_more.py
+  ## with the PR's changes: exit 0
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ........................................................................ [ 81%]
+  ........................................................................ [ 92%]
+  ..............................................                           [100%]
+  622 passed in 5.63s
+  ## with the PR's code changes reverted (tests kept): exit 1
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ....................................................F
+  =================================== FAILURES ===================================
+  __________________ ChunkedEvenTests.test_negative_chunk_size ___________________
+  ValueError: Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize.
+  
+  During handling of the above exception, another exception occurred:
+  
+  self = <tests.test_more.ChunkedEvenTests testMethod=test_negative_chunk_size>
+  
+      def test_negative_chunk_size(self):
+          source = iter('ABC')
+  >       with self.assertRaisesRegex(ValueError, 'n must be at least 0'):
+  E       AssertionError: "n must be at least 0" does not match "Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize."
+  
+  tests/test_more.py:5566: AssertionError
+  =========================== short test summary info ============================
+  FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
+  !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  1 failed, 484 passed in 1.05s
+  ```
+  </details>
+
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 3: A zero size causes a `ValueError: Step for islice()...` error and consumes two source items before raising.
 
@@ -87,9 +177,54 @@ _Suggested label only — Pramaan never closes issues._
   ```
   </details>
 
+- **Failing test:** The PR's tests fail without its code changes and pass with them (more-itertools/more-itertools 4aeb433..fbd5513), so they demonstrate the fix.
+  <details><summary>Output</summary>
+
+  ```
+  # pytest tests/test_more.py
+  ## with the PR's changes: exit 0
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ........................................................................ [ 81%]
+  ........................................................................ [ 92%]
+  ..............................................                           [100%]
+  622 passed in 5.63s
+  ## with the PR's code changes reverted (tests kept): exit 1
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ....................................................F
+  =================================== FAILURES ===================================
+  __________________ ChunkedEvenTests.test_negative_chunk_size ___________________
+  ValueError: Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize.
+  
+  During handling of the above exception, another exception occurred:
+  
+  self = <tests.test_more.ChunkedEvenTests testMethod=test_negative_chunk_size>
+  
+      def test_negative_chunk_size(self):
+          source = iter('ABC')
+  >       with self.assertRaisesRegex(ValueError, 'n must be at least 0'):
+  E       AssertionError: "n must be at least 0" does not match "Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize."
+  
+  tests/test_more.py:5566: AssertionError
+  =========================== short test summary info ============================
+  FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
+  !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  1 failed, 484 passed in 1.05s
+  ```
+  </details>
+
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 4: The fix adds guards at the top of `chunked_even`, before `iter(iterable)`, to validate sizes.
 
@@ -126,7 +261,7 @@ _Suggested label only — Pramaan never closes issues._
   ........................................................................ [ 81%]
   ........................................................................ [ 92%]
   ..............................................                           [100%]
-  622 passed in 5.49s
+  622 passed in 5.63s
   ## with the PR's code changes reverted (tests kept): exit 1
   ........................................................................ [ 11%]
   ........................................................................ [ 23%]
@@ -152,13 +287,13 @@ _Suggested label only — Pramaan never closes issues._
   =========================== short test summary info ============================
   FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
   !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-  1 failed, 484 passed in 1.02s
+  1 failed, 484 passed in 1.05s
   ```
   </details>
 
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 5: Invalid sizes fail before any source consumption and match the rest of the module.
 
@@ -180,9 +315,54 @@ _Suggested label only — Pramaan never closes issues._
   ```
   </details>
 
+- **Failing test:** The PR's tests fail without its code changes and pass with them (more-itertools/more-itertools 4aeb433..fbd5513), so they demonstrate the fix.
+  <details><summary>Output</summary>
+
+  ```
+  # pytest tests/test_more.py
+  ## with the PR's changes: exit 0
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ........................................................................ [ 81%]
+  ........................................................................ [ 92%]
+  ..............................................                           [100%]
+  622 passed in 5.63s
+  ## with the PR's code changes reverted (tests kept): exit 1
+  ........................................................................ [ 11%]
+  ........................................................................ [ 23%]
+  ........................................................................ [ 34%]
+  ........................................................................ [ 46%]
+  ........................................................................ [ 57%]
+  ........................................................................ [ 69%]
+  ....................................................F
+  =================================== FAILURES ===================================
+  __________________ ChunkedEvenTests.test_negative_chunk_size ___________________
+  ValueError: Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize.
+  
+  During handling of the above exception, another exception occurred:
+  
+  self = <tests.test_more.ChunkedEvenTests testMethod=test_negative_chunk_size>
+  
+      def test_negative_chunk_size(self):
+          source = iter('ABC')
+  >       with self.assertRaisesRegex(ValueError, 'n must be at least 0'):
+  E       AssertionError: "n must be at least 0" does not match "Indices for islice() must be None or an integer: 0 <= x <= sys.maxsize."
+  
+  tests/test_more.py:5566: AssertionError
+  =========================== short test summary info ============================
+  FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
+  !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+  1 failed, 484 passed in 1.05s
+  ```
+  </details>
+
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 6: The new tests `test_zero_chunk_size` and `test_negative_chunk_size` fail on commit `4aeb433` with `islice` errors and pass on this branch.
 
@@ -233,7 +413,7 @@ _Suggested label only — Pramaan never closes issues._
   ........................................................................ [ 81%]
   ........................................................................ [ 92%]
   ..............................................                           [100%]
-  622 passed in 5.49s
+  622 passed in 5.63s
   ## with the PR's code changes reverted (tests kept): exit 1
   ........................................................................ [ 11%]
   ........................................................................ [ 23%]
@@ -259,13 +439,13 @@ _Suggested label only — Pramaan never closes issues._
   =========================== short test summary info ============================
   FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
   !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-  1 failed, 484 passed in 1.02s
+  1 failed, 484 passed in 1.05s
   ```
   </details>
 
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 7: The new tests assert that the source iterator is untouched after an error or empty result.
 
@@ -316,7 +496,7 @@ _Suggested label only — Pramaan never closes issues._
   ........................................................................ [ 81%]
   ........................................................................ [ 92%]
   ..............................................                           [100%]
-  622 passed in 5.49s
+  622 passed in 5.63s
   ## with the PR's code changes reverted (tests kept): exit 1
   ........................................................................ [ 11%]
   ........................................................................ [ 23%]
@@ -342,13 +522,13 @@ _Suggested label only — Pramaan never closes issues._
   =========================== short test summary info ============================
   FAILED tests/test_more.py::ChunkedEvenTests::test_negative_chunk_size - Asser...
   !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-  1 failed, 484 passed in 1.02s
+  1 failed, 484 passed in 1.05s
   ```
   </details>
 
 **What is missing:**
 
-- The referenced code exists, but the described behavior was not executed.
+- None
 
 ### Claim 8: `pytest -q` passed with 767 tests and 21,194 subtests.
 
@@ -375,5 +555,5 @@ _Suggested label only — Pramaan never closes issues._
 - No check could test this claim automatically.
 
 ---
-Generated by Pramaan at 2026-10-31T21:35:48.063Z using gemma4:e2b-it-qat. Verdicts come from code checks, not from the model.
+Generated by Pramaan at 2026-10-31T22:27:44.567Z using gemma4:e2b-it-qat. Verdicts come from code checks, not from the model.
 

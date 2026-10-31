@@ -16,15 +16,22 @@ describe("assessClaim", () => {
     expect(a.missing.length).toBeGreaterThan(0);
   });
 
-  it("reports partial (low) evidence when code checks support an unsettled claim", () => {
+  it("treats a statically supported unsettled claim as partial evidence, not as work for a human", () => {
     const a = assessClaim(makeClaim({ id: "b", type: "behavior" }), [
       { verdict: "insufficient_evidence", evidence: [ev("static_proof")], missing: ["not executed"] },
     ]);
-    expect(a).toMatchObject({ verdict: "insufficient_evidence", confidence: "low", needsHumanReview: true });
+    expect(a).toMatchObject({ verdict: "insufficient_evidence", confidence: "low", needsHumanReview: false });
     const weak = assessClaim(makeClaim({ id: "b", type: "behavior" }), [
       { verdict: "insufficient_evidence", evidence: [ev("plausible_text")], missing: [] },
     ]);
-    expect(weak.confidence).toBe("none");
+    expect(weak).toMatchObject({ confidence: "none", needsHumanReview: true });
+  });
+
+  it("still flags a statically supported security claim", () => {
+    const a = assessClaim(makeClaim({ id: "s", type: "security_impact" }), [
+      { verdict: "insufficient_evidence", evidence: [ev("static_proof")], missing: [] },
+    ]);
+    expect(a.needsHumanReview).toBe(true);
   });
 
   it("records bare version and environment details as context, not as work for a human", () => {

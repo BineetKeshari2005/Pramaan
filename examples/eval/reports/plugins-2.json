@@ -8,7 +8,7 @@
     "title": "Stored rule not retrieved when the query names the task context, not the action",
     "commit": "7f93f267e96bb421ae5282c7d73f588931764410"
   },
-  "generatedAt": "2026-10-31T21:30:55.690Z",
+  "generatedAt": "2026-10-31T22:26:12.560Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],

@@ -8,7 +8,7 @@
     "title": "solve_cloudflare: post-click _wait_for_networkidle(page) has no timeout (~60s wasted per attempt)",
     "commit": "fd531313a499092d8471bf24a0e08dc5771f2b40"
   },
-  "generatedAt": "2026-10-31T21:30:20.619Z",
+  "generatedAt": "2026-10-31T22:25:36.724Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],
@@ -164,7 +164,7 @@
       "missing": [
         "The referenced code exists, but the described behavior was not executed."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {
@@ -207,7 +207,7 @@
       "missing": [
         "The referenced code exists, but the described behavior was not executed."
       ],
-      "needsHumanReview": true
+      "needsHumanReview": false
     },
     {
       "claim": {

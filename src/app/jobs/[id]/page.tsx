@@ -252,9 +252,14 @@ export default function JobPage() {
                   ? {summary.byVerdict.not_reproduced} {verdictLabel("not_reproduced")}
                 </span>
               )}
-              {summary.byVerdict.insufficient_evidence > 0 && (
+              {summary.insufficientSupported > 0 && (
                 <span className="verdict-chip unknown">
-                  – {summary.byVerdict.insufficient_evidence} {verdictLabel("insufficient_evidence")}
+                  – {summary.insufficientSupported} Unverified, consistent with the code
+                </span>
+              )}
+              {summary.insufficientUnverifiable > 0 && (
+                <span className="verdict-chip unknown">
+                  – {summary.insufficientUnverifiable} Nothing verifiable
                 </span>
               )}
               {summary.needsHumanReview > 0 && (
