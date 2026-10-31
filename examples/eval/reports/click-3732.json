@@ -1,0 +1,131 @@
+{
+  "target": {
+    "owner": "pallets",
+    "repo": "click",
+    "number": 3732,
+    "kind": "issue",
+    "url": "https://github.com/pallets/click/issues/3732",
+    "title": "echo_via_pager broken on Windows since 8.4.0",
+    "commit": "00e592cea702e0b2caa0dee42489fdb1c22cd845"
+  },
+  "generatedAt": "2026-10-31T21:30:16.876Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Calling echo_via_pager on Windows dies with PermissionError WinError 32 since version 8.4.0.",
+        "quote": "Since the 8.4.0 pager rewrite, echo_via_pager on Windows dies with PermissionError WinError 32.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "8.4.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The real cause of the breakage is that the temp file _tempfilepager yields has no .buffer.",
+        "quote": "Real cause: the temp file _tempfilepager yields has no .buffer",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "The lack of a .buffer causes str to get written to a binary handle, resulting in a TypeError.",
+        "quote": "so str gets written to a binary handle (TypeError)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "The finally block then attempts to unlink the still-open file, and Windows refuses.",
+        "quote": "then the finally tries to unlink the still-open file and Windows refuses.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "invalid",
+      "rule": "The report has no checkable technical detail: no code references, steps, logs or traces."
+    }
+  }
+}

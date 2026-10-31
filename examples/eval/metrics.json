@@ -1,0 +1,132 @@
+{
+  "strict": {
+    "total": 27,
+    "decided": 1,
+    "abstained": 26,
+    "errors": 0,
+    "correct": 0,
+    "coverage": 0.037037037037037035,
+    "abstentionRate": 0.9629629629629629,
+    "accuracyWhenDecided": 0,
+    "overallAccuracy": 0,
+    "macroF1": 0,
+    "perClass": {
+      "invalid": {
+        "support": 9,
+        "predicted": 1,
+        "truePositives": 0,
+        "precision": 0,
+        "recall": 0
+      },
+      "cannot-reproduce": {
+        "support": 9,
+        "predicted": 0,
+        "truePositives": 0,
+        "precision": null,
+        "recall": 0
+      },
+      "confirmed": {
+        "support": 9,
+        "predicted": 0,
+        "truePositives": 0,
+        "precision": null,
+        "recall": 0
+      }
+    },
+    "confusion": {
+      "invalid": {
+        "confirmed": 0,
+        "invalid": 0,
+        "cannot-reproduce": 0,
+        "needs-info": 8,
+        "needs-human-review": 1,
+        "error": 0
+      },
+      "cannot-reproduce": {
+        "confirmed": 0,
+        "invalid": 1,
+        "cannot-reproduce": 0,
+        "needs-info": 8,
+        "needs-human-review": 0,
+        "error": 0
+      },
+      "confirmed": {
+        "confirmed": 0,
+        "invalid": 0,
+        "cannot-reproduce": 0,
+        "needs-info": 9,
+        "needs-human-review": 0,
+        "error": 0
+      }
+    },
+    "realBugsDismissed": 0,
+    "invalidConfirmed": 0
+  },
+  "bestGuess": {
+    "total": 27,
+    "decided": 27,
+    "abstained": 0,
+    "errors": 0,
+    "correct": 12,
+    "coverage": 1,
+    "abstentionRate": 0,
+    "accuracyWhenDecided": 0.4444444444444444,
+    "overallAccuracy": 0.4444444444444444,
+    "macroF1": 0.4357864357864358,
+    "perClass": {
+      "invalid": {
+        "support": 9,
+        "predicted": 5,
+        "truePositives": 3,
+        "precision": 0.6,
+        "recall": 0.3333333333333333
+      },
+      "cannot-reproduce": {
+        "support": 9,
+        "predicted": 13,
+        "truePositives": 6,
+        "precision": 0.46153846153846156,
+        "recall": 0.6666666666666666
+      },
+      "confirmed": {
+        "support": 9,
+        "predicted": 9,
+        "truePositives": 3,
+        "precision": 0.3333333333333333,
+        "recall": 0.3333333333333333
+      }
+    },
+    "confusion": {
+      "invalid": {
+        "confirmed": 4,
+        "invalid": 3,
+        "cannot-reproduce": 2,
+        "needs-info": 0,
+        "needs-human-review": 0,
+        "error": 0
+      },
+      "cannot-reproduce": {
+        "confirmed": 2,
+        "invalid": 1,
+        "cannot-reproduce": 6,
+        "needs-info": 0,
+        "needs-human-review": 0,
+        "error": 0
+      },
+      "confirmed": {
+        "confirmed": 3,
+        "invalid": 1,
+        "cannot-reproduce": 5,
+        "needs-info": 0,
+        "needs-human-review": 0,
+        "error": 0
+      }
+    },
+    "realBugsDismissed": 1,
+    "invalidConfirmed": 4
+  },
+  "majorityBaseline": {
+    "label": "invalid",
+    "accuracy": 0.3333333333333333
+  }
+}

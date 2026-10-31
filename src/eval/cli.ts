@@ -12,7 +12,10 @@ Options:
   --out <dir>     Output directory (default: examples/eval)
   --only <ids>    Comma-separated case ids to run
   --limit <n>     Run only the first n cases
-  --fresh         Re-run cases that already have a saved report`;
+  --fresh         Re-run cases that already have a saved report
+  --reverify-from <dir>
+                  Reuse the claims extracted in an earlier run (no model calls) and redo only
+                  checkout, verification and grading`;
 
 async function main(argv: string[]): Promise<number> {
   const { values, positionals } = parseArgs({
@@ -23,6 +26,7 @@ async function main(argv: string[]): Promise<number> {
       only: { type: "string" },
       limit: { type: "string" },
       fresh: { type: "boolean" },
+      "reverify-from": { type: "string" },
       help: { type: "boolean", short: "h" },
     },
   });
@@ -47,6 +51,7 @@ async function main(argv: string[]): Promise<number> {
     outDir,
     datasetLabel: file,
     fresh: values.fresh,
+    reverifyFrom: values["reverify-from"],
     log: (l) => console.error(l),
   });
   const pct = (x: number | null) => (x === null ? "n/a" : `${(x * 100).toFixed(0)}%`);

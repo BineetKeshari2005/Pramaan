@@ -1,0 +1,158 @@
+{
+  "target": {
+    "owner": "anacrolix",
+    "repo": "torrent",
+    "number": 889,
+    "kind": "issue",
+    "url": "https://github.com/anacrolix/torrent/issues/889",
+    "title": "Client requests indefinitely on storage write errors",
+    "commit": "7308c68d87af7e46aabe66540202d2171443e700"
+  },
+  "generatedAt": "2026-10-31T21:30:52.314Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 5
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Users using github.com/anacrolix/torrent observe that some peers continuously request several torrents, resulting in upload streams hundreds of times higher than the torrent's size.",
+        "quote": "they request several torrents continously, brings upload stream hundreds times than torrents' itself.",
+        "references": {
+          "files": [],
+          "symbols": [
+            "github.com/anacrolix/torrent"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The report suggests that the behavior observed is a bug in github.com/anacrolix/torrent that leads to infinity requests to peers.",
+        "quote": "In my opinion, this should be a bug on github.com/anacrolix/torrent, which leads to infinity request to peers.",
+        "references": {
+          "files": [],
+          "symbols": [
+            "github.com/anacrolix/torrent"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "Specific IPv4 IP ranges have been observed making requests, including 1.180.24.0/23, 36.102.218.0/24, and 221.203.6.0/24.",
+        "quote": "It is easy to see the IPv4 IPs are in 1.180.24.0/23, 36.102.218.0/24 and 221.203.6.0/24",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "IPv6 IP ranges, possibly 240e:918:8008::0/48, are also observed making requests.",
+        "quote": "I am still observing IPv6 IPs range, may be 240e:918:8008::0/48.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "The observed requests from the listed IPs are mostly for 2.3MB/s.",
+        "quote": "Mostly they request 2.3MB/s from my computer.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

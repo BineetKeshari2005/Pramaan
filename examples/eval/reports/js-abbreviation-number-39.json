@@ -1,0 +1,138 @@
+{
+  "target": {
+    "owner": "moh3n9595",
+    "repo": "js-abbreviation-number",
+    "number": 39,
+    "kind": "issue",
+    "url": "https://github.com/moh3n9595/js-abbreviation-number/issues/39",
+    "title": "unabbreviateNumber does not work",
+    "commit": "c4bb0ef1868a938549d556c8920e61cc094a0bcf"
+  },
+  "generatedAt": "2026-10-31T21:30:15.101Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 3
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The `unabbreviateNumber` function does not unabbreviate the abbreviated number.",
+        "quote": "The `unabbreviateNumber` function does not unabbreviate the abbreviated number",
+        "references": {
+          "files": [],
+          "symbols": [
+            "unabbreviateNumber"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`unabbreviateNumber` is defined in `src/unabbreviateNumber.ts` line 5.",
+          "location": {
+            "file": "src/unabbreviateNumber.ts",
+            "startLine": 5,
+            "endLine": 5,
+            "permalink": "https://github.com/moh3n9595/js-abbreviation-number/blob/c4bb0ef1868a938549d556c8920e61cc094a0bcf/src/unabbreviateNumber.ts#L5"
+          },
+          "log": "3 | \n4 | \n5 | export function unabbreviateNumber(num: string, symbols = defaultSymbols) {\n6 |   const numberPattern = \"[+-]?([0-9]*[.])?[0-9]+\";\n7 |   const symbolPattern = `${symbols.join(\"|\")}`;\n8 |   const pattern = `^(${numberPattern})(${symbolPattern})$`;\n9 |   const regex = new RegExp(pattern);"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The expected behavior is that the function returns 10000.",
+        "quote": "returns 10000",
+        "references": {
+          "files": [],
+          "symbols": [
+            "unabbreviateNumber"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`unabbreviateNumber` is defined in `src/unabbreviateNumber.ts` line 5.",
+          "location": {
+            "file": "src/unabbreviateNumber.ts",
+            "startLine": 5,
+            "endLine": 5,
+            "permalink": "https://github.com/moh3n9595/js-abbreviation-number/blob/c4bb0ef1868a938549d556c8920e61cc094a0bcf/src/unabbreviateNumber.ts#L5"
+          },
+          "log": "3 | \n4 | \n5 | export function unabbreviateNumber(num: string, symbols = defaultSymbols) {\n6 |   const numberPattern = \"[+-]?([0-9]*[.])?[0-9]+\";\n7 |   const symbolPattern = `${symbols.join(\"|\")}`;\n8 |   const pattern = `^(${numberPattern})(${symbolPattern})$`;\n9 |   const regex = new RegExp(pattern);"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The issue was reported on Node.js v22.22.0.",
+        "quote": "Node.js v22.22.0",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "v22.22.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

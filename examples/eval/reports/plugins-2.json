@@ -1,0 +1,257 @@
+{
+  "target": {
+    "owner": "memroot",
+    "repo": "plugins",
+    "number": 2,
+    "kind": "issue",
+    "url": "https://github.com/memroot/plugins/issues/2",
+    "title": "Stored rule not retrieved when the query names the task context, not the action",
+    "commit": "7f93f267e96bb421ae5282c7d73f588931764410"
+  },
+  "generatedAt": "2026-10-31T21:30:55.690Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 9
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "An agent submitted a PR approval under the user's account despite Memroot holding a preference forbidding it.",
+        "quote": "An agent submitted a PR approval under the user's account. Memroot already held two copies of a preference that forbids this (\"review verdict is a suggestion only; never submit approve\"). Neither copy reached the agent.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The query `<repo-name> e2e test repository code review conventions` returned no rule.",
+        "quote": "| Query | Rule returned |\n|---|---|\n| `<repo-name> e2e test repository code review conventions` | No (3–4 comment-style conventions only) |",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "The query `code review conventions` returned no rule.",
+        "quote": "`code review conventions` | No",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "The query `review pull request leave inline comments approve or request changes` returned a rule with rank 1.",
+        "quote": "`review pull request leave inline comments approve or request changes` | Yes, rank 1",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "The query `code review preferences of the user` returned a rule with rank 1.",
+        "quote": "`code review preferences of the user` | Yes, rank 1",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "behavior",
+        "statement": "A relevance cutoff causes a rule to be dropped.",
+        "quote": "A larger budget does not help, so a relevance cutoff drops the rule.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c7",
+        "type": "behavior",
+        "statement": "The recall gate requires one check per prompt, and an outward action later in the same prompt gets no new check.",
+        "quote": "The recall gate asks for one check per prompt. An outward action later in the same prompt (`gh pr review --approve`, `gh pr merge`) gets no new check.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c8",
+        "type": "behavior",
+        "statement": "`memory_create` accepts near-duplicates without a warning.",
+        "quote": "`memory_create` accepts near-duplicates without a warning.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c9",
+        "type": "version",
+        "statement": "The environment uses Memroot plugin 0.12.2 (commit `7f93f26`) and Claude Code 2.1.312.",
+        "quote": "Environment:\n- Memroot plugin 0.12.2 (commit `7f93f26`), user scope\n- Claude Code 2.1.312, macOS",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "0.12.2",
+            "2.1.312"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "invalid",
+      "rule": "The report has no checkable technical detail: no code references, steps, logs or traces."
+    }
+  }
+}

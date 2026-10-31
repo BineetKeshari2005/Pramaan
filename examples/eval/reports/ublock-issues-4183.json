@@ -1,0 +1,224 @@
+{
+  "target": {
+    "owner": "uBlockOrigin",
+    "repo": "uBlock-issues",
+    "number": 4183,
+    "kind": "issue",
+    "url": "https://github.com/uBlockOrigin/uBlock-issues/issues/4183",
+    "title": "Error: Permission denied to access property \"nodeType\"",
+    "commit": "81143450499cebc489ac8cb01c503562378e8b15"
+  },
+  "generatedAt": "2026-10-31T21:30:40.138Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 5
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "When used in Firefox, the inspector's console alerts on errors saying \"Permission denied to access property nodeType\".",
+        "quote": "inspector's console alerts on errors saying \"Permission denied to access property nodeType\"",
+        "references": {
+          "files": [
+            "contentscript.js"
+          ],
+          "symbols": [
+            "contentscript.js"
+          ],
+          "lines": [
+            {
+              "file": "contentscript.js",
+              "line": 1132
+            },
+            {
+              "file": "contentscript.js",
+              "line": 342
+            }
+          ],
+          "versions": [
+            "1.75.0",
+            "159"
+          ],
+          "commands": [
+            "Open Firefox",
+            "type URL in the address bar",
+            "Open the Inspector",
+            "Refresh the page"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`contentscript.js` is not in the repository; it may be the reporter's own file."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "code_location",
+        "statement": "The errors occur in the script contentscript.js at lines 1132:26 and 342:22.",
+        "quote": "The involved script is contentscript.js, and the errors always come from 2 different points (column:line) in this file : 1132:26 and 342:22.",
+        "references": {
+          "files": [
+            "contentscript.js"
+          ],
+          "symbols": [
+            "contentscript.js"
+          ],
+          "lines": [
+            {
+              "file": "contentscript.js",
+              "line": 1132
+            },
+            {
+              "file": "contentscript.js",
+              "line": 342
+            }
+          ],
+          "versions": [
+            "1.75.0",
+            "159"
+          ],
+          "commands": [
+            "Open Firefox",
+            "type URL in the address bar",
+            "Open the Inspector",
+            "Refresh the page"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`contentscript.js` is not in the repository; it may be the reporter's own file."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "The error occurs on most websites.",
+        "quote": "This happens on most of websites.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "1.75.0",
+            "159"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "The issue is reported in Firefox version 159 and uBlock Origin version 1.75.0.",
+        "quote": "uBlock Origin: 1.75.0\nFirefox: 159",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "1.75.0",
+            "159"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "The issue is reproducible when opening the URL https://www.w3.org/2000/svg.",
+        "quote": "https://www.w3.org/2000/svg (very basic page, no javascript)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "1.75.0",
+            "159"
+          ],
+          "commands": [
+            "Open Firefox",
+            "type URL in the address bar",
+            "Refresh the page"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}
