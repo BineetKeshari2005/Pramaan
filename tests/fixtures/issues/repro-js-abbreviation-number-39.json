@@ -1,0 +1,27 @@
+{
+  "sourceUrl": "https://github.com/moh3n9595/js-abbreviation-number/issues/39",
+  "fetchedAt": "2026-10-31T18:52:40.302Z",
+  "ref": {
+    "owner": "moh3n9595",
+    "repo": "js-abbreviation-number",
+    "number": 39,
+    "kind": "issue"
+  },
+  "url": "https://github.com/moh3n9595/js-abbreviation-number/issues/39",
+  "title": "unabbreviateNumber does not work",
+  "body": "**Describe the bug**\nThe `unabbreviateNumber` function does not unabbreviate the abbreviated number\n\n**To Reproduce**\n```\nWelcome to Node.js v22.22.0.\nType \".help\" for more information.\n> const { unabbreviateNumber } = require('js-abbreviation-number')\nundefined\n> unabbreviateNumber(\"10K\", [\"K\"])\n10\n\n```\n**Expected behavior**\nreturns 10000\n\n**Screenshots**\n```\nWelcome to Node.js v22.22.0.\nType \".help\" for more information.\n> const { unabbreviateNumber } = require('js-abbreviation-number')\nundefined\n> unabbreviateNumber(\"10K\", [\"K\"])\n10\n```\n",
+  "author": "ryanoboril",
+  "state": "closed",
+  "labels": [
+    "invalid"
+  ],
+  "createdAt": "2026-10-07T20:42:30Z",
+  "comments": [
+    {
+      "author": "moh3n9595",
+      "body": "Thanks for the example. Custom symbols can be changed, but their positions determine their values. The first entry is the base unit (×1), so [\"K\"] makes K mean ×1. Use unabbreviateNumber(\"10K\", [\"\", \"K\"]) to get 10000.",
+      "createdAt": "2026-10-13T13:15:30Z"
+    }
+  ],
+  "commitHint": "c4bb0ef1868a938549d556c8920e61cc094a0bcf"
+}
