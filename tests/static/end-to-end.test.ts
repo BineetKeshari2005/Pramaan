@@ -55,7 +55,7 @@ describe("pipeline with the real extractor logic and static verifiers", () => {
 describe("createDeps", () => {
   it("builds the real adapters from the environment without touching the network", () => {
     const deps = createDeps({ PRAMAAN_EXTRACT_MODEL: "gemma4:e2b-it-qat" });
-    expect(deps.verifiers.map((v) => v.name)).toEqual(["code-references", "stack-trace", "sandbox-repro"]);
+    expect(deps.verifiers.map((v) => v.name)).toEqual(["code-references", "stack-trace", "sandbox-repro", "pr-test-honesty"]);
     expect(deps.sandbox).toBeDefined();
     expect(deps.extractor).toBeInstanceOf(LlmClaimExtractor);
   });

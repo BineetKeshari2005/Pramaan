@@ -100,6 +100,8 @@ export interface VerifyContext {
   target: TargetDocument;
   checkout: Checkout;
   sandbox?: Sandbox;
+  /** Checks out the same repository at another commit (e.g. a pull request's base). Read-only, like `checkout`. */
+  checkoutAt?: (commit: string) => Promise<Checkout>;
 }
 
 export interface Verifier {
