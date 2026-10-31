@@ -1,0 +1,23 @@
+[
+  {
+    "user": {
+      "login": "RamType0"
+    },
+    "body": "> It also seems generally agreed upon that .csproj and .sln files should be kept in code versioning: https://stackoverflow.com/a/65400320/2037431\r\n\r\nThey are talking about general C# project , NOT UNITY!\r\n\r\nAlso, the project generation depends on individual preference, which is not shared by git.\r\n\r\nSo I think we should not share these files.",
+    "created_at": "2021-08-27T06:36:09Z"
+  },
+  {
+    "user": {
+      "login": "C1badboyer58"
+    },
+    "body": "Test",
+    "created_at": "2021-10-11T18:23:50Z"
+  },
+  {
+    "user": {
+      "login": "marcospgp"
+    },
+    "body": "Since Unity auto generates C# project files, possibly based on user configuration and/or other context-dependent values (OS, version, and so on) it does make sense to not keep these in the repo for a Unity project.",
+    "created_at": "2023-01-26T19:07:25Z"
+  }
+]

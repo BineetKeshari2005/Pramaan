@@ -1,0 +1,16 @@
+[
+  {
+    "user": {
+      "login": "mmauksch"
+    },
+    "body": "Sorry for the confusion @dooleydevin \r\nThe change is correct but the description has a typo. The path used by the ide is configs. I'll update the description.\r\nAs reference this is how it looks in my phpstorm:\r\n<img width=\"407\" height=\"117\" alt=\"grafik\" src=\"https://github.com/user-attachments/assets/d7025278-7be1-4b53-a242-7cdff7443c00\" />\r\n",
+    "created_at": "2026-10-30T10:02:00Z"
+  },
+  {
+    "user": {
+      "login": "dooleydevin"
+    },
+    "body": "Thanks for confirming @mmauksch! And thanks for the contribution!",
+    "created_at": "2026-10-30T14:56:16Z"
+  }
+]
