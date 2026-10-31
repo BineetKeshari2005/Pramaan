@@ -1,0 +1,27 @@
+{
+  "sourceUrl": "https://github.com/nebra-lang/nebra/issues/157",
+  "fetchedAt": "2026-10-31T18:52:55.743Z",
+  "ref": {
+    "owner": "nebra-lang",
+    "repo": "nebra",
+    "number": 157,
+    "kind": "issue"
+  },
+  "url": "https://github.com/nebra-lang/nebra/issues/157",
+  "title": "Latest VSCode extension does not work at all (0.5.10)",
+  "body": "Language mode: Nebra Declaration.\n\n---\n\n<kbd>CTRL+Space</kbd>: No code suggestions regardless of context.\n\nMouse hover over class/function/variables: No hints/popups.\n\nNothing works except syntax highlighting.\n",
+  "author": "Cheatoid",
+  "state": "closed",
+  "labels": [
+    "invalid"
+  ],
+  "createdAt": "2026-10-24T13:47:31Z",
+  "comments": [
+    {
+      "author": "DasDarki",
+      "body": "<img width=\"1440\" height=\"635\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/96d94f3a-5e19-48d4-a880-c1da433e203b\" />\n\nCan't reproduce it. Although I already had some coincidences in which some times the LPS indeed does not trigger but mostly with reload window it works.",
+      "createdAt": "2026-10-25T16:05:45Z"
+    }
+  ],
+  "commitHint": "a10aefbb2f58c81e327aa61010957c669b781b7f"
+}

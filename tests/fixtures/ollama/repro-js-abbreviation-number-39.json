@@ -1,0 +1,16 @@
+{
+  "model": "gemma4:e2b-it-qat",
+  "recordedAt": "2026-10-31T19:10:47.502Z",
+  "inputFile": "tests/fixtures/issues/repro-js-abbreviation-number-39.json",
+  "sourceUrl": "https://github.com/moh3n9595/js-abbreviation-number/issues/39",
+  "durationMs": 25480,
+  "responses": [
+    "{\"claims\":[{\"type\":\"behavior\",\"statement\":\"The `unabbreviateNumber` function does not unabbreviate the abbreviated number.\",\"quote\":\"The `unabbreviateNumber` function does not unabbreviate the abbreviated number\",\"references\":{\"files\":[],\"symbols\":[\"unabbreviateNumber\"],\"lines\":[],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"behavior\",\"statement\":\"Calling `unabbreviateNumber` with the input `(\",\"quote\":\"10K\", \"references\":{\"files\":[],\"symbols\":[\"unabbreviateNumber\"],\"lines\":[],\"versions\":[],\"commands\":[\"unabbreviateNumber(\\\"10K\\\", [\\\"K\\\"])\"]},\"evidenceProvided\":[\"repro_steps\"]},{\"type\":\"behavior\",\"statement\":\"Calling `unabbreviateNumber(\",\"quote\":\"10K\", \"references\":{\"files\":[],\"symbols\":[\"unabbreviateNumber\"],\"lines\":[],\"versions\":[],\"commands\":[\"unabbreviateNumber(\\\"10K\\\", [\\\"K\\\"])\"]},\"evidenceProvided\":[\"repro_steps\"]},{\"type\":\"behavior\",\"statement\":\"The function returns 10 when called with `unabbreviateNumber(\",\"quote\":\"10K\", \"references\":{\"files\":[],\"symbols\":[\"unabbreviateNumber\"],\"lines\":[],\"versions\":[],\"commands\":[\"unabbreviateNumber(\\\"10K\\\", [\\\"K\\\"])\"]},\"evidenceProvided\":[\"repro_steps\"]},{\"type\":\"behavior\",\"statement\":\"The expected behavior is that the function returns 10000.\",\"quote\":\"returns 10000\",\"references\":{\"files\":[],\"symbols\":[\"unabbreviateNumber\"],\"lines\":[],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"version\",\"statement\":\"The issue was reported on Node.js v22.22.0.\",\"quote\":\"Node.js v22.22.0\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[\"v22.22.0\"],\"commands\":[]},\"evidenceProvided\":[\"none\"]}]}"
+  ],
+  "summary": {
+    "status": "ok",
+    "attempts": 1,
+    "claims": 3,
+    "droppedByGrounding": 3
+  }
+}

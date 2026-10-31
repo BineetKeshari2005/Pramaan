@@ -1,0 +1,33 @@
+{
+  "sourceUrl": "https://github.com/psf/requests/pull/7315",
+  "fetchedAt": "2026-10-31T18:52:45.084Z",
+  "ref": {
+    "owner": "psf",
+    "repo": "requests",
+    "number": 7315,
+    "kind": "pull"
+  },
+  "url": "https://github.com/psf/requests/pull/7315",
+  "title": "Preserve leading slashes in request path_url",
+  "body": "## Summary\r\nFixes issue #6711 where S3 presigned URLs with keys starting with '/' were incorrectly modified, breaking URL signatures.\r\nURLs like `https://bucket.s3.amazonaws.com//key_name` now correctly preserve `//key_name` in the path.\r\n\r\n## Changes\r\n- Remove URL manipulation that collapsed leading slashes in `request_url()` method\r\n- Add test to verify leading slashes are preserved for S3-style URLs\r\n\r\n## Reproduction\r\n```python\r\nimport requests\r\n\r\n# S3 presigned URL with key starting with '/'\r\nurl = \"https://bucket.s3.amazonaws.com//key_with_leading_slash.txt\"\r\nr = requests.get(url)  # Previously broken, now works correctly\r\nFixes #6711",
+  "author": "typhon8",
+  "state": "closed",
+  "labels": [],
+  "createdAt": "2026-03-31T22:38:22Z",
+  "comments": [
+    {
+      "author": "nateprewitt",
+      "body": "Hi @typhon8, thanks for the PR. Unfortunately, this is breaking. We specifically changed the behavior to handle ambiguous paths failing in urllib3.\r\n\r\nI've added https://github.com/urllib3/urllib3/pull/4952 to urllib3 which should fix the behavior in their next release. At that point we can revisit removing this from Requests. We do not want to remove the test though, that is required to still function before we make any changes.",
+      "createdAt": "2026-04-04T17:11:16Z"
+    }
+  ],
+  "commitHint": "cead573dedd928161ca7c402ddacbd8c8e05faee",
+  "pull": {
+    "baseSha": "6360477c52303c9445b45fa8744b02d05a2f0905",
+    "headSha": "cead573dedd928161ca7c402ddacbd8c8e05faee",
+    "changedFiles": [
+      "src/requests/adapters.py",
+      "tests/test_adapters.py"
+    ]
+  }
+}

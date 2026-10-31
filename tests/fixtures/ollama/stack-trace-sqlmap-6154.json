@@ -1,0 +1,16 @@
+{
+  "model": "gemma4:e2b-it-qat",
+  "recordedAt": "2026-10-31T19:12:09.511Z",
+  "inputFile": "tests/fixtures/issues/stack-trace-sqlmap-6154.json",
+  "sourceUrl": "https://github.com/sqlmapproject/sqlmap/issues/6154",
+  "durationMs": 33871,
+  "responses": [
+    "{\"claims\":[{\"type\":\"version\",\"statement\":\"The running version is 1.10.10.18#dev.\",\"quote\":\"Running version: 1.10.10.18#dev\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[\"1.10.10.18#dev\"],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"version\",\"statement\":\"The Python version is 3.14.7.\",\"quote\":\"Python version: 3.14.7\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[\"3.14.7\"],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"version\",\"statement\":\"The operating system is Windows-10-10.0.19045-SP0.\",\"quote\":\"Operating system: Windows-10-10.0.19045-SP0\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[\"Windows-10-10.0.19045-SP0\"],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"behavior\",\"statement\":\"An AttributeError is raised when calling conf.dumper.singleString(conf.dbmsHandler.getFingerprint()).\",\"quote\":\"AttributeError: 'NoneType' object has no attribute 'getFingerprint'\",\"references\":{\"files\":[\"lib/controller/action.py\"],\"symbols\":[\"conf\",\"dumper\",\"singleString\",\"dbmsHandler\",\"getFingerprint\"],\"lines\":[{\"file\":\"lib/controller/action.py\",\"line\":108}],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"none\"]}]}"
+  ],
+  "summary": {
+    "status": "ok",
+    "attempts": 1,
+    "claims": 4,
+    "droppedByGrounding": 0
+  }
+}

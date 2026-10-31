@@ -1,0 +1,27 @@
+{
+  "sourceUrl": "https://github.com/sqlmapproject/sqlmap/issues/6154",
+  "fetchedAt": "2026-10-31T18:52:38.199Z",
+  "ref": {
+    "owner": "sqlmapproject",
+    "repo": "sqlmap",
+    "number": 6154,
+    "kind": "issue"
+  },
+  "url": "https://github.com/sqlmapproject/sqlmap/issues/6154",
+  "title": "Unhandled exception (#b2f0d2e6)",
+  "body": "```\nRunning version: 1.10.10.18#dev\nPython version: 3.14.7\nOperating system: Windows-10-10.0.19045-SP0\nCommand line: sqlmap.py -u ********************************************** --batch --random-agent --force-ssl --technique=B --dbms=mysql --tamper=space2comment,between --drop-set-cookie --hex --ignore-code=500,403 --threads=1 --delay=2 --retries=5 --dbs\nTechnique: BOOLEAN\nBack-end DBMS: MySQL (identified)\n```\n```\nTraceback (most recent call last):\n  File \"sqlmap.py\", line 268, in main\n    start()\n    ~~~~~^^\n  File \"lib/core/decorators.py\", line 108, in _\n    result = f(*args, **kwargs)\n  File \"lib/controller/controller.py\", line 906, in start\n    action()\n    ~~~~~~^^\n  File \"lib/controller/action.py\", line 108, in action\n    conf.dumper.singleString(conf.dbmsHandler.getFingerprint())\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'getFingerprint'\n```",
+  "author": "sqlmapreporter",
+  "state": "closed",
+  "labels": [
+    "invalid"
+  ],
+  "createdAt": "2026-10-22T21:07:01Z",
+  "comments": [
+    {
+      "author": "stamparm",
+      "body": "total mess. looks like the running code was not the code on disk (updated mid-run, or stale `__pycache__`)",
+      "createdAt": "2026-10-22T22:34:50Z"
+    }
+  ],
+  "commitHint": "11afdcb02640211826b71af11a646a87157d223f"
+}
