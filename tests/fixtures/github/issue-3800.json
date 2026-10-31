@@ -1,0 +1,15 @@
+{
+  "number": 3800,
+  "title": "Unity.gitignore: Do not ignore .sln and .csproj",
+  "body": "**Reasons for making this change:**\r\n\r\nSome issues, such as Omnisharp linting in VSCode, can be fixed by regenerating project files in Unity.\r\nBy keeping these files in the repo, only one team member has to refresh them to fix any issues.\r\n\r\nIt also seems generally agreed upon that .csproj and .sln files should be kept in code versioning: https://stackoverflow.com/a/65400320/2037431",
+  "user": {
+    "login": "marcospgp"
+  },
+  "state": "closed",
+  "labels": [
+    {
+      "name": "discussion wanted"
+    }
+  ],
+  "created_at": "2021-08-04T11:18:29Z"
+}

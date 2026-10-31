@@ -1,0 +1,15 @@
+{
+  "number": 4934,
+  "title": "feat: prevent leaking kubeconfig",
+  "body": "### Link to the application or project's homepage\r\n\r\nhttps://plugins.jetbrains.com/plugin/10485-kubernetes\r\n\r\n### Reasons for making this change\r\n\r\nAlmost got tripped up myself leaking my kubernetes config.\r\nWhen adding a kubernetes cluster to jetbrains ide by using \"Paste kubeconfig content\" the kubeconfig is stored under _.idea/kubernetes/configs/kubeconfig_somedate.yaml_\r\n\r\n### Links to documentation supporting these rule changes\r\nofficial jetbrains doc shows how to add a kubeconfig by pasting but sadly doesn't show the path in the doc\r\nhttps://www.jetbrains.com/help/idea/kubernetes.html#add-cluster\r\n\r\n### Merge and Approval Steps\r\n\r\n- [x] I have read the [contribution guidelines](https://github.com/github/gitignore/tree/main?tab=readme-ov-file#contributing-guidelines) and understand my PR will be closed if it doesn't meet these guidelines\r\n",
+  "user": {
+    "login": "mmauksch"
+  },
+  "state": "closed",
+  "labels": [
+    {
+      "name": "feedback given"
+    }
+  ],
+  "created_at": "2026-10-25T21:18:17Z"
+}
