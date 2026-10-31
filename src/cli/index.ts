@@ -1,4 +1,4 @@
-import { writeFileSync } from "node:fs";
+import { existsSync, writeFileSync } from "node:fs";
 import { parseTargetUrl, runPipeline } from "../core";
 import { parseCliArgs, USAGE } from "./args";
 import { createDeps } from "./deps";
@@ -10,6 +10,8 @@ async function main(argv: string[]): Promise<number> {
     return 0;
   }
 
+  // GITHUB_TOKEN lives in the gitignored .env.local; Next.js loads it for the web app, the CLI does it here.
+  if (existsSync(".env.local")) process.loadEnvFile(".env.local");
   const ref = parseTargetUrl(cmd.url);
   const report = await runPipeline(ref, createDeps(), {
     commit: cmd.commit,
