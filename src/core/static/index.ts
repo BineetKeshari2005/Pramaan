@@ -16,7 +16,7 @@ export function createStaticVerifiers(): Verifier[] {
       index = new RepoIndex(dir);
       indexes.set(dir, index);
       // Keep the few most recent checkouts; a long-running server sees many commits.
-      if (indexes.size > 4) indexes.delete(indexes.keys().next().value as string);
+      if (indexes.size > 2) indexes.delete(indexes.keys().next().value as string);
     }
     return index;
   };
