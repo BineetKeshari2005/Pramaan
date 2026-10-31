@@ -1,0 +1,152 @@
+{
+  "target": {
+    "owner": "tiangolo",
+    "repo": "fastapi",
+    "number": 10321,
+    "kind": "issue",
+    "url": "https://github.com/tiangolo/fastapi/issues/10321",
+    "title": "Pydantic 2 Regression: Openapi error when \"examples\" contains models",
+    "commit": "69a7c99b447c9ef103dc03e93d172cabd99ac832"
+  },
+  "generatedAt": "2026-10-31T21:20:59.874Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 1
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "When using Pydantic 2 with the example code, FastAPI fails to generate openapi.json.",
+        "quote": "When using Pydantic 2 with the example code, FastAPI fails to generate openapi.json.",
+        "references": {
+          "files": [],
+          "symbols": [
+            "Toy",
+            "Cat"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "uvicorn.run(app)"
+          ]
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "logs",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 7 stack frames inside the repository match the code at 69a7c99 (15 frames outside the repository were skipped), so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/applications.py:289` in `__call__` matches the code.",
+          "location": {
+            "file": "fastapi/applications.py",
+            "startLine": 289,
+            "endLine": 289,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/applications.py#L289"
+          },
+          "log": "287 |             self.add_route(self.redoc_url, redoc_html, include_in_schema=False)\n288 | \n289 |     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:\n290 |         if self.root_path:\n291 |             scope[\"root_path\"] = self.root_path"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/middleware/asyncexitstack.py:20` in `__call__` matches the code.",
+          "location": {
+            "file": "fastapi/middleware/asyncexitstack.py",
+            "startLine": 20,
+            "endLine": 20,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/middleware/asyncexitstack.py#L20"
+          },
+          "log": "18 |             except Exception as e:\n19 |                 dependency_exception = e\n20 |                 raise e\n21 |         if dependency_exception:\n22 |             # This exception was possibly handled by the dependency but it should"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/middleware/asyncexitstack.py:17` in `__call__` matches the code.",
+          "location": {
+            "file": "fastapi/middleware/asyncexitstack.py",
+            "startLine": 17,
+            "endLine": 17,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/middleware/asyncexitstack.py#L17"
+          },
+          "log": "15 |             scope[self.context_name] = stack\n16 |             try:\n17 |                 await self.app(scope, receive, send)\n18 |             except Exception as e:\n19 |                 dependency_exception = e"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/applications.py:244` in `openapi` matches the code.",
+          "location": {
+            "file": "fastapi/applications.py",
+            "startLine": 244,
+            "endLine": 244,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/applications.py#L244"
+          },
+          "log": "242 |                 root_path = req.scope.get(\"root_path\", \"\").rstrip(\"/\")\n243 |                 if root_path not in server_urls:\n244 |                     if root_path and self.root_path_in_servers:\n245 |                         self.servers.insert(0, {\"url\": root_path})\n246 |                         server_urls.add(root_path)"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/applications.py:217` in `openapi` matches the code.",
+          "location": {
+            "file": "fastapi/applications.py",
+            "startLine": 217,
+            "endLine": 217,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/applications.py#L217"
+          },
+          "log": "215 |         return app\n216 | \n217 |     def openapi(self) -> Dict[str, Any]:\n218 |         if not self.openapi_schema:\n219 |             self.openapi_schema = get_openapi("
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/openapi/utils.py:458` in `get_openapi` matches the code.",
+          "location": {
+            "file": "fastapi/openapi/utils.py",
+            "startLine": 458,
+            "endLine": 458,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/openapi/utils.py#L458"
+          },
+          "log": "456 |         info[\"summary\"] = summary\n457 |     if description:\n458 |         info[\"description\"] = description\n459 |     if terms_of_service:\n460 |         info[\"termsOfService\"] = terms_of_service"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `fastapi/_compat.py:213` in `get_definitions` matches the code.",
+          "location": {
+            "file": "fastapi/_compat.py",
+            "startLine": 213,
+            "endLine": 213,
+            "permalink": "https://github.com/tiangolo/fastapi/blob/69a7c99b447c9ef103dc03e93d172cabd99ac832/fastapi/_compat.py#L213"
+          },
+          "log": "211 |         ],\n212 |         Dict[str, Dict[str, Any]],\n213 |     ]:\n214 |         override_mode: Union[Literal[\"validation\"], None] = (\n215 |             None if separate_input_output_schemas else \"validation\""
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command.",
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

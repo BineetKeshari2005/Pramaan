@@ -1,0 +1,271 @@
+{
+  "target": {
+    "owner": "anacrolix",
+    "repo": "torrent",
+    "number": 795,
+    "kind": "issue",
+    "url": "https://github.com/anacrolix/torrent/issues/795",
+    "title": "invalid memory address or nil pointer dereference in request-strategy.(*PieceRequestOrder).Update",
+    "commit": "48ad1a8aca56922aca5d15632c58894985a71a69"
+  },
+  "generatedAt": "2026-10-31T21:23:42.388Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Calling request-strategy.(*PieceRequestOrder).Update causes a runtime error: invalid memory address or nil pointer dereference.",
+        "quote": "panic: runtime error: invalid memory address or nil pointer dereference",
+        "references": {
+          "files": [
+            "request-strategy/piece-request-order.go"
+          ],
+          "symbols": [
+            "request-strategy.(*PieceRequestOrder).Update"
+          ],
+          "lines": [
+            {
+              "file": "request-strategy/piece-request-order.go",
+              "line": 55
+            }
+          ],
+          "versions": [
+            "v1.47.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "logs",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `request-strategy/piece-request-order.go` exists in anacrolix/torrent at 48ad1a8.",
+          "location": {
+            "file": "request-strategy/piece-request-order.go",
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/request-strategy/piece-request-order.go"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`Update` is defined in `request-strategy/piece-request-order.go` line 51.",
+          "location": {
+            "file": "request-strategy/piece-request-order.go",
+            "startLine": 51,
+            "endLine": 51,
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/request-strategy/piece-request-order.go#L51"
+          },
+          "log": "49 | }\n50 | \n51 | func (me *PieceRequestOrder) Update(\n52 | \tkey PieceRequestOrderKey,\n53 | \tstate PieceRequestOrderState,\n54 | ) {\n55 | \toldState, ok := me.keys[key]"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 55 of `request-strategy/piece-request-order.go` exists; the code there is shown below.",
+          "location": {
+            "file": "request-strategy/piece-request-order.go",
+            "startLine": 55,
+            "endLine": 55,
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/request-strategy/piece-request-order.go#L55"
+          },
+          "log": "52 | \tkey PieceRequestOrderKey,\n53 | \tstate PieceRequestOrderState,\n54 | ) {\n55 | \toldState, ok := me.keys[key]\n56 | \tif !ok {\n57 | \t\tpanic(\"key should have been added already\")\n58 | \t}"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The crash occurs in version v1.47.0.",
+        "quote": "/go/pkg/mod/github.com/anacrolix/torrent@v1.47.0/request-strategy/piece-request-order.go:55 +0x55",
+        "references": {
+          "files": [
+            "request-strategy/piece-request-order.go"
+          ],
+          "symbols": [
+            "request-strategy.(*PieceRequestOrder).Update"
+          ],
+          "lines": [
+            {
+              "file": "request-strategy/piece-request-order.go",
+              "line": 55
+            }
+          ],
+          "versions": [
+            "v1.47.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `request-strategy/piece-request-order.go` exists in anacrolix/torrent at 48ad1a8.",
+          "location": {
+            "file": "request-strategy/piece-request-order.go",
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/request-strategy/piece-request-order.go"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`Update` is defined in `request-strategy/piece-request-order.go` line 51.",
+          "location": {
+            "file": "request-strategy/piece-request-order.go",
+            "startLine": 51,
+            "endLine": 51,
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/request-strategy/piece-request-order.go#L51"
+          },
+          "log": "49 | }\n50 | \n51 | func (me *PieceRequestOrder) Update(\n52 | \tkey PieceRequestOrderKey,\n53 | \tstate PieceRequestOrderState,\n54 | ) {\n55 | \toldState, ok := me.keys[key]"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 55 of `request-strategy/piece-request-order.go` exists; the code there is shown below.",
+          "location": {
+            "file": "request-strategy/piece-request-order.go",
+            "startLine": 55,
+            "endLine": 55,
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/request-strategy/piece-request-order.go#L55"
+          },
+          "log": "52 | \tkey PieceRequestOrderKey,\n53 | \tstate PieceRequestOrderState,\n54 | ) {\n55 | \toldState, ok := me.keys[key]\n56 | \tif !ok {\n57 | \t\tpanic(\"key should have been added already\")\n58 | \t}"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The crash also occurs in version v1.48.0 when using qBittorrent/4.5.0.",
+        "quote": "2023-01-18T16:35:20+0000 ERR [main client github.com/anacrolix/torrent.(*Peer).receiveChunk:1536]: *torrent.PeerConn 0xc01b011b00 [id=\"-qB4500-5ZtA84Bi4!X_\", exts=0000000000180005, v=\"qBittorrent/4.5.0\"]: writing received chunk 151128: short write\npanic: runtime error: invalid memory address or nil pointer dereference",
+        "references": {
+          "files": [
+            "peerconn.go"
+          ],
+          "symbols": [
+            "torrent.(*Peer).receiveChunk"
+          ],
+          "lines": [
+            {
+              "file": "peerconn.go",
+              "line": 1537
+            }
+          ],
+          "versions": [
+            "v1.48.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `peerconn.go` exists in anacrolix/torrent at 48ad1a8.",
+          "location": {
+            "file": "peerconn.go",
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/peerconn.go"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`receiveChunk` is defined in `peerconn.go` line 1428.",
+          "location": {
+            "file": "peerconn.go",
+            "startLine": 1428,
+            "endLine": 1428,
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/peerconn.go#L1428"
+          },
+          "log": "1426 | \n1427 | // Handle a received chunk from a peer.\n1428 | func (c *Peer) receiveChunk(msg *pp.Message) error {\n1429 | \tchunksReceived.Add(\"total\", 1)\n1430 | \n1431 | \tppReq := newRequestFromMessage(msg)\n1432 | \tt := c.t"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 1537 of `peerconn.go` exists; the code there is shown below.",
+          "location": {
+            "file": "peerconn.go",
+            "startLine": 1537,
+            "endLine": 1537,
+            "permalink": "https://github.com/anacrolix/torrent/blob/48ad1a8aca56922aca5d15632c58894985a71a69/peerconn.go#L1537"
+          },
+          "log": "1534 | \n1535 | \tif err != nil {\n1536 | \t\tc.logger.WithDefaultLevel(log.Error).Printf(\"writing received chunk %v: %v\", req, err)\n1537 | \t\tt.pendRequest(req)\n1538 | \t\t// Necessary to pass TestReceiveChunkStorageFailureSeederFastExtensionDisabled. I think a\n1539 | \t\t// request update runs while we're writing the chunk that just failed. Then we never do a\n1540 | \t\t// fresh update after pending the failed request."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "Attempting to update to version v1.48.0 fails with an invalid version error.",
+        "quote": "go: github.com/anacrolix/torrent@v1.48.0: invalid version: unknown revision v1.48.0",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "v1.48.0"
+          ],
+          "commands": [
+            "go get -u 'github.com/anacrolix/torrent@v1.48.0'"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

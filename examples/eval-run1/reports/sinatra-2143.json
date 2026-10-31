@@ -1,0 +1,73 @@
+{
+  "target": {
+    "owner": "sinatra",
+    "repo": "sinatra",
+    "number": 2143,
+    "kind": "issue",
+    "url": "https://github.com/sinatra/sinatra/issues/2143",
+    "title": "Postitional Args failure in ruby 3.4",
+    "commit": "9e5c4ec8ade92c7375f44acf4c6e1103d32d6c12"
+  },
+  "generatedAt": "2026-10-31T21:13:13.795Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 1
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Running softcover with ruby 3.4 causes an ArgumentError in the thin handler.",
+        "quote": "When trying to run softcover using ruby 3.4, I encountered: > gems/3.4.0/gems/thin-1.8.2/lib/rack/handler/thin.rb:11:in 'run': wrong number of arguments (given 2, expected 1) (ArgumentError)",
+        "references": {
+          "files": [
+            "gems/3.4.0/gems/thin-1.8.2/lib/rack/handler/thin.rb"
+          ],
+          "symbols": [
+            "run"
+          ],
+          "lines": [
+            {
+              "file": "gems/3.4.0/gems/thin-1.8.2/lib/rack/handler/thin.rb",
+              "line": 11
+            }
+          ],
+          "versions": [
+            "3.4.0"
+          ],
+          "commands": [
+            "run softcover"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `gems/3.4.0/gems/thin-1.8.2/lib/rack/handler/thin.rb` does not exist in sinatra/sinatra at 9e5c4ec."
+        }
+      ],
+      "missing": [
+        "The report names code that does not exist at 9e5c4ec. Ask the reporter for the exact version or commit they used."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "invalid",
+    "rationale": "Every checkable claim (1) is contradicted by the code or docs.",
+    "bestGuess": {
+      "label": "invalid",
+      "rule": "Same as the committed label."
+    }
+  }
+}

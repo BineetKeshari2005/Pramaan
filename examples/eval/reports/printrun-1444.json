@@ -1,0 +1,58 @@
+{
+  "target": {
+    "owner": "kliment",
+    "repo": "Printrun",
+    "number": 1444,
+    "kind": "issue",
+    "url": "https://github.com/kliment/Printrun/issues/1444",
+    "title": "During the execution of the gcode sequence, one gcode is not executed",
+    "commit": "c18e60178671f550b283944a9768b3c9ed481219"
+  },
+  "generatedAt": "2026-10-31T21:30:36.407Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 1
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The G-code command G1 X90.642 Y95.1511 was not executed.",
+        "quote": "G1  X90.642 Y95.1511",
+        "references": {
+          "files": [],
+          "symbols": [
+            "G1"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "G1  X90.642 Y95.1511"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

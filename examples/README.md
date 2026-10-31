@@ -2,6 +2,12 @@
 
 Everything in this folder was produced by running Pramaan itself. No report here is written or edited by hand.
 
+| Folder | Input | What it is |
+|---|---|---|
+| [`eval/`](eval/) | [`eval/dataset.json`](../eval/dataset.json): 27 closed issues, 9 per label | **Main results.** The first run's claims, re-verified with the fixed verifier. See [`eval/README.md`](eval/README.md). |
+| [`eval-run1/`](eval-run1/) | the same 27 issues | The first full run, before the verifier fix, kept unedited. |
+| [`eval-seed/`](eval-seed/) | 9 closed issues | A small development set used while building the harness. |
+
 ## `eval-seed/`: 9 labelled closed issues
 
 - **Input:** [`eval-seed/dataset.json`](eval-seed/dataset.json). Nine real, closed GitHub issues, three for each label maintainers used when closing them (`invalid`, `cannot-reproduce`, `confirmed`). Every label was checked against the GitHub API. Pramaan never sees these labels.

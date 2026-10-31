@@ -1,0 +1,58 @@
+{
+  "target": {
+    "owner": "moritzgloeckl",
+    "repo": "overleaf-sync",
+    "number": 50,
+    "kind": "issue",
+    "url": "https://github.com/moritzgloeckl/overleaf-sync/issues/50",
+    "title": "Folders are not created when local to remote.",
+    "commit": "00217f1c192758b2235e86347d453a74ecac1089"
+  },
+  "generatedAt": "2026-10-31T21:30:28.033Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 1
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Folders located in `capitulos` and `figuras` are not created when syncing files from local to remote in Overleaf.",
+        "quote": "When I sync files from local to remote, files located in `capitulos` and `figuras` folders are synced and created in the main project location in *Overleaf*, but the folders `capitulos` and `figuras` are not created.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "ols -l"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

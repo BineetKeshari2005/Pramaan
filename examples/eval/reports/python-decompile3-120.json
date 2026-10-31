@@ -1,0 +1,379 @@
+{
+  "target": {
+    "owner": "rocky",
+    "repo": "python-decompile3",
+    "number": 120,
+    "kind": "issue",
+    "url": "https://github.com/rocky/python-decompile3/issues/120",
+    "title": "Decompiled failed with `Deparsing stopped due to parse error`, with the pyc file attached",
+    "commit": "7e555cd2bf37b05b01c27a44acd6c72c99112036"
+  },
+  "generatedAt": "2026-10-31T21:30:34.750Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 11
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Decompilation failed with the error message 'Deparsing stopped due to parse error'.",
+        "quote": "Decompiled failed with `Deparsing stopped due to parse error`, with the pyc file attached",
+        "references": {
+          "files": [
+            "atw.pyc"
+          ],
+          "symbols": [
+            "decompyle3"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "decompyle3 atw.pyc > F:\\GitRepo\\local\\atw.py"
+          ]
+        },
+        "evidenceProvided": [
+          "code_snippet",
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`atw.pyc` is not in the repository; it may be the reporter's own file."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The expected behavior is that the decompiler can create a compilable source file.",
+        "quote": "The decompiler can create a c ompileable source file.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The decompiler version used was 3.9.0.",
+        "quote": "decompyle3 version 3.9.0",
+        "references": {
+          "files": [],
+          "symbols": [
+            "decompyle3"
+          ],
+          "lines": [],
+          "versions": [
+            "3.9.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "The Python bytecode version base was 3.8.0 (3413).",
+        "quote": "Python bytecode version base 3.8.0 (3413)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.8.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "version",
+        "statement": "The code was decompiled from Python 3.8.10.",
+        "quote": "Decompiled from: Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.8.10"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "behavior",
+        "statement": "Running `decompyle3 atw.pyc` with the pyc file attached results in 'Deparsing stopped due to parse error'.",
+        "quote": "decompyle3 atw.pyc > F:\\GitRepo\\local\\atw.py\n# file atw.pyc\n# Deparsing stopped due to parse error",
+        "references": {
+          "files": [
+            "atw.pyc"
+          ],
+          "symbols": [
+            "decompyle3"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "decompyle3 atw.pyc > F:\\GitRepo\\local\\atw.py"
+          ]
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`atw.pyc` is not in the repository; it may be the reporter's own file."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c7",
+        "type": "behavior",
+        "statement": "The decompiler output includes the following instruction context: L. 29 28 POP_EXCEPT -> 30 LOAD_CONST None 32 RETURN_VALUE 34_0 COME_FROM 20 '20'.",
+        "quote": "Instruction context:\n   L.  29        28  POP_EXCEPT       \n->                30  LOAD_CONST               None\n                  32  RETURN_VALUE       \n                34_0  COME_FROM            20  '20'",
+        "references": {
+          "files": [
+            "atw.pyc"
+          ],
+          "symbols": [],
+          "lines": [
+            {
+              "file": "atw.pyc",
+              "line": 29
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet",
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`atw.pyc` is not in the repository; it may be the reporter's own file."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c8",
+        "type": "behavior",
+        "statement": "Using Python 3.9.1.dev0 on Windows 10 with Python 3.8.10 still results in the same error.",
+        "quote": "I tried to use 3.9.1.dev0 in Windows 10, with Python 3.8.10 but still the same error:",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.9.1.dev0",
+            "3.8.10"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c9",
+        "type": "behavior",
+        "statement": "Running the decompilation process on Ubuntu 22.04.1 LTS still results in the same error.",
+        "quote": "I tried to run in Ubuntu 22.04.1 LTS, still the same error @rocky",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "22.04.1 LTS"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c10",
+        "type": "behavior",
+        "statement": "Using uncompyle6 and decompyle3 resulted in the same error.",
+        "quote": "I haved tested this with uncompyle6 and decompyle3. The same error occurred.",
+        "references": {
+          "files": [],
+          "symbols": [
+            "uncompyle6",
+            "decompyle3"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c11",
+        "type": "behavior",
+        "statement": "A common error occurs for original Python code that uses a specific decorator pattern.",
+        "quote": "I think this is a common error, for all original python code that uses this pattern:\n\ndef a_decorator(func):\n    def wrapper(*args, **kwargs):\n        \"\"\"A wrapper function\"\"\"\n        # Extend some capabilities of func\n        func()\n    return wrapper\n \n@a_decorator\ndef first_function():\n    \"\"\"This is docstring for first function\"\"\"\n    print(\"first function\")",
+        "references": {
+          "files": [],
+          "symbols": [
+            "a_decorator",
+            "first_function"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`a_decorator` does not appear in rocky/python-decompile3 at 7e555cd; it may come from the reporter's own code or a dependency."
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`first_function` does not appear in rocky/python-decompile3 at 7e555cd; it may come from the reporter's own code or a dependency."
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

@@ -96,6 +96,30 @@ describe("ReferencesVerifier", () => {
     expect(result?.verdict).toBe("insufficient_evidence");
   });
 
+  it("does not count the reporter's own files, machine paths or dependency paths as missing repo files", async () => {
+    const claim = makeClaim({
+      id: "c1",
+      type: "behavior",
+      references: refs({ files: ["mini.vim", "/home/u/.vim/plugged/demo/x.vim", "gems/3.4.0/gems/thin-1.8.2/lib/thin.rb", "C:\\work\\atw.pyc", "other/project/file.py"] }),
+    });
+    const result = await verifier.verify(claim, ctx());
+    expect(result?.verdict).toBe("insufficient_evidence");
+    expect(result?.evidence.map((e) => e.summary)).toEqual(["`mini.vim` is not in the repository; it may be the reporter's own file."]);
+  });
+
+  it("still contradicts a missing path inside one of the repository's own folders", async () => {
+    const result = await verifier.verify(makeClaim({ id: "c1", references: refs({ files: ["src/url_v2.py"] }) }), ctx());
+    expect(result?.verdict).toBe("contradicted");
+  });
+
+  it("only contradicts a missing symbol when the claim ties it to the repository's code", async () => {
+    const loose = await verifier.verify(makeClaim({ id: "c1", type: "behavior", references: refs({ symbols: ["a_decorator"] }) }), ctx());
+    expect(loose?.verdict).toBe("insufficient_evidence");
+    expect(loose?.evidence[0]?.summary).toContain("may come from the reporter's own code or a dependency");
+    const tied = await verifier.verify(makeClaim({ id: "c1", type: "code_location", references: refs({ symbols: ["a_decorator"] }) }), ctx());
+    expect(tied?.verdict).toBe("contradicted");
+  });
+
   it("ignores package names and plain words instead of contradicting them", async () => {
     const claim = makeClaim({ id: "c1", references: refs({ files: ["js-abbreviation-number"], symbols: ["config", "TypeError"] }) });
     expect(verifier.appliesTo(claim)).toBe(false);
@@ -158,9 +182,19 @@ describe("StackTraceVerifier", () => {
     expect(result?.missing[0]).toContain("probably from another version");
   });
 
-  it("contradicts frames in files that do not exist in the repository", async () => {
-    const result = await verifier.verify(claim, ctx(TRACE.replace("lib/controller/action.py\", line 11", "lib/controller/runner.py\", line 11")));
+  it("contradicts frames in repo-relative files that do not exist in the repository", async () => {
+    const relative = TRACE.replace('"/home/alice/demo/lib/controller/action.py", line 11', '"lib/controller/runner.py", line 11');
+    const result = await verifier.verify(claim, ctx(relative));
     expect(result?.verdict).toBe("contradicted");
+  });
+
+  it("skips frames from the reporter's machine (entry-point scripts, environments) instead of contradicting", async () => {
+    const machine = TRACE.replace(
+      '"/home/alice/demo/lib/controller/action.py", line 11, in start',
+      '"/home/alice/miniconda3/envs/py39/bin/demo-cli", line 5, in <module>',
+    ).replace('"/home/alice/demo/lib/controller/action.py", line 7', '"C:\\\\work\\\\.env\\\\Scripts\\\\demo-script.py", line 33');
+    const result = await verifier.verify(claim, ctx(machine));
+    expect(result?.verdict).not.toBe("contradicted");
   });
 
   it("stays silent for claims unrelated to the trace, and for reports without one", async () => {

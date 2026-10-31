@@ -1,0 +1,714 @@
+{
+  "target": {
+    "owner": "kliment",
+    "repo": "Printrun",
+    "number": 1393,
+    "kind": "issue",
+    "url": "https://github.com/kliment/Printrun/issues/1393",
+    "title": "ValueError: could not convert string to float: line 1995 pronterface.py",
+    "commit": "ef96f010ebd8a4020f26e913c316a3f0fd3a6420"
+  },
+  "generatedAt": "2026-10-31T21:30:18.683Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 9
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Calling update_tempdisplay in printrun\npronterface.py raises a ValueError: could not convert string to float: ''.",
+        "quote": "ValueError: could not convert string to float: ''",
+        "references": {
+          "files": [
+            "printrun\\pronterface.py"
+          ],
+          "symbols": [
+            "update_tempdisplay"
+          ],
+          "lines": [
+            {
+              "file": "printrun\\pronterface.py",
+              "line": 1995
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `printrun/pronterface.py` exists in kliment/Printrun at ef96f01.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`update_tempdisplay` is defined in `printrun/pronterface.py` line 1994.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1994,
+            "endLine": 1994,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1994"
+          },
+          "log": "1992 |             wx.CallAfter(self.gviz.setlayer, newlayer)\n1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | \n1998 |             for name in 'T', 'T0', 'T1', 'B':"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 1995 of `printrun/pronterface.py` exists; the code there is shown below.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1992 |             wx.CallAfter(self.gviz.setlayer, newlayer)\n1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | \n1998 |             for name in 'T', 'T0', 'T1', 'B':"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 6 stack frames inside the repository match the code at ef96f01, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The user is running Pronterface version 2.0.1 (x64 package).",
+        "quote": "I'm running 2.0.1 from the official site. x64 package.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "2.0.1"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The user is running MKS SBASE v1.3.",
+        "quote": "LUME Plus printer based on MKS SBASE v1.3 and smoothieware",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "v1.3"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "The user attempted to use baud rates of 9600, 115200, and 250000.",
+        "quote": "I tried all the available ports with combinations of Baud rates of 9600 115200 and 250000.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "9600",
+            "115200",
+            "250000"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "pr_claim",
+        "statement": "The original author suggests updating Pronterface to the latest version.",
+        "quote": "Guess, you are running an old version of Pronterface. Please update to the latest version.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "latest version"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 6 stack frames inside the repository match the code at ef96f01, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "behavior",
+        "statement": "Running the executable as Administrator allows the user to connect and use the printer and prevents the 'value error'.",
+        "quote": "After using the Administrator mode for running the executable I am able to connect, use the printer and I do not get that \"value error\" anymore.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 6 stack frames inside the repository match the code at ef96f01, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c7",
+        "type": "behavior",
+        "statement": "The printer becomes paralyzed and unresponsive when configuration edits are made.",
+        "quote": "After config edits my printer is paralyzed. So we won't even know if it isn't connecting due to comms problem or due to its paralyzed state.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 6 stack frames inside the repository match the code at ef96f01, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c8",
+        "type": "behavior",
+        "statement": "The printer boots but shows 0/0 temperatures for bed and hotend when the configuration file is deemed 'corrupted'.",
+        "quote": "It boots and allows me to browse the LCD menus but won't respond to any commands. Motors quiet, bed and hotend temps at 0/0.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet",
+          "screenshot"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 6 stack frames inside the repository match the code at ef96f01, so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `printrun/pronterface.py:1995` in `update_tempdisplay` matches the code.",
+          "location": {
+            "file": "printrun/pronterface.py",
+            "startLine": 1995,
+            "endLine": 1995,
+            "permalink": "https://github.com/kliment/Printrun/blob/ef96f010ebd8a4020f26e913c316a3f0fd3a6420/printrun/pronterface.py#L1995"
+          },
+          "log": "1993 | \n1994 |     def update_tempdisplay(self):\n1995 |         try:\n1996 |             temps = parse_temperature_report(self.tempreadings)\n1997 | "
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c9",
+        "type": "code_location",
+        "statement": "The user copied configuration values from Smoothieware/Smoothieboard config.",
+        "quote": "Grabbed the Smoothieware/Smoothieware/tree/edge/ConfigSamples/Smoothieboard config and copied to it all the values (by hand) from the latest smoothieware config from the LUME manufacturer.",
+        "references": {
+          "files": [
+            "Smoothieware/Smoothieware/tree/edge/ConfigSamples/Smoothieboard config"
+          ],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

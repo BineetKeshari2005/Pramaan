@@ -1,0 +1,224 @@
+{
+  "target": {
+    "owner": "sqlmapproject",
+    "repo": "sqlmap",
+    "number": 6135,
+    "kind": "issue",
+    "url": "https://github.com/sqlmapproject/sqlmap/issues/6135",
+    "title": "Unhandled exception (#daf7515f)",
+    "commit": "1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590"
+  },
+  "generatedAt": "2026-10-31T21:06:22.482Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "version",
+        "statement": "The running version of sqlmap is 1.10.8#stable.",
+        "quote": "Running version: 1.10.8#stable",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "1.10.8#stable"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The Python version used is 3.14.7.",
+        "quote": "Python version: 3.14.7",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.14.7"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "version",
+        "statement": "The operating system is Linux-7.1.5+****-amd64-x86_64-with-glibc2.43.",
+        "quote": "Operating system: Linux-7.1.5+****-amd64-x86_64-with-glibc2.43",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "Linux-7.1.5+****-amd64-x86_64-with-glibc2.43"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "Running the provided command line results in a NameError: name 'cleanupVals' is not defined.",
+        "quote": "NameError: name 'cleanupVals' is not defined",
+        "references": {
+          "files": [
+            "sqlmap/lib/parse/payloads.py"
+          ],
+          "symbols": [
+            "cleanupVals"
+          ],
+          "lines": [
+            {
+              "file": "sqlmap/lib/parse/payloads.py",
+              "line": 61
+            }
+          ],
+          "versions": [],
+          "commands": [
+            "/usr/bin/sqlmap -u ******************************************************************************************************************* -p platform --prefix=web')+ --suffix=+AND+('uKTc'='uKTc --dbms=mysql -D ********* -T ***** --dump --technique=T --time-sec=5 --threads=1 --hex --batch"
+          ]
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `lib/parse/payloads.py` exists in sqlmapproject/sqlmap at 1d9965d.",
+          "location": {
+            "file": "lib/parse/payloads.py",
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590/lib/parse/payloads.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`cleanupVals` is defined in `lib/parse/payloads.py` line 21.",
+          "location": {
+            "file": "lib/parse/payloads.py",
+            "startLine": 21,
+            "endLine": 21,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590/lib/parse/payloads.py#L21"
+          },
+          "log": "19 | from lib.core.settings import PAYLOAD_XML_FILES\n20 | \n21 | def cleanupVals(text, tag):\n22 |     if tag == \"clause\" and '-' in text:\n23 |         text = re.sub(r\"(\\d+)-(\\d+)\", lambda match: ','.join(str(_) for _ in xrange(int(match.group(1)), int(match.group(2)) + 1)), text)\n24 | \n25 |     if tag in (\"clause\", \"where\"):"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 61 of `lib/parse/payloads.py` exists; the code there is shown below.",
+          "location": {
+            "file": "lib/parse/payloads.py",
+            "startLine": 61,
+            "endLine": 61,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590/lib/parse/payloads.py#L61"
+          },
+          "log": "58 | \n59 |         for child in element.findall(\"*\"):\n60 |             if child.text and child.text.strip():\n61 |                 values = cleanupVals(child.text, child.tag)\n62 |                 test[child.tag] = values\n63 |             else:\n64 |                 progeny = child.findall(\"*\")"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 3 stack frames inside the repository match the code at 1d9965d (1 frame outside the repository was skipped), so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/core/option.py:3167` in `init` matches the code.",
+          "location": {
+            "file": "lib/core/option.py",
+            "startLine": 3167,
+            "endLine": 3167,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590/lib/core/option.py#L3167"
+          },
+          "log": "3165 |     _setProxyList()\n3166 |     _setTorProxySettings()\n3167 |     _setDNSServer()\n3168 |     _adjustLoggingFormatter()\n3169 |     _setMultipleTargets()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/parse/payloads.py:123` in `loadPayloads` matches the code.",
+          "location": {
+            "file": "lib/parse/payloads.py",
+            "startLine": 123,
+            "endLine": 123,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590/lib/parse/payloads.py#L123"
+          },
+          "log": "121 |             errMsg += \"the file '%s' ('%s'). Please make \" % (payloadFilePath, getSafeExString(ex))\n122 |             errMsg += \"sure that you haven't made any changes to it\"\n123 |             raise SqlmapInstallationException(errMsg)\n124 | \n125 |         root = doc.getroot()"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `lib/parse/payloads.py:61` in `parseXmlNode` matches the code.",
+          "location": {
+            "file": "lib/parse/payloads.py",
+            "startLine": 61,
+            "endLine": 61,
+            "permalink": "https://github.com/sqlmapproject/sqlmap/blob/1d9965d0033d7a0e9e8bfd9cb066a5e4cb55b590/lib/parse/payloads.py#L61"
+          },
+          "log": "59 |         for child in element.findall(\"*\"):\n60 |             if child.text and child.text.strip():\n61 |                 values = cleanupVals(child.text, child.tag)\n62 |                 test[child.tag] = values\n63 |             else:"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

@@ -1,0 +1,373 @@
+{
+  "target": {
+    "owner": "memroot",
+    "repo": "plugins",
+    "number": 1,
+    "kind": "issue",
+    "url": "https://github.com/memroot/plugins/issues/1",
+    "title": "Recall gate denies subagents that have no Memroot tools",
+    "commit": "a7cf82b1c3cb2a723e2d76009d4b552bb81b4954"
+  },
+  "generatedAt": "2026-10-31T21:25:48.682Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 12
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The recall gate in `recall-check.mjs` (PreToolUse, mode `deny-once`) denies the first file-changing call of every subagent until that subagent calls `memory_retrieve`.",
+        "quote": "The recall gate in `recall-check.mjs` (PreToolUse, mode `deny-once`) denies the first file-changing call of every subagent until that subagent calls `memory_retrieve`.",
+        "references": {
+          "files": [
+            "recall-check.mjs"
+          ],
+          "symbols": [
+            "recall-check.mjs"
+          ],
+          "lines": [
+            {
+              "file": "recall-check.mjs",
+              "line": 1
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `plugins/codex/scripts/recall-check.mjs` exists in memroot/plugins at a7cf82b.",
+          "location": {
+            "file": "plugins/codex/scripts/recall-check.mjs",
+            "permalink": "https://github.com/memroot/plugins/blob/a7cf82b1c3cb2a723e2d76009d4b552bb81b4954/plugins/codex/scripts/recall-check.mjs"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`mjs` appears in `.github/workflows/sync.yml` line 41, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": ".github/workflows/sync.yml",
+            "startLine": 41,
+            "permalink": "https://github.com/memroot/plugins/blob/a7cf82b1c3cb2a723e2d76009d4b552bb81b4954/.github/workflows/sync.yml#L41"
+          },
+          "log": "node tooling/export-marketplace.mjs --version \"$RELEASE_VERSION\" --integrity \"$RELEASE_INTEGRITY\" --current release.json --output \"$RUNNER_TEMP/marketplace-next\""
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 1 of `plugins/codex/scripts/recall-check.mjs` exists; the code there is shown below.",
+          "location": {
+            "file": "plugins/codex/scripts/recall-check.mjs",
+            "startLine": 1,
+            "endLine": 1,
+            "permalink": "https://github.com/memroot/plugins/blob/a7cf82b1c3cb2a723e2d76009d4b552bb81b4954/plugins/codex/scripts/recall-check.mjs#L1"
+          },
+          "log": "1 | #!/usr/bin/env node\n2 | \n3 | // src/project-selection.ts\n4 | import { randomBytes as randomBytes2, randomUUID } from \"node:crypto\";"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "Subagents whose agent definition has a fixed tool list (custom `.claude/agents/*.md` types such as a code reviewer, a test runner or a visual critic) do not get the Memroot MCP tools, so they cannot satisfy the gate.",
+        "quote": "Subagents whose agent definition has a fixed tool list (custom `.claude/agents/*.md` types such as a code reviewer, a test runner or a visual critic) do not get the Memroot MCP tools, so they cannot satisfy the gate.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "A subagent with a fixed tool list runs a mutating `Bash` command (or `Write`/`Edit`).",
+        "quote": "A subagent with a fixed tool list runs a mutating `Bash` command (or `Write`/`Edit`).",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "The gate returns `permissionDecision: \"deny\"` with \"Memroot check pending for this subagent's task …\".",
+        "quote": "The gate returns `permissionDecision: \"deny\"` with \"Memroot check pending for this subagent's task …\".",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "The subagent has no `memory_retrieve` tool.",
+        "quote": "The subagent has no `memory_retrieve` tool.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "behavior",
+        "statement": "The retry does go through, as documented, but in practice many agents read the denial as a hard block.",
+        "quote": "The retry does go through, as documented, but in practice many agents read the denial as a hard block.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c7",
+        "type": "behavior",
+        "statement": "In one long multi-agent session, most review and critic subagents experienced this issue, resulting in one reviewer producing no measurements.",
+        "quote": "In one long multi-agent session this happened to most of the review and critic subagents. One reviewer produced no measurements at all because of it.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c8",
+        "type": "behavior",
+        "statement": "The gate should not deny a subagent that has no way to call `memory_retrieve`.",
+        "quote": "The gate should not deny a subagent that has no way to call `memory_retrieve`.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c9",
+        "type": "behavior",
+        "statement": "Using the non-blocking `context` mode instead of `deny-once` for subagents should resolve the issue, as the SubagentStart context already tells them about Memroot.",
+        "quote": "For subagents (`agent_id` present), use the non-blocking `context` mode instead of `deny-once`. The SubagentStart context already tells them about Memroot.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c10",
+        "type": "behavior",
+        "statement": "Denying should only occur when the subagent's tool list actually includes a Memroot tool, if the host exposes it.",
+        "quote": "Deny only when the subagent's tool list actually includes a Memroot tool, if the host exposes it.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c11",
+        "type": "behavior",
+        "statement": "Adding a setting to choose the subagent gate mode separately from the main-session mode is an option.",
+        "quote": "Add a setting to choose the subagent gate mode separately from the main-session mode.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c12",
+        "type": "version",
+        "statement": "The issue occurred with memroot plugin version 0.12.1 (Claude Code) on Linux.",
+        "quote": "memroot plugin 0.12.1 (Claude Code), Linux",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "0.12.1"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

@@ -1,0 +1,591 @@
+{
+  "target": {
+    "owner": "rocky",
+    "repo": "python-decompile3",
+    "number": 158,
+    "kind": "issue",
+    "url": "https://github.com/rocky/python-decompile3/issues/158",
+    "title": "Exception:  'Instruction' object has no attribute 'tos_str'",
+    "commit": "ed375df6b21ecbddd21cf6aaa37c7673da876751"
+  },
+  "generatedAt": "2026-10-31T21:30:32.984Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 5
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "Calling decompyle3 on logh_gui.pyc raises an AttributeError: 'Instruction' object has no attribute 'tos_str'.",
+        "quote": "AttributeError: 'Instruction' object has no attribute 'tos_str'",
+        "references": {
+          "files": [
+            "c:\\work\\logh_home\\python-decompile3\\decompyle3\\scanners\\scanner37base.py"
+          ],
+          "symbols": [
+            "Scanner37Base"
+          ],
+          "lines": [
+            {
+              "file": "c:\\work\\logh_home\\python-decompile3\\decompyle3\\scanners\\scanner37base.py",
+              "line": 672
+            }
+          ],
+          "versions": [
+            "3.9.1.dev0"
+          ],
+          "commands": [
+            "> decompyle3 logh_gui.pyc"
+          ]
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `decompyle3/scanners/scanner37base.py` exists in rocky/python-decompile3 at ed375df.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 672 of `decompyle3/scanners/scanner37base.py` exists; the code there is shown below.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "startLine": 672,
+            "endLine": 672,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py#L672"
+          },
+          "log": "669 |                     has_arg=inst.has_arg,\n670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),\n675 |             )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 7 stack frames inside the repository match the code at ed375df (5 frames outside the repository were skipped), so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/bin/decompile.py:146` in `main_bin` matches the code.",
+          "location": {
+            "file": "decompyle3/bin/decompile.py",
+            "startLine": 146,
+            "endLine": 146,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/bin/decompile.py#L146"
+          },
+          "log": "144 |         try:\n145 |             show_ast = {\"before\": tree or tree_plus, \"after\": tree_plus}\n146 |             result = main(\n147 |                 src_base,\n148 |                 out_base,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:337` in `main` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 337,
+            "endLine": 337,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L337"
+          },
+          "log": "335 |         # Try to uncompile the input file\n336 |         try:\n337 |             deparsed_objects = decompile_file(\n338 |                 infile,\n339 |                 outstream,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:238` in `decompile_file` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 238,
+            "endLine": 238,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L238"
+          },
+          "log": "236 |     else:\n237 |         deparsed = [\n238 |             decompile(\n239 |                 co,\n240 |                 version,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:158` in `decompile` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 158,
+            "endLine": 158,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L158"
+          },
+          "log": "156 |             else:\n157 |                 deparse_fn = code_deparse\n158 |             deparsed = deparse_fn(\n159 |                 co,\n160 |                 out,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/semantics/pysource.py:1120` in `code_deparse` matches the code.",
+          "location": {
+            "file": "decompyle3/semantics/pysource.py",
+            "startLine": 1120,
+            "endLine": 1120,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/semantics/pysource.py#L1120"
+          },
+          "log": "1118 |     scanner = get_scanner(version, is_pypy=is_pypy, show_asm=debug_opts[\"asm\"])\n1119 | \n1120 |     tokens, customize = scanner.ingest(\n1121 |         co, code_objects=code_objects, show_asm=debug_opts[\"asm\"]\n1122 |     )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37.py:65` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37.py",
+            "startLine": 65,
+            "endLine": 65,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37.py#L65"
+          },
+          "log": "63 |         cause specific rules for the specific number of arguments they take.\n64 |         \"\"\"\n65 |         tokens, customize = Scanner37Base.ingest(\n66 |             self, bytecode, classname, code_objects, show_asm\n67 |         )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37base.py:672` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "startLine": 672,
+            "endLine": 672,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py#L672"
+          },
+          "log": "670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "version",
+        "statement": "The user is running decompyle3 version 3.9.1.dev0 and Python bytecode version base 3.7.0.",
+        "quote": "# decompyle3 version 3.9.1.dev0\n# Python bytecode version base 3.7.0 (3394)",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.9.1.dev0",
+            "3.7.0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 7 stack frames inside the repository match the code at ed375df (5 frames outside the repository were skipped), so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/bin/decompile.py:146` in `main_bin` matches the code.",
+          "location": {
+            "file": "decompyle3/bin/decompile.py",
+            "startLine": 146,
+            "endLine": 146,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/bin/decompile.py#L146"
+          },
+          "log": "144 |         try:\n145 |             show_ast = {\"before\": tree or tree_plus, \"after\": tree_plus}\n146 |             result = main(\n147 |                 src_base,\n148 |                 out_base,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:337` in `main` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 337,
+            "endLine": 337,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L337"
+          },
+          "log": "335 |         # Try to uncompile the input file\n336 |         try:\n337 |             deparsed_objects = decompile_file(\n338 |                 infile,\n339 |                 outstream,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:238` in `decompile_file` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 238,
+            "endLine": 238,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L238"
+          },
+          "log": "236 |     else:\n237 |         deparsed = [\n238 |             decompile(\n239 |                 co,\n240 |                 version,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:158` in `decompile` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 158,
+            "endLine": 158,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L158"
+          },
+          "log": "156 |             else:\n157 |                 deparse_fn = code_deparse\n158 |             deparsed = deparse_fn(\n159 |                 co,\n160 |                 out,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/semantics/pysource.py:1120` in `code_deparse` matches the code.",
+          "location": {
+            "file": "decompyle3/semantics/pysource.py",
+            "startLine": 1120,
+            "endLine": 1120,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/semantics/pysource.py#L1120"
+          },
+          "log": "1118 |     scanner = get_scanner(version, is_pypy=is_pypy, show_asm=debug_opts[\"asm\"])\n1119 | \n1120 |     tokens, customize = scanner.ingest(\n1121 |         co, code_objects=code_objects, show_asm=debug_opts[\"asm\"]\n1122 |     )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37.py:65` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37.py",
+            "startLine": 65,
+            "endLine": 65,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37.py#L65"
+          },
+          "log": "63 |         cause specific rules for the specific number of arguments they take.\n64 |         \"\"\"\n65 |         tokens, customize = Scanner37Base.ingest(\n66 |             self, bytecode, classname, code_objects, show_asm\n67 |         )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37base.py:672` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "startLine": 672,
+            "endLine": 672,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py#L672"
+          },
+          "log": "670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),"
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "code_location",
+        "statement": "The error occurs when attempting to access the 'tos_str' attribute on an 'Instruction' object within Scanner37Base.ingest.",
+        "quote": "tos_str=inst.tos_str",
+        "references": {
+          "files": [
+            "c:\\work\\logh_home\\python-decompile3\\decompyle3\\scanners\\scanner37base.py"
+          ],
+          "symbols": [
+            "Scanner37Base"
+          ],
+          "lines": [
+            {
+              "file": "c:\\work\\logh_home\\python-decompile3\\decompyle3\\scanners\\scanner37base.py",
+              "line": 672
+            }
+          ],
+          "versions": [
+            "3.9.1.dev0"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace"
+        ]
+      },
+      "verdict": "reproduced",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `decompyle3/scanners/scanner37base.py` exists in rocky/python-decompile3 at ed375df.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 672 of `decompyle3/scanners/scanner37base.py` exists; the code there is shown below.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "startLine": 672,
+            "endLine": 672,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py#L672"
+          },
+          "log": "669 |                     has_arg=inst.has_arg,\n670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),\n675 |             )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 7 stack frames inside the repository match the code at ed375df (5 frames outside the repository were skipped), so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/bin/decompile.py:146` in `main_bin` matches the code.",
+          "location": {
+            "file": "decompyle3/bin/decompile.py",
+            "startLine": 146,
+            "endLine": 146,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/bin/decompile.py#L146"
+          },
+          "log": "144 |         try:\n145 |             show_ast = {\"before\": tree or tree_plus, \"after\": tree_plus}\n146 |             result = main(\n147 |                 src_base,\n148 |                 out_base,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:337` in `main` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 337,
+            "endLine": 337,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L337"
+          },
+          "log": "335 |         # Try to uncompile the input file\n336 |         try:\n337 |             deparsed_objects = decompile_file(\n338 |                 infile,\n339 |                 outstream,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:238` in `decompile_file` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 238,
+            "endLine": 238,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L238"
+          },
+          "log": "236 |     else:\n237 |         deparsed = [\n238 |             decompile(\n239 |                 co,\n240 |                 version,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:158` in `decompile` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 158,
+            "endLine": 158,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L158"
+          },
+          "log": "156 |             else:\n157 |                 deparse_fn = code_deparse\n158 |             deparsed = deparse_fn(\n159 |                 co,\n160 |                 out,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/semantics/pysource.py:1120` in `code_deparse` matches the code.",
+          "location": {
+            "file": "decompyle3/semantics/pysource.py",
+            "startLine": 1120,
+            "endLine": 1120,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/semantics/pysource.py#L1120"
+          },
+          "log": "1118 |     scanner = get_scanner(version, is_pypy=is_pypy, show_asm=debug_opts[\"asm\"])\n1119 | \n1120 |     tokens, customize = scanner.ingest(\n1121 |         co, code_objects=code_objects, show_asm=debug_opts[\"asm\"]\n1122 |     )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37.py:65` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37.py",
+            "startLine": 65,
+            "endLine": 65,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37.py#L65"
+          },
+          "log": "63 |         cause specific rules for the specific number of arguments they take.\n64 |         \"\"\"\n65 |         tokens, customize = Scanner37Base.ingest(\n66 |             self, bytecode, classname, code_objects, show_asm\n67 |         )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37base.py:672` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "startLine": 672,
+            "endLine": 672,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py#L672"
+          },
+          "log": "670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),"
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "The environment uses uncompyle6 version 3.9.0 and xdis version 6.0.5.",
+        "quote": "uncompyle6   3.9.0\nxdis         6.0.5",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "3.9.0",
+            "6.0.5"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "The user observed that using the git version of xdis worked, suggesting a discrepancy between the installed version and the git version.",
+        "quote": "I had a look at circle-ci and found the difference. You are using git version of xdis. With this, it worked.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "stack_trace",
+          "repro_steps",
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "All 7 stack frames inside the repository match the code at ed375df (5 frames outside the repository were skipped), so the trace is consistent with this code path."
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/bin/decompile.py:146` in `main_bin` matches the code.",
+          "location": {
+            "file": "decompyle3/bin/decompile.py",
+            "startLine": 146,
+            "endLine": 146,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/bin/decompile.py#L146"
+          },
+          "log": "144 |         try:\n145 |             show_ast = {\"before\": tree or tree_plus, \"after\": tree_plus}\n146 |             result = main(\n147 |                 src_base,\n148 |                 out_base,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:337` in `main` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 337,
+            "endLine": 337,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L337"
+          },
+          "log": "335 |         # Try to uncompile the input file\n336 |         try:\n337 |             deparsed_objects = decompile_file(\n338 |                 infile,\n339 |                 outstream,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:238` in `decompile_file` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 238,
+            "endLine": 238,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L238"
+          },
+          "log": "236 |     else:\n237 |         deparsed = [\n238 |             decompile(\n239 |                 co,\n240 |                 version,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/main.py:158` in `decompile` matches the code.",
+          "location": {
+            "file": "decompyle3/main.py",
+            "startLine": 158,
+            "endLine": 158,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/main.py#L158"
+          },
+          "log": "156 |             else:\n157 |                 deparse_fn = code_deparse\n158 |             deparsed = deparse_fn(\n159 |                 co,\n160 |                 out,"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/semantics/pysource.py:1120` in `code_deparse` matches the code.",
+          "location": {
+            "file": "decompyle3/semantics/pysource.py",
+            "startLine": 1120,
+            "endLine": 1120,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/semantics/pysource.py#L1120"
+          },
+          "log": "1118 |     scanner = get_scanner(version, is_pypy=is_pypy, show_asm=debug_opts[\"asm\"])\n1119 | \n1120 |     tokens, customize = scanner.ingest(\n1121 |         co, code_objects=code_objects, show_asm=debug_opts[\"asm\"]\n1122 |     )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37.py:65` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37.py",
+            "startLine": 65,
+            "endLine": 65,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37.py#L65"
+          },
+          "log": "63 |         cause specific rules for the specific number of arguments they take.\n64 |         \"\"\"\n65 |         tokens, customize = Scanner37Base.ingest(\n66 |             self, bytecode, classname, code_objects, show_asm\n67 |         )"
+        },
+        {
+          "kind": "static_proof",
+          "source": "stack-trace",
+          "summary": "Frame `decompyle3/scanners/scanner37base.py:672` in `ingest` matches the code.",
+          "location": {
+            "file": "decompyle3/scanners/scanner37base.py",
+            "startLine": 672,
+            "endLine": 672,
+            "permalink": "https://github.com/rocky/python-decompile3/blob/ed375df6b21ecbddd21cf6aaa37c7673da876751/decompyle3/scanners/scanner37base.py#L672"
+          },
+          "log": "670 |                     opc=self.opc,\n671 |                     has_extended_arg=inst.has_extended_arg,\n672 |                     tos_str=inst.tos_str,\n673 |                     start_offset=inst.start_offset,\n674 |                 ),"
+        }
+      ],
+      "missing": [
+        "The crash itself was not reproduced by running the reported command."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "confirmed",
+      "rule": "The report gives a trace or steps, and the code it names exists at the checked commit."
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import type { TargetDocument, Verifier, VerifyContext } from "../ports";
 import type { Claim, Evidence, VerificationResult } from "../types";
 import { excerpt, type RepoIndex } from "./repo-index";
-import { permalink, shortSha } from "./references";
+import { missingFileKind, permalink, shortSha } from "./references";
 
 export const STACK_TRACE_VERIFIER = "stack-trace";
 
@@ -84,7 +84,13 @@ export class StackTraceVerifier implements Verifier {
     for (const frame of trace.frames) {
       const match = index.findFile(frame.file);
       if (!match.path) {
-        if (OUTSIDE_REPO.test(frame.file) || !/[\\/]/.test(frame.file) && !/\.\w+$/.test(frame.file)) {
+        // An unmatched absolute path is an installed copy, an entry-point script or another
+        // project on the reporter's machine; only a missing repo-relative path is suspicious.
+        if (
+          OUTSIDE_REPO.test(frame.file) ||
+          missingFileKind(frame.file, index) !== "repo" ||
+          (!/[\\/]/.test(frame.file) && !/\.\w+$/.test(frame.file))
+        ) {
           outside++;
           continue;
         }

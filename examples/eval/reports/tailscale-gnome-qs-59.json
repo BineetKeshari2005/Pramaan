@@ -1,0 +1,186 @@
+{
+  "target": {
+    "owner": "tailscale-qs",
+    "repo": "tailscale-gnome-qs",
+    "number": 59,
+    "kind": "issue",
+    "url": "https://github.com/tailscale-qs/tailscale-gnome-qs/issues/59",
+    "title": "No longer lights up the button in orange or shows exit node",
+    "commit": "94f97678af9330fbba5acfa08eef18b44715e149"
+  },
+  "generatedAt": "2026-10-31T21:30:31.406Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 6
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "behavior",
+        "statement": "The button in the gnome panel no longer lights up orange.",
+        "quote": "the button in the gnome panel no longer lights up orange",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "The button in the gnome panel no longer shows the selected exit node.",
+        "quote": "shows the selected exit node",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "Clicking the button does not toggle the state of the connection.",
+        "quote": "clicking does not toggle the state of the connection",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "version",
+        "statement": "The issue is observed on Ubuntu 24.04 with Gnome 46.",
+        "quote": "Ubuntu 24.04, Gnome 46",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [
+            "Ubuntu 24.04",
+            "Gnome 46"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "Recorded as context: environment and version details are not verified against the code."
+      ],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c5",
+        "type": "behavior",
+        "statement": "After a reboot, the exit node shows but still does not light up orange.",
+        "quote": "After a reboot the exit node shows but still not lit up orange",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "repro_steps"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c6",
+        "type": "code_location",
+        "statement": "The suggested command to set the user as the operator for the tailscale cli is `tailscale set --operator=$(whoami)`.",
+        "quote": "tailscale set --operator=$(whoami)",
+        "references": {
+          "files": [],
+          "symbols": [
+            "tailscale"
+          ],
+          "lines": [],
+          "versions": [],
+          "commands": [
+            "tailscale set --operator=$(whoami)"
+          ]
+        },
+        "evidenceProvided": [
+          "none"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "No check could test this claim automatically."
+      ],
+      "needsHumanReview": false
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}

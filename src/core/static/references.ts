@@ -30,6 +30,26 @@ export function permalink(ctx: VerifyContext, file: string, start?: number, end?
 
 export const shortSha = (sha: string) => sha.slice(0, 7);
 
+/** Absolute or home-relative paths: they name a place on the reporter's computer, not in the repo. */
+export const MACHINE_PATH = /^(?:\/|~|[A-Za-z]:[\\/])/;
+/** Folders of installed packages, virtual environments and editor plugins. */
+export const DEPENDENCY_DIR =
+  /(?:^|[\\/])(?:site-packages|dist-packages|node_modules|gems|vendor|bundle|\.?venv|envs|\.?env|miniconda\d*|anaconda\d*|\.pyenv|\.cargo|\.m2|\.gradle|\.npm|\.vim|plugged|AppData|Library|Program Files[^\\/]*)(?:[\\/]|$)/i;
+
+/**
+ * Why a referenced file is missing. Only "repo" is evidence against the claim: a relative path
+ * whose top folder exists in the repository. "reporter" is a bare file name, usually the
+ * reporter's own file (a config, an input, a compiled file). "machine" is a path on the reporter's
+ * computer or inside a dependency, which says nothing about this repository.
+ */
+export function missingFileKind(reported: string, index: RepoIndex): "repo" | "reporter" | "machine" {
+  const clean = reported.trim().replace(/\\/g, "/").replace(/^\.\//, "");
+  if (MACHINE_PATH.test(reported.trim()) || DEPENDENCY_DIR.test(clean)) return "machine";
+  if (!clean.includes("/")) return "reporter";
+  const top = clean.split("/")[0] ?? "";
+  return index.files.some((f) => f.startsWith(`${top}/`)) ? "repo" : "machine";
+}
+
 export class ReferencesVerifier implements Verifier {
   readonly name = REFERENCES_VERIFIER;
 
@@ -59,11 +79,21 @@ export class ReferencesVerifier implements Verifier {
       if (match.path) {
         resolved.set(file, match.path);
         support.push(ev(`File \`${match.path}\` exists in ${at}.`, { location: { file: match.path, permalink: permalink(ctx, match.path) } }));
-      } else {
-        const hint = match.similar.length > 0 ? ` Files with the same name: ${match.similar.map((f) => `\`${f}\``).join(", ")}.` : "";
-        contradictions.push(ev(`File \`${file}\` does not exist in ${at}.${hint}`));
+        continue;
       }
+      const hint = match.similar.length > 0 ? ` Files with the same name: ${match.similar.map((f) => `\`${f}\``).join(", ")}.` : "";
+      const kind = missingFileKind(file, index);
+      if (kind === "repo") {
+        contradictions.push(ev(`File \`${file}\` does not exist in ${at}.${hint}`));
+      } else if (kind === "reporter") {
+        support.push(ev(`\`${file}\` is not in the repository; it may be the reporter's own file.${hint}`, { kind: "plausible_text" }));
+      }
+      // "machine": a path on the reporter's computer or inside a dependency says nothing about this repo.
     }
+
+    // A symbol missing from the repo only contradicts a claim that ties it to this repo's code;
+    // otherwise it may come from the reporter's own code or from a dependency.
+    const aboutRepoCode = claim.type === "code_location" || resolved.size > 0;
 
     for (const raw of claim.references.symbols) {
       const symbol = codeSymbol(raw);
@@ -90,15 +120,22 @@ export class ReferencesVerifier implements Verifier {
             log: m.text,
           }),
         );
-      } else {
+      } else if (aboutRepoCode) {
         contradictions.push(ev(`\`${symbol}\` is not defined or used anywhere in ${at}.`));
+      } else {
+        support.push(
+          ev(`\`${symbol}\` does not appear in ${at}; it may come from the reporter's own code or a dependency.`, { kind: "plausible_text" }),
+        );
       }
     }
 
     for (const ref of claim.references.lines) {
       const file = resolved.get(ref.file) ?? index.findFile(ref.file).path;
       if (!file) {
-        if (!claim.references.files.some((f) => f === ref.file)) contradictions.push(ev(`File \`${ref.file}\` (cited at line ${ref.line}) does not exist in ${at}.`));
+        const alreadyReported = claim.references.files.some((f) => f === ref.file);
+        if (!alreadyReported && missingFileKind(ref.file, index) === "repo") {
+          contradictions.push(ev(`File \`${ref.file}\` (cited at line ${ref.line}) does not exist in ${at}.`));
+        }
         continue;
       }
       const lines = index.lines(file);

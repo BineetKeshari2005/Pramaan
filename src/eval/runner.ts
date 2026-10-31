@@ -1,6 +1,16 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { type BestGuessLabel, bestGuess, type PipelineDeps, ReportSchema, parseTargetUrl, runPipeline, type TriageLabel } from "../core";
+import {
+  type BestGuessLabel,
+  bestGuess,
+  type ClaimExtractor,
+  type PipelineDeps,
+  type Report,
+  ReportSchema,
+  parseTargetUrl,
+  runPipeline,
+  type TriageLabel,
+} from "../core";
 import { renderReportMarkdown } from "../core/report";
 import type { EvalCase } from "./dataset";
 import { asBestGuessRows, computeMetrics, type EvalRow, majorityBaseline, type Metrics } from "./metrics";
@@ -11,8 +21,23 @@ export interface RunOptions {
   datasetLabel: string;
   /** Re-run cases that already have a saved report (default: reuse them, so a long run can resume). */
   fresh?: boolean;
+  /**
+   * Directory of an earlier run: reuse the claims it extracted (no model calls) and redo only
+   * checkout, verification and grading. Isolates the effect of verifier or grading changes.
+   */
+  reverifyFrom?: string;
   log?: (line: string) => void;
   now?: () => Date;
+}
+
+/** An extractor that returns the claims an earlier run extracted for this case. */
+function savedClaimsExtractor(saved: Report): ClaimExtractor {
+  return {
+    extract: async () =>
+      saved.extraction.status === "ok"
+        ? { status: "ok", claims: saved.assessments.map((a) => a.claim), model: saved.models[0] ?? "", attempts: 1 }
+        : { status: "abstained", reason: saved.extraction.reason, model: saved.models[0] ?? "", attempts: 1 },
+  };
 }
 
 export interface RunResult {
@@ -57,7 +82,13 @@ export async function runEvaluation(cases: EvalCase[], deps: PipelineDeps, optio
 
     const started = Date.now();
     try {
-      const report = await runPipeline(parseTargetUrl(c.url), deps, { commit: c.commit });
+      let caseDeps = deps;
+      if (options.reverifyFrom) {
+        const earlier = path.join(options.reverifyFrom, "reports", `${c.id}.json`);
+        const saved = ReportSchema.parse(JSON.parse(readFileSync(earlier, "utf8")));
+        caseDeps = { ...deps, extractor: savedClaimsExtractor(saved) };
+      }
+      const report = await runPipeline(parseTargetUrl(c.url), caseDeps, { commit: c.commit });
       writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
       writeFileSync(path.join(reportsDir, `${c.id}.md`), renderReportMarkdown(report));
       report.models.forEach((m) => models.add(m));

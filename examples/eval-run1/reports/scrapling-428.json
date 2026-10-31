@@ -1,0 +1,28 @@
+{
+  "target": {
+    "owner": "D4Vinci",
+    "repo": "Scrapling",
+    "number": 428,
+    "kind": "issue",
+    "url": "https://github.com/D4Vinci/Scrapling/issues/428",
+    "title": "About Akamai hack",
+    "commit": null
+  },
+  "generatedAt": "2026-10-31T21:12:44.245Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 0
+  },
+  "assessments": [],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The report contains no specific technical claim to check.",
+    "bestGuess": {
+      "label": "invalid",
+      "rule": "The report has no checkable technical detail: no code references, steps, logs or traces."
+    }
+  }
+}

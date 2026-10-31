@@ -1,0 +1,248 @@
+{
+  "target": {
+    "owner": "D4Vinci",
+    "repo": "Scrapling",
+    "number": 524,
+    "kind": "issue",
+    "url": "https://github.com/D4Vinci/Scrapling/issues/524",
+    "title": "solve_cloudflare: post-click _wait_for_networkidle(page) has no timeout (~60s wasted per attempt)",
+    "commit": "fd531313a499092d8471bf24a0e08dc5771f2b40"
+  },
+  "generatedAt": "2026-10-31T21:12:30.834Z",
+  "models": [
+    "gemma4:e2b-it-qat"
+  ],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "c1",
+        "type": "code_location",
+        "statement": "The call to `self._wait_for_networkidle(page)` immediately after clicking the challenge in `scrapling/engines/_browsers/_stealth.py` has no timeout.",
+        "quote": "page.mouse.click(captcha_x, captcha_y, delay=randint(100, 200), button=\"left\")\nself._wait_for_networkidle(page)          # <-- no timeout",
+        "references": {
+          "files": [
+            "scrapling/engines/_browsers/_stealth.py"
+          ],
+          "symbols": [
+            "self._wait_for_networkidle"
+          ],
+          "lines": [
+            {
+              "file": "scrapling/engines/_browsers/_stealth.py",
+              "line": 209
+            },
+            {
+              "file": "scrapling/engines/_browsers/_stealth.py",
+              "line": 210
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "reproduced",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `scrapling/engines/_browsers/_stealth.py` exists in D4Vinci/Scrapling at fd53131.",
+          "location": {
+            "file": "scrapling/engines/_browsers/_stealth.py",
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_stealth.py"
+          }
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_wait_for_networkidle` is defined in `scrapling/engines/_browsers/_base.py` line 176 (and 1 more place).",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "startLine": 176,
+            "endLine": 176,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py#L176"
+          },
+          "log": "174 | \n175 |     @staticmethod\n176 |     def _wait_for_networkidle(page: Page | Frame, timeout: Optional[int] = None):\n177 |         \"\"\"Wait for the page to become idle (no network activity) even if there are never-ending requests.\"\"\"\n178 |         try:\n179 |             page.wait_for_load_state(\"networkidle\", timeout=timeout)\n180 |         except Exception:"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 209 of `scrapling/engines/_browsers/_stealth.py` exists; the code there is shown below.",
+          "location": {
+            "file": "scrapling/engines/_browsers/_stealth.py",
+            "startLine": 209,
+            "endLine": 209,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_stealth.py#L209"
+          },
+          "log": "206 |                 captcha_x, captcha_y = outer_box[\"x\"] + randint(26, 28), outer_box[\"y\"] + randint(25, 27)\n207 | \n208 |                 # Move the mouse to the center of the window, then press and hold the left mouse button\n209 |                 page.mouse.click(captcha_x, captcha_y, delay=randint(100, 200), button=\"left\")\n210 |                 self._wait_for_networkidle(page)\n211 | \n212 |                 if challenge_type != \"embedded\":"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 210 of `scrapling/engines/_browsers/_stealth.py` exists; the code there is shown below.",
+          "location": {
+            "file": "scrapling/engines/_browsers/_stealth.py",
+            "startLine": 210,
+            "endLine": 210,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_stealth.py#L210"
+          },
+          "log": "207 | \n208 |                 # Move the mouse to the center of the window, then press and hold the left mouse button\n209 |                 page.mouse.click(captcha_x, captcha_y, delay=randint(100, 200), button=\"left\")\n210 |                 self._wait_for_networkidle(page)\n211 | \n212 |                 if challenge_type != \"embedded\":\n213 |                     attempts = 0"
+        }
+      ],
+      "missing": [],
+      "needsHumanReview": false
+    },
+    {
+      "claim": {
+        "id": "c2",
+        "type": "behavior",
+        "statement": "With `timeout=None`, `page.wait_for_load_state(\"networkidle\", timeout=None)` falls back to the page default, which is set to the user-supplied timeout.",
+        "quote": "With `timeout=None`, `page.wait_for_load_state(\"networkidle\", timeout=None)` falls back to the page default, which `_base.py` sets to the user-supplied `timeout`.",
+        "references": {
+          "files": [
+            "_base.py"
+          ],
+          "symbols": [
+            "page.wait_for_load_state"
+          ],
+          "lines": [
+            {
+              "file": "_base.py",
+              "line": 1
+            }
+          ],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "File `scrapling/engines/_browsers/_base.py` exists in D4Vinci/Scrapling at fd53131.",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py"
+          }
+        },
+        {
+          "kind": "plausible_text",
+          "source": "code-references",
+          "summary": "`wait_for_load_state` appears in `scrapling/core/ai/_browser_actions.py` line 211, but no definition was found (it may come from a dependency or be generated).",
+          "location": {
+            "file": "scrapling/core/ai/_browser_actions.py",
+            "startLine": 211,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/core/ai/_browser_actions.py#L211"
+          },
+          "log": "await page.wait_for_load_state(action[\"state\"], timeout=action.get(\"timeout\", 30000))"
+        },
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "Line 1 of `scrapling/engines/_browsers/_base.py` exists; the code there is shown below.",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "startLine": 1,
+            "endLine": 1,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py#L1"
+          },
+          "log": "1 | from time import time\n2 | from pathlib import Path\n3 | from asyncio import sleep as asyncio_sleep, Lock\n4 | from contextlib import contextmanager, asynccontextmanager, suppress"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c3",
+        "type": "behavior",
+        "statement": "Measured on v0.4.15 and v0.5, `_wait_for_networkidle(timeout=5000)` takes 5.0 s, while `_wait_for_networkidle(timeout=None)` takes 60.0 s.",
+        "quote": "_wait_for_networkidle(timeout=5000)  →  5.0 s\n_wait_for_networkidle(timeout=None)  → 60.0 s     # page timeout = 60 s",
+        "references": {
+          "files": [],
+          "symbols": [
+            "_wait_for_networkidle"
+          ],
+          "lines": [],
+          "versions": [
+            "v0.4.15",
+            "v0.5"
+          ],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "code-references",
+          "summary": "`_wait_for_networkidle` is defined in `scrapling/engines/_browsers/_base.py` line 176 (and 1 more place).",
+          "location": {
+            "file": "scrapling/engines/_browsers/_base.py",
+            "startLine": 176,
+            "endLine": 176,
+            "permalink": "https://github.com/D4Vinci/Scrapling/blob/fd531313a499092d8471bf24a0e08dc5771f2b40/scrapling/engines/_browsers/_base.py#L176"
+          },
+          "log": "174 | \n175 |     @staticmethod\n176 |     def _wait_for_networkidle(page: Page | Frame, timeout: Optional[int] = None):\n177 |         \"\"\"Wait for the page to become idle (no network activity) even if there are never-ending requests.\"\"\"\n178 |         try:\n179 |             page.wait_for_load_state(\"networkidle\", timeout=timeout)\n180 |         except Exception:"
+        }
+      ],
+      "missing": [
+        "The referenced code exists, but the described behavior was not executed.",
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    },
+    {
+      "claim": {
+        "id": "c4",
+        "type": "behavior",
+        "statement": "The post-click wait should be bounded by the remaining fetch budget, or at minimum by the same 5000 ms used elsewhere.",
+        "quote": "The post-click wait should be bounded by the remaining fetch budget, or at minimum by the same 5000 ms the other call sites use.",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": [
+          "code_snippet"
+        ]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "none",
+      "evidence": [],
+      "missing": [
+        "The report includes a Python snippet, but the Docker sandbox is not running, so it was not executed."
+      ],
+      "needsHumanReview": true
+    }
+  ],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The evidence is not strong enough for a verdict; the report needs more detail.",
+    "bestGuess": {
+      "label": "cannot-reproduce",
+      "rule": "The claims could not be checked and the report gives no trace or steps to reproduce."
+    }
+  }
+}
