@@ -2,6 +2,7 @@
 
 import type { ClaimAssessment } from "../../core/types";
 import {
+  claimTypeLabel,
   confidenceLabel,
   evidenceKindLabel,
   verdictLabel,
@@ -33,11 +34,9 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
           </span>
           <span className="confidence-label">{confidenceLabel(confidence, verdict)}</span>
           {needsHumanReview && (
-            <span className="human-review-flag" aria-label="Needs human review">
-              ⚠ Needs human review
-            </span>
+            <span className="human-review-flag">Needs your review</span>
           )}
-          <span className="claim-type">{claim.type.replace(/_/g, " ")}</span>
+          <span className="claim-type">{claimTypeLabel(claim.type)}</span>
         </div>
       </div>
 
@@ -48,7 +47,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
 
         {claim.quote && (
           <>
-            <p className="claim-section-label">From the report</p>
+            <p className="claim-section-label">What they wrote</p>
             <blockquote className="claim-quote">
               <RichText text={claim.quote} />
             </blockquote>
@@ -57,7 +56,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
 
         {hasRefs && (
           <>
-            <p className="claim-section-label">References</p>
+            <p className="claim-section-label">Code it mentions</p>
             <ul className="refs-list">
               {claim.references.files.map((f) => (
                 <li key={`file-${f}`}>
@@ -97,7 +96,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
 
         {evidence.length > 0 && (
           <>
-            <p className="claim-section-label">Evidence</p>
+            <p className="claim-section-label">What Pramaan found</p>
             {evidence.map((ev, i) => (
               <div key={i} className="evidence-item">
                 <div className="evidence-item-header">
@@ -110,12 +109,12 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
                   </p>
                   {ev.location?.permalink && (
                     <a href={ev.location.permalink} target="_blank" rel="noopener noreferrer">
-                      View code at this commit →
+                      Open this code on GitHub →
                     </a>
                   )}
                   {ev.log && (
                     <details className="evidence-log">
-                      <summary>Show output</summary>
+                      <summary>Show the full output</summary>
                       <pre>{ev.log}</pre>
                     </details>
                   )}
@@ -127,7 +126,7 @@ export default function ClaimCard({ assessment, index }: ClaimCardProps) {
 
         {missing.length > 0 && (
           <>
-            <p className="claim-section-label">What is missing</p>
+            <p className="claim-section-label">What would settle it</p>
             <ul className="missing-list">
               {missing.map((m, i) => (
                 <li key={i}>

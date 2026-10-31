@@ -14,11 +14,12 @@ function BrandMark() {
     <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
       <defs>
         <linearGradient id="pramaan-mark" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#4f46e5" />
-          <stop offset="1" stopColor="#7c3aed" />
+          <stop offset="0" stopColor="#1c1c1f" />
+          <stop offset="1" stopColor="#0b0b0c" />
         </linearGradient>
       </defs>
       <rect width="32" height="32" rx="8" fill="url(#pramaan-mark)" />
+      <circle cx="25" cy="7" r="3" fill="#f15a24" />
       <path
         d="M9 16.5l4.5 4.5L23 11.5"
         fill="none"
@@ -50,7 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 Sample report
               </a>
               <a href="/#analyse" className="nav-cta">
-                Analyse
+                Try it
               </a>
             </nav>
           </div>
@@ -59,7 +60,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <footer className="site-footer">
           <div className="site-footer-inner">
             <span>
-              <strong>Pramaan</strong> · the model reads, code decides. Suggests labels, never closes issues.
+              <strong>Pramaan</strong> · AI reads, code decides. It suggests labels and never closes anything.
             </span>
             <span>
               Built by team Black Coffee ·{" "}

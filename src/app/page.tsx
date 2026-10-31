@@ -14,23 +14,23 @@ const EXAMPLES = [
 const STEPS = [
   {
     title: "Read",
-    body: "An open-weight model reads the thread and lists each technical claim with the exact words it came from. A claim whose quote is not in the text is dropped.",
+    body: "An AI model reads the issue and writes down each claim it makes, like “parse() crashes on empty input”. It must quote the exact words, so it cannot invent claims.",
   },
   {
     title: "Check",
-    body: "Code decides. Files, symbols and stack frames are looked up at the reported commit, and a pull request's tests run with and without its fix in a sandbox with no network.",
+    body: "Pramaan checks each claim in the code. Does that file exist? Does that function exist? Do the tests fail without the fix? Tests run in a locked sandbox.",
   },
   {
-    title: "Grade",
-    body: "Every claim gets a verdict and the evidence behind it. The suggested label follows fixed rules, so the same evidence always gives the same answer.",
+    title: "Report",
+    body: "You get a simple answer for every claim, the proof behind it, and a suggested label. The same proof always gives the same answer.",
   },
 ];
 
 const PRINCIPLES = [
-  { title: "The model reads, code decides.", body: "No verdict rests on the model's opinion." },
-  { title: "Says when it cannot tell.", body: "A claim it could not check is labelled unchecked, not passed off as true." },
-  { title: "Never closes anything.", body: "It suggests a label; a maintainer makes the call." },
-  { title: "Runs on your machine.", body: "Open-weight model, locked-down Docker sandbox." },
+  { title: "AI reads, code decides.", body: "The AI never gives the verdict." },
+  { title: "Honest when unsure.", body: "If it cannot check something, it says so." },
+  { title: "Never closes anything.", body: "It suggests a label. You decide." },
+  { title: "Runs on your machine.", body: "No paid AI service; the model runs locally." },
 ];
 
 export default function Home() {
@@ -83,28 +83,41 @@ export default function Home() {
   return (
     <main className="page-container">
       <section className="hero">
-        <span className="eyebrow">Evidence-based triage for GitHub</span>
+        <span className="eyebrow">For open-source maintainers</span>
         <h1 className="hero-title">
-          Triage on <em>evidence</em>,
+          Check bug reports
           <br />
-          not on guesswork.
+          <em>against the code.</em>
         </h1>
         <p className="hero-sub">
-          Pramaan splits an issue or pull request into individual technical claims, checks each one against the
-          repository code, and shows you the evidence. When it cannot verify a claim, it says so.
+          Paste a GitHub issue or pull request. Pramaan lists every claim in it, checks each one in the code, and
+          shows you which ones hold up, with the proof.
         </p>
-        <div className="stat-row">
-          <span className="stat">
-            <strong>0</strong> real bugs dismissed across 27 labelled issues
-          </span>
-          <span className="stat">Tests run in a sandbox with no network</span>
-          <span className="stat">Open-weight model, runs locally</span>
-        </div>
       </section>
 
+      <div className="stat-strip hero-stats">
+        <div className="stat-cell">
+          <span className="stat-cell-label">Real bugs wrongly dismissed</span>
+          <span className="stat-cell-value">0</span>
+          <span className="stat-cell-note">
+            <span className="tag confirmed">27 issues tested</span>
+          </span>
+        </div>
+        <div className="stat-cell">
+          <span className="stat-cell-label">Where tests run</span>
+          <span className="stat-cell-value">Sandbox</span>
+          <span className="stat-cell-note">no internet access</span>
+        </div>
+        <div className="stat-cell">
+          <span className="stat-cell-label">AI model</span>
+          <span className="stat-cell-value">Local</span>
+          <span className="stat-cell-note">open-weight, on your machine</span>
+        </div>
+      </div>
+
       <section className="card" id="analyse" aria-labelledby="analyse-heading">
-        <h2 id="analyse-heading">Analyse an issue or pull request</h2>
-        <p className="card-sub">Paste a public GitHub link. An analysis usually takes a few minutes.</p>
+        <h2 id="analyse-heading">Check an issue or pull request</h2>
+        <p className="card-sub">Paste a link to a public GitHub issue or pull request. It usually takes a few minutes.</p>
 
         {serverError && (
           <div className="error-banner" role="alert">
@@ -218,10 +231,10 @@ export default function Home() {
 
           <div className="form-actions">
             <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? "Starting analysis…" : "Analyse →"}
+              {submitting ? "Starting…" : "Check it →"}
             </button>
             <a href="/jobs/sample" className="preview-link">
-              or preview a sample report
+              or see a sample report
             </a>
           </div>
 
@@ -249,7 +262,7 @@ export default function Home() {
         <h2 id="how-heading" className="section-title">
           How it works
         </h2>
-        <p className="section-sub">Three steps, and only the first one uses a language model.</p>
+        <p className="section-sub">Three steps. The AI only does the reading; the code decides.</p>
         <div className="how-grid">
           {STEPS.map((step, i) => (
             <div className="how-card" key={step.title}>
