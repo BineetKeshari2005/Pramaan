@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { POST } from "../../src/app/api/analyze/route";
 import { GET } from "../../src/app/api/status/[id]/route";
@@ -30,6 +33,7 @@ describe("API Routes", () => {
   beforeEach(() => {
     service = new JobService({
       analyze: async () => createFakeReport(),
+      dataDir: fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-routes-test-")),
     });
     setJobServiceForTests(service);
   });
@@ -150,5 +154,16 @@ describe("API Routes", () => {
       const data = await res.json();
       expect(data).toEqual({ error: "Job not found" });
     });
+  });
+
+  it("returns 500 without internals when the service itself fails", async () => {
+    setJobServiceForTests({
+      submit: () => {
+        throw new Error("disk exploded at /secret/path");
+      },
+    } as unknown as JobService);
+    const res = await POST(new Request("http://localhost/api/analyze", { method: "POST", body: JSON.stringify({ targetUrl: "https://github.com/a/b/issues/1" }) }));
+    expect(res.status).toBe(500);
+    expect(JSON.stringify(await res.json())).not.toContain("secret");
   });
 });

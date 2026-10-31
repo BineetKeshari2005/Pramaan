@@ -1,6 +1,7 @@
 import { OllamaClient, type OllamaClientOptions } from "../llm";
 import { LlmClaimExtractor } from "./extractor";
 
+export * from "./evidence";
 export * from "./extractor";
 export * from "./prompt";
 

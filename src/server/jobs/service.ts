@@ -98,9 +98,12 @@ export class JobService {
       }
     }
 
-    // Deduplication: if a queued or running job exists with the same targetUrl and commit, return that job
+    // Deduplication: the same issue (however its link is written, e.g. with #issuecomment-…) at the same commit
     const sameTarget = (job: JobRecord) =>
-      job.input.targetUrl === input.targetUrl &&
+      job.targetRef.owner.toLowerCase() === targetRef.owner.toLowerCase() &&
+      job.targetRef.repo.toLowerCase() === targetRef.repo.toLowerCase() &&
+      job.targetRef.number === targetRef.number &&
+      job.targetRef.kind === targetRef.kind &&
       (job.input.commit ?? undefined) === (input.commit ?? undefined);
 
     if (this.runningJob && sameTarget(this.runningJob)) {
@@ -132,6 +135,7 @@ export class JobService {
 
     this.jobs.set(id, job);
     this.queuedJobs.push(job);
+    this.writeJobToDisk(job);
 
     // Schedule processing asynchronously so submit() returns with status "queued"
     queueMicrotask(() => {
@@ -176,6 +180,13 @@ export class JobService {
         report: parsed.report,
         error: parsed.error,
       };
+      // Not in memory but saved as queued/running: the server stopped before the job finished.
+      if (record.status === "queued" || record.status === "running") {
+        record.status = "failed";
+        record.error = "The server restarted before this analysis finished. Please submit it again.";
+        record.updatedAt = this.now().toISOString();
+        this.writeJobToDisk(record);
+      }
       this.jobs.set(id, record);
       return this.toJobView(record);
     } catch {
@@ -196,6 +207,7 @@ export class JobService {
     this.runningJob = job;
     job.status = "running";
     job.updatedAt = this.now().toISOString();
+    this.writeJobToDisk(job);
 
     try {
       const onProgress = (event: ProgressEvent) => {

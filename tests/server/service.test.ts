@@ -8,6 +8,9 @@ import { type Report, ReportSchema } from "../../src/core/types";
 import { JobService } from "../../src/server/jobs/service";
 import { type AnalyzeRequest, JobInputError } from "../../src/server/jobs/types";
 
+// Tests must never write into the app's real .pramaan/jobs folder.
+const scratchDir = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-jobs-test-"));
+
 function createSampleReport(overrides: Partial<Report> = {}): Report {
   return ReportSchema.parse({
     target: {
@@ -81,6 +84,7 @@ describe("JobService", () => {
   it("invalid targetUrl and mismatched repoUrl throw JobInputError", () => {
     const service = new JobService({
       analyze: async () => createSampleReport(),
+      dataDir: scratchDir,
     });
 
     // Invalid targetUrl
@@ -111,6 +115,7 @@ describe("JobService", () => {
   it("rejects commits like --upload-pack=x and malformed commits", () => {
     const service = new JobService({
       analyze: async () => createSampleReport(),
+      dataDir: scratchDir,
     });
 
     expect(() =>
@@ -138,7 +143,7 @@ describe("JobService", () => {
   it("dedup returns the same job id for active jobs", async () => {
     const def = deferred<Report>();
     const analyze = vi.fn(async () => def.promise);
-    const service = new JobService({ analyze });
+    const service = new JobService({ analyze, dataDir: scratchDir });
 
     const job1 = service.submit({
       targetUrl: "https://github.com/acme/widgets/issues/42",
@@ -168,7 +173,7 @@ describe("JobService", () => {
       return createSampleReport();
     });
 
-    const service = new JobService({ analyze });
+    const service = new JobService({ analyze, dataDir: scratchDir });
 
     const job1 = service.submit({ targetUrl: "https://github.com/acme/widgets/issues/1" });
     const job2 = service.submit({ targetUrl: "https://github.com/acme/widgets/issues/2" });
@@ -215,7 +220,7 @@ describe("JobService", () => {
       return createSampleReport();
     });
 
-    const service = new JobService({ analyze });
+    const service = new JobService({ analyze, dataDir: scratchDir });
 
     const failedJob = service.submit({
       targetUrl: "https://github.com/acme/widgets/issues/13",
@@ -251,7 +256,7 @@ describe("JobService", () => {
       },
     );
 
-    const service = new JobService({ analyze });
+    const service = new JobService({ analyze, dataDir: scratchDir });
     const job = service.submit({
       targetUrl: "https://github.com/acme/widgets/issues/100",
     });
@@ -329,6 +334,35 @@ describe("JobService", () => {
       existsSpy.mockRestore();
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("JobService robustness", () => {
+  it("treats different links to the same issue as one job", () => {
+    let release: () => void = () => {};
+    const service = new JobService({
+      analyze: () => new Promise<Report>((resolve) => (release = () => resolve(createSampleReport()))),
+      dataDir: scratchDir,
+    });
+    const first = service.submit({ targetUrl: "https://github.com/acme/widgets/issues/7" });
+    const second = service.submit({ targetUrl: "https://github.com/Acme/Widgets/issues/7#issuecomment-123" });
+    expect(second.id).toBe(first.id);
+    release();
+  });
+
+  it("saves a job as soon as it is queued, and reports a job interrupted by a restart as failed", async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-restart-test-"));
+    try {
+      const before = new JobService({ analyze: () => new Promise<Report>(() => {}), dataDir: dir });
+      const { id } = before.submit({ targetUrl: "https://github.com/acme/widgets/issues/8" });
+      await new Promise((r) => setTimeout(r, 10));
+      expect(JSON.parse(fs.readFileSync(path.join(dir, `${id}.json`), "utf8")).status).toBe("running");
+
+      const after = new JobService({ analyze: async () => createSampleReport(), dataDir: dir });
+      expect(after.get(id)).toMatchObject({ status: "failed", error: expect.stringContaining("restarted") });
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
     }
   });
 });
