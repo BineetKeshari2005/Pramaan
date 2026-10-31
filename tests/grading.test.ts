@@ -48,6 +48,15 @@ describe("assessClaim", () => {
     expect(a.needsHumanReview).toBe(false);
   });
 
+  it("drops inconclusive checks' gaps once a decisive check settled the claim", () => {
+    const a = assessClaim(makeClaim({ id: "p", type: "pr_claim" }), [
+      { verdict: "insufficient_evidence", evidence: [ev("static_proof")], missing: ["The referenced code exists, but the described behavior was not executed."] },
+      { verdict: "reproduced", evidence: [ev("failing_test")], missing: [] },
+    ]);
+    expect(a).toMatchObject({ verdict: "reproduced", confidence: "high", missing: [] });
+    expect(a.evidence).toHaveLength(2);
+  });
+
   it("gives high confidence to executed reproductions", () => {
     const a = assessClaim(claim, [{ verdict: "reproduced", evidence: [ev("executed_repro")], missing: [] }]);
     expect(a.confidence).toBe("high");

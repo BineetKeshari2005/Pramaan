@@ -25,9 +25,7 @@ export function buildReporterReply(report: Report): string | null {
   );
 
   // 2. What could not be verified (one bullet per relevant claim with claim statement)
-  const unverified = open.filter(
-    (a) => a.verdict !== "reproduced" || a.missing.length > 0,
-  );
+  const unverified = open.filter((a) => a.verdict !== "reproduced");
   if (unverified.length > 0) {
     const claimBullets = unverified.map((a) => `- ${a.claim.statement}`).join("\n");
     partsBeforeDetails.push(`The following could not be fully verified:\n${claimBullets}`);

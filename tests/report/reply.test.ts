@@ -114,6 +114,27 @@ describe("buildReporterReply", () => {
     expect(reply).toContain("Saving a widget raises KeyError.");
   });
 
+  it("never lists a reproduced claim as unverified", () => {
+    const claim = (id: string, statement: string) => ({
+      id,
+      type: "pr_claim" as const,
+      statement,
+      quote: statement,
+      references: { files: [], symbols: [], lines: [], versions: ["1.0"], commands: [] },
+      evidenceProvided: [],
+    });
+    const report = makeReport({
+      triage: { label: "confirmed", rationale: "Reproduced by the PR's tests" },
+      assessments: [
+        { claim: claim("c1", "The fix adds guards to chunked_even."), verdict: "reproduced", confidence: "high", needsHumanReview: false, evidence: [], missing: [] },
+        { claim: claim("c2", "ruff check passed."), verdict: "insufficient_evidence", confidence: "none", needsHumanReview: true, evidence: [], missing: ["Not checked."] },
+      ],
+    });
+    const reply = buildReporterReply(report) ?? "";
+    expect(reply).toContain("ruff check passed.");
+    expect(reply).not.toContain("The fix adds guards to chunked_even.");
+  });
+
   it("asks for the exact version when the report gives none", () => {
     const report = makeReport({
       target: {
