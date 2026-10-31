@@ -104,7 +104,7 @@ export default function SharePanel({ report }: SharePanelProps) {
       ? "Copied ✓"
       : fallbackTab === "markdown"
         ? "Press Ctrl/Cmd+C to copy"
-        : "Copy Markdown";
+        : "Copy as GitHub comment";
 
   const replyButtonLabel =
     copiedTab === "reply"
@@ -116,9 +116,10 @@ export default function SharePanel({ report }: SharePanelProps) {
   return (
     <section className="share-panel" aria-labelledby="share-heading">
       <div className="share-panel-header">
-        <h2 id="share-heading">Share with GitHub</h2>
+        <h2 id="share-heading">Share on GitHub</h2>
         <p className="share-notice">
-          Nothing is posted automatically — review the text, then paste it yourself.
+          Pramaan never posts anything. Copy the text, check it, then paste it into the issue or pull
+          request yourself.
         </p>
       </div>
 
@@ -135,7 +136,7 @@ export default function SharePanel({ report }: SharePanelProps) {
           onClick={() => setActiveTab("markdown")}
           onKeyDown={handleTabKeyDown}
         >
-          Evidence report (Markdown)
+          GitHub comment
         </button>
         <button
           ref={replyTabRef}
@@ -167,7 +168,7 @@ export default function SharePanel({ report }: SharePanelProps) {
         className="share-tabpanel"
       >
         <label htmlFor="share-markdown-textarea" className="sr-only">
-          Evidence report (Markdown)
+          GitHub comment (Markdown)
         </label>
         <textarea
           id="share-markdown-textarea"
@@ -175,7 +176,7 @@ export default function SharePanel({ report }: SharePanelProps) {
           readOnly
           rows={14}
           spellCheck={false}
-          value={content.markdown}
+          value={content.comment}
           className="share-textarea"
         />
         <div className="share-actions">
@@ -184,10 +185,10 @@ export default function SharePanel({ report }: SharePanelProps) {
             className="btn btn-primary"
             onClick={() =>
               handleCopy(
-                content.markdown,
+                content.comment,
                 "markdown",
                 markdownTextareaRef,
-                "Evidence report",
+                "GitHub comment",
               )
             }
           >

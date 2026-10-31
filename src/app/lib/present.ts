@@ -140,6 +140,19 @@ export function stageLabel(stage: "fetch" | "extract" | "checkout" | "verify" | 
   }
 }
 
+export function jobStatusText(status: "queued" | "running" | "done" | "failed"): string {
+  switch (status) {
+    case "queued":
+      return "Waiting";
+    case "running":
+      return "Checking";
+    case "done":
+      return "Finished";
+    case "failed":
+      return "Failed";
+  }
+}
+
 // ---------- Report summary ----------
 
 export interface ReportSummary {

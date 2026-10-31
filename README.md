@@ -134,9 +134,12 @@ npm run dev
 Open http://localhost:3000, paste an issue or pull request link, and watch the analysis run live. It takes about 30–60 s on a laptop. The results page shows:
 - a card for each claim with its verdict, confidence, the quote it came from, and evidence linked to the exact line at the verified commit,
 - what is missing,
-- a **Share with GitHub** panel: the Markdown evidence report and a draft reply to the reporter, ready to copy.
+- a **Copy as GitHub comment** button: ready-to-paste Markdown with a one-line summary, one block per claim (verdict, evidence level, evidence, what is missing), detailed logs folded into `<details>`, and a suggested label. Report text is untrusted, so @mentions, `#123` references and links in it are neutralized and logs are fenced safely; evidence is trimmed, never verdicts, to stay under GitHub's 65,536-character limit. Pramaan only copies it; it never posts,
+- a **Share on GitHub** panel with the same comment and a draft reply to the reporter.
 
 To see the design without running an analysis, open http://localhost:3000/jobs/sample.
+
+**Triage queue** (http://localhost:3000/queue): paste 2 to 10 issue and pull request links, one per line, from any repositories. Invalid lines are skipped one by one. The links run one at a time through the same pipeline, a failure does not stop the rest, and the results are ranked by evidence strength: reproduced first, then contradicted, not reproduced, insufficient evidence and failed. Ties go to the stronger evidence, then more strongly evidenced claims, then paste order. Pick any row, or step through results with Previous and Next, to read its full report and copy its comment. The order is a reading order; nothing is closed or labelled on GitHub.
 
 ### Command line
 
