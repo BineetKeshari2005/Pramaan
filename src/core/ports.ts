@@ -76,6 +76,10 @@ export interface SandboxSpec {
   timeoutMs: number;
   memoryMb: number;
   cpus: number;
+  /** Working directory inside the container (default /repo). */
+  workdir?: string;
+  /** Environment for the command; never put secrets here. */
+  env?: Record<string, string>;
 }
 
 export interface SandboxResult {
@@ -88,6 +92,8 @@ export interface SandboxResult {
 
 export interface Sandbox {
   run(spec: SandboxSpec): Promise<SandboxResult>;
+  /** Whether the sandbox runtime (e.g. the Docker daemon) can run containers right now. */
+  isAvailable?(): Promise<boolean>;
 }
 
 export interface VerifyContext {
