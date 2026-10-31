@@ -1,0 +1,16 @@
+{
+  "model": "gemma4:e2b-it-qat",
+  "recordedAt": "2026-10-31T19:12:30.950Z",
+  "inputFile": "tests/fixtures/issues/vague-nebra-157.json",
+  "sourceUrl": "https://github.com/nebra-lang/nebra/issues/157",
+  "durationMs": 20616,
+  "responses": [
+    "{\"claims\":[{\"type\":\"behavior\",\"statement\":\"The VSCode extension version 0.5.10 does not work at all.\",\"quote\":\"Latest VSCode extension does not work at all (0.5.10)\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[\"0.5.10\"],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"behavior\",\"statement\":\"In the Nebra Declaration language mode, pressing <kbd>CTRL+Space</kbd> results in no code suggestions regardless of context.\",\"quote\":\"<kbd>CTRL+Space</kbd>: No code suggestions regardless of context.\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[],\"commands\":[\"CTRL+Space\"]},\"evidenceProvided\":[\"none\"]},{\"type\":\"behavior\",\"statement\":\"Mouse hover over class/function/variables in the extension yields no hints/popups.\",\"quote\":\"Mouse hover over class/function/variables: No hints/popups.\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"behavior\",\"statement\":\"Only syntax highlighting works.\",\"quote\":\"Nothing works except syntax highlighting.\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"none\"]}]}"
+  ],
+  "summary": {
+    "status": "ok",
+    "attempts": 1,
+    "claims": 4,
+    "droppedByGrounding": 0
+  }
+}

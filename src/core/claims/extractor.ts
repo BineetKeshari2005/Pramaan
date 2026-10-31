@@ -39,14 +39,31 @@ export function parseExtractionOutput(raw: string): ParseOutcome {
   return { ok: true, claims: parsed.data.claims };
 }
 
-const normalizeText = (s: string) => s.toLowerCase().replace(/[`*]/g, "").replace(/\s+/g, " ").trim();
+// The prompt asks for single quotes inside JSON strings, so quote styles must compare equal.
+const normalizeText = (s: string) =>
+  s.toLowerCase().replace(/[`*]/g, "").replace(/["“”‘’]/g, "'").replace(/\s+/g, " ").trim();
 const cleanToken = (s: string) => s.replace(/`/g, "").trim();
 const cleanFile = (s: string) => cleanToken(s).replace(/^\.\//, "");
 const cleanSymbol = (s: string) => cleanToken(s).replace(/\(\)$/, "");
 
+const MIN_QUOTE_CHARS = 10;
+const MIN_STATEMENT_WORDS = 4;
+const count = (s: string, ch: string) => s.split(ch).length - 1;
+
+/** Small models sometimes break a JSON string at an inner quote, leaving fragments like "Calling `f(". */
+function isWellFormed(claim: ExtractedClaim): boolean {
+  const statement = claim.statement.trim();
+  return (
+    normalizeText(claim.quote).length >= MIN_QUOTE_CHARS &&
+    statement.split(/\s+/).length >= MIN_STATEMENT_WORDS &&
+    count(statement, "(") === count(statement, ")") &&
+    count(statement, "`") % 2 === 0
+  );
+}
+
 /**
- * Keeps only what the report actually says: a claim whose quote is not in the report is dropped,
- * and references that never appear in the report are removed from the claims that remain.
+ * Keeps only what the report actually says: a claim whose quote is not in the report (or that is a
+ * truncated fragment) is dropped, and references that never appear in the report are removed.
  */
 export function groundClaims(
   claims: ExtractedClaim[],
@@ -58,7 +75,7 @@ export function groundClaims(
 
   const kept: ExtractedClaim[] = [];
   for (const claim of claims) {
-    if (normalizeText(claim.quote).length < 3 || !appears(claim.quote)) continue;
+    if (!isWellFormed(claim) || !appears(claim.quote)) continue;
     const files = [...new Set(claim.references.files.map(cleanFile))].filter(appears);
     const evidence = claim.evidenceProvided.length > 1
       ? claim.evidenceProvided.filter((e) => e !== "none")

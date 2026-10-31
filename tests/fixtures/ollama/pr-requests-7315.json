@@ -1,0 +1,16 @@
+{
+  "model": "gemma4:e2b-it-qat",
+  "recordedAt": "2026-10-31T19:10:21.383Z",
+  "inputFile": "tests/fixtures/issues/pr-requests-7315.json",
+  "sourceUrl": "https://github.com/psf/requests/pull/7315",
+  "durationMs": 24069,
+  "responses": [
+    "{\"claims\":[{\"type\":\"pr_claim\",\"statement\":\"The pull request fixes issue #6711 where S3 presigned URLs with keys starting with '/' were incorrectly modified, breaking URL signatures.\",\"quote\":\"Fixes issue #6711 where S3 presigned URLs with keys starting with '/' were incorrectly modified, breaking URL signatures.\",\"references\":{\"files\":[\"src/requests/adapters.py\",\"tests/test_adapters.py\"],\"symbols\":[\"request_url\"],\"lines\":[],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"none\"]},{\"type\":\"behavior\",\"statement\":\"URLs like `https://bucket.s3.amazonaws.com//key_name` now correctly preserve `//key_name` in the path.\",\"quote\":\"URLs like `https://bucket.s3.amazonaws.com//key_name` now correctly preserve `//key_name` in the path.\",\"references\":{\"files\":[],\"symbols\":[],\"lines\":[],\"versions\":[],\"commands\":[]},\"evidenceProvided\":[\"repro_steps\"]}\n]\n}"
+  ],
+  "summary": {
+    "status": "ok",
+    "attempts": 1,
+    "claims": 2,
+    "droppedByGrounding": 0
+  }
+}

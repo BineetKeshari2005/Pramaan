@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
   buildExtractionPrompt,
   createExtractorFromEnv,
+  DEFAULT_EXTRACT_MODEL,
+  extractorOllamaOptions,
   LlmClaimExtractor,
   parseExtractionOutput,
   reportSections,
@@ -130,12 +132,24 @@ describe("LlmClaimExtractor (synthetic cases)", () => {
   });
 
   it("synthetic: dedupes identical statements and caps the claim count", async () => {
-    const many = Array.from({ length: 20 }, (_, i) => claimJson({ statement: `Claim number ${i % 15}` }));
+    const many = Array.from({ length: 20 }, (_, i) => claimJson({ statement: `Claim number ${i % 15} is checkable.` }));
     const llm = new FakeLlm("m", [output(...many)]);
     const result = await new LlmClaimExtractor({ llm, maxClaims: 12 }).extract(doc);
     if (result.status !== "ok") throw new Error("expected ok");
     expect(result.claims).toHaveLength(12);
     expect(result.claims.map((c) => c.id)).toEqual(Array.from({ length: 12 }, (_, i) => `c${i + 1}`));
+  });
+
+  it("synthetic: drops fragments left when the model breaks a string at an inner quote", async () => {
+    const llm = new FakeLlm("m", [
+      output(
+        claimJson(),
+        claimJson({ statement: "Calling `parse_url_v2(", quote: "parse_url_v2('') in ./src/url.py" }),
+        claimJson({ statement: "The function raises an error.", quote: "line 88" }),
+      ),
+    ]);
+    const result = await new LlmClaimExtractor({ llm }).extract(doc);
+    expect(result.status === "ok" && result.claims).toHaveLength(1);
   });
 
   it("synthetic: returns ok with no claims when the report makes none", async () => {
@@ -194,5 +208,13 @@ describe("parseExtractionOutput", () => {
 describe("createExtractorFromEnv", () => {
   it("synthetic: builds an extractor without contacting Ollama", () => {
     expect(createExtractorFromEnv({ PRAMAAN_EXTRACT_MODEL: "x", OLLAMA_URL: "http://h:1" })).toBeInstanceOf(LlmClaimExtractor);
+  });
+
+  it("synthetic: defaults to Gemma 4 with thinking on, overridable from the environment", () => {
+    expect(extractorOllamaOptions({})).toEqual({ model: DEFAULT_EXTRACT_MODEL, baseUrl: undefined, think: true });
+    expect(extractorOllamaOptions({ PRAMAAN_EXTRACT_MODEL: "gemma4:e4b", PRAMAAN_EXTRACT_THINK: "FALSE" })).toMatchObject({
+      model: "gemma4:e4b",
+      think: false,
+    });
   });
 });

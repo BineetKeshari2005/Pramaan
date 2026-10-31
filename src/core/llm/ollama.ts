@@ -21,6 +21,8 @@ export interface OllamaClientOptions {
   baseUrl?: string;
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
+  /** Sent as Ollama's `think` flag when set; leave unset for models without a thinking mode. */
+  think?: boolean;
 }
 
 export const DEFAULT_OLLAMA_URL = "http://localhost:11434";
@@ -30,12 +32,14 @@ export class OllamaClient implements LlmClient {
   private readonly baseUrl: string;
   private readonly fetchImpl: typeof fetch;
   private readonly timeoutMs: number;
+  private readonly think: boolean | undefined;
 
   constructor(options: OllamaClientOptions) {
     this.model = options.model;
     this.baseUrl = (options.baseUrl ?? DEFAULT_OLLAMA_URL).replace(/\/+$/, "");
     this.fetchImpl = options.fetchImpl ?? fetch;
     this.timeoutMs = options.timeoutMs ?? 120_000;
+    this.think = options.think;
   }
 
   async completeJson(request: LlmRequest): Promise<string> {
@@ -48,6 +52,7 @@ export class OllamaClient implements LlmClient {
         { role: "user", content: request.prompt },
       ],
       options: { temperature: 0, num_ctx: 8192 },
+      ...(this.think === undefined ? {} : { think: this.think }),
     };
 
     const controller = new AbortController();

@@ -3,7 +3,7 @@
 // Usage: npx tsx scripts/record-extraction.ts tests/fixtures/issues/<name>.json
 import { readFileSync, writeFileSync } from "node:fs";
 import { basename } from "node:path";
-import { DEFAULT_EXTRACT_MODEL, groundClaims, LlmClaimExtractor, parseExtractionOutput, reportSections } from "../src/core/claims";
+import { extractorOllamaOptions, groundClaims, LlmClaimExtractor, parseExtractionOutput, reportSections } from "../src/core/claims";
 import { OllamaClient } from "../src/core/llm";
 import type { LlmClient, LlmRequest, TargetDocument } from "../src/core/ports";
 
@@ -14,11 +14,7 @@ if (!inputFile) {
 }
 
 const doc = JSON.parse(readFileSync(inputFile, "utf8")) as TargetDocument & { sourceUrl?: string };
-const ollama = new OllamaClient({
-  model: process.env.PRAMAAN_EXTRACT_MODEL?.trim() || DEFAULT_EXTRACT_MODEL,
-  baseUrl: process.env.OLLAMA_URL?.trim() || undefined,
-  timeoutMs: 600_000,
-});
+const ollama = new OllamaClient({ ...extractorOllamaOptions(), timeoutMs: 600_000 });
 
 const responses: string[] = [];
 const recorder: LlmClient = {

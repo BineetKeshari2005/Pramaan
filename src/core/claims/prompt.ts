@@ -4,13 +4,14 @@ export const SYSTEM_PROMPT = `You extract technical claims from a GitHub issue o
 
 Rules:
 1. A claim is one atomic, checkable technical statement made by the reporter: what the software does, where code lives, which version is affected, what security impact exists, or what a pull request changes or fixes.
-2. Split sentences that contain several claims into separate claims.
+2. Split sentences that contain several claims into separate claims. Concrete results are the most valuable claims: when the report shows an input, an observed result and an expected result, emit the observed result (for example "f('10K') returns 10") and the expected result as separate claims.
 3. "quote" is copied character for character from the report: a short span, under 200 characters.
 4. "statement" restates the claim as one plain sentence.
 5. Put a file, symbol (function, class, method, variable, CLI flag), line number, version or command into "references" ONLY if it literally appears in the report. Never guess or invent.
-6. "evidenceProvided" lists what the reporter actually included: stack_trace, repro_steps, logs, test, code_snippet, screenshot, or none.
+6. "evidenceProvided" lists what the reporter actually included for that claim: stack_trace (a traceback), repro_steps (commands or code that trigger it), logs (program output), test, code_snippet, screenshot, or none. A code block or REPL session showing the call counts as repro_steps.
 7. Ignore greetings, thanks, opinions, feature requests and questions that make no claim.
 8. If the report makes no technical claim, return {"claims": []}.
+9. Inside JSON string values, write code with single quotes, e.g. f('10K'), never with unescaped double quotes.
 
 Claim types:
 - behavior: what the software does or fails to do (crash, wrong output, error, hang)

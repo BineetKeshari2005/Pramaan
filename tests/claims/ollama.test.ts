@@ -49,6 +49,14 @@ describe("OllamaClient", () => {
     expect(JSON.parse(String(calls[0]?.init.body)).format).toBe("json");
   });
 
+  it("sends the think flag only when configured", async () => {
+    const { fetchImpl, calls } = fakeFetch(async () => Response.json({ message: { content: "{}" } }));
+    await new OllamaClient({ model: "m", fetchImpl, think: false }).completeJson(request);
+    await new OllamaClient({ model: "m", fetchImpl }).completeJson(request);
+    expect(JSON.parse(String(calls[0]?.init.body)).think).toBe(false);
+    expect("think" in JSON.parse(String(calls[1]?.init.body))).toBe(false);
+  });
+
   it("explains how to start Ollama when the connection is refused", async () => {
     const { fetchImpl } = fakeFetch(async () => {
       throw new TypeError("fetch failed: connect ECONNREFUSED 127.0.0.1:11434");
