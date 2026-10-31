@@ -4,7 +4,13 @@
 Problem 2: Triage that tests the claims
 (Evidence-Based Open Source Issue and Pull Request Triage)
 
-We are building Pramaan, a tool that checks whether the technical claims in a GitHub issue or pull request are true. It does not judge who wrote a report. It extracts each claim, verifies it against the real source code and, where possible, in an isolated sandbox, and shows maintainers the evidence. When it cannot verify a claim, it says so instead of guessing.
+Project: **Pramaan**, a tool that checks whether the technical claims in a GitHub issue or pull request are true. It does not judge who wrote a report.
+- It extracts each claim and verifies it against the real source code at the right commit.
+- Where possible, it executes in an isolated sandbox: the reporter's Python snippet, or the pull request's tests with and without its fix.
+- It shows maintainers the evidence.
+- When it cannot verify a claim, it says so instead of guessing.
+
+See [README.md](README.md) for how it works and [examples/eval/SUMMARY.md](examples/eval/SUMMARY.md) for the evaluation on 27 labelled closed issues.
 
 ## Models
 The model is open-weight and runs locally through Ollama. No closed or cloud AI APIs are used at runtime. This table lists only models our code actually calls.
@@ -15,7 +21,11 @@ The model is open-weight and runs locally through Ollama. No closed or cloud AI 
 
 Any Ollama model can be swapped in with `PRAMAAN_EXTRACT_MODEL` (for example `gemma4:e4b` on a 16 GB machine).
 
-The model only reads text. It never decides a verdict. Every claim it returns must quote the report word for word, or it is dropped. All verdicts come from code: file, symbol and line checks against the repository at the right commit, stack-trace matching, and rule-based evidence grading.
+The model only reads text. It never decides a verdict. Every claim it returns must quote the report word for word, or it is dropped. All verdicts come from code:
+- file, symbol and line checks against the repository at the right commit,
+- stack-trace matching,
+- sandboxed execution of reporters' snippets and pull requests' tests,
+- rule-based evidence grading.
 
 ## Members
 - Bineet Keshari

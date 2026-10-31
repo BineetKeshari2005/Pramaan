@@ -72,7 +72,8 @@ export function assessClaim(claim: Claim, results: VerificationResult[]): ClaimA
     verdict: best.verdict,
     confidence,
     evidence: allEvidence,
-    missing,
+    // Gaps reported by inconclusive checks ("not executed") no longer apply once a decisive check settled the claim.
+    missing: [...new Set(decisive.flatMap((r) => r.missing))],
     needsHumanReview: confidence === "low" || confidence === "none" || needsReview(claim, best.verdict),
   };
 }
