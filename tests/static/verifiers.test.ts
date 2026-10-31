@@ -205,7 +205,7 @@ describe("StackTraceVerifier", () => {
 });
 
 describe("createStaticVerifiers", () => {
-  it("returns the reference and stack-trace verifiers", () => {
-    expect(createStaticVerifiers().map((v) => v.name)).toEqual(["code-references", "stack-trace"]);
+  it("returns the reference, stack-trace and pr-diff verifiers", () => {
+    expect(createStaticVerifiers().map((v) => v.name)).toEqual(["code-references", "stack-trace", "pr-diff"]);
   });
 });
