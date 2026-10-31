@@ -144,6 +144,16 @@ export const ReportSchema = z.object({
     z.object({ status: z.literal("abstained"), reason: z.string() }),
   ]),
   assessments: z.array(ClaimAssessmentSchema),
-  triage: z.object({ label: TriageLabelSchema, rationale: z.string() }),
+  triage: z.object({
+    label: TriageLabelSchema,
+    rationale: z.string(),
+    /**
+     * The closest closed-issue label when forced to choose, from fixed evidence rules. Secondary to
+     * `label`: when `label` abstains, this is a lower-confidence guess, not a verdict.
+     */
+    bestGuess: z
+      .object({ label: z.enum(["invalid", "cannot-reproduce", "confirmed"]), rule: z.string() })
+      .optional(),
+  }),
 });
 export type Report = z.infer<typeof ReportSchema>;

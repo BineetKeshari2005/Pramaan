@@ -43,7 +43,7 @@ async function main(argv: string[]): Promise<number> {
   if (existsSync(".env.local")) process.loadEnvFile(".env.local");
   const outDir = values.out ?? "examples/eval";
   console.error(`Running ${cases.length} case(s) from ${file} → ${outDir}`);
-  const { metrics } = await runEvaluation(cases, createDeps(), {
+  const { metrics, bestGuessMetrics } = await runEvaluation(cases, createDeps(), {
     outDir,
     datasetLabel: file,
     fresh: values.fresh,
@@ -51,7 +51,10 @@ async function main(argv: string[]): Promise<number> {
   });
   const pct = (x: number | null) => (x === null ? "n/a" : `${(x * 100).toFixed(0)}%`);
   console.error(
-    `\nAnswered ${metrics.decided}/${metrics.total} · abstained ${pct(metrics.abstentionRate)} · accuracy when answered ${pct(metrics.accuracyWhenDecided)} · real bugs dismissed ${metrics.realBugsDismissed}`,
+    `\nCommitted: answered ${metrics.decided}/${metrics.total} · abstained ${pct(metrics.abstentionRate)} · accuracy when answered ${pct(metrics.accuracyWhenDecided)} · real bugs dismissed ${metrics.realBugsDismissed}`,
+  );
+  console.error(
+    `Best guess: accuracy ${pct(bestGuessMetrics.overallAccuracy)} (${bestGuessMetrics.correct}/${bestGuessMetrics.total}) · real bugs dismissed ${bestGuessMetrics.realBugsDismissed}`,
   );
   console.error(`Summary: ${outDir}/SUMMARY.md`);
   return 0;

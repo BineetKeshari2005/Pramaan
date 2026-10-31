@@ -103,8 +103,13 @@ export function renderReportMarkdown(report: Report): string {
 
   // 3. Suggested label and rationale
   const labelHuman = formatTriageLabel(report.triage.label);
+  const guess = report.triage.bestGuess;
+  const guessLine =
+    guess && guess.label !== report.triage.label
+      ? `\n\n**Best guess if a label must be chosen:** ${formatTriageLabel(guess.label)}: ${escapeHtml(guess.rule)} _(a guess from fixed evidence rules, not a verdict)_`
+      : "";
   sections.push(
-    `**Suggested label:** **${labelHuman}**\n${escapeHtml(report.triage.rationale)}\n\n_Suggested label only — Pramaan never closes issues._`,
+    `**Suggested label:** **${labelHuman}**\n${escapeHtml(report.triage.rationale)}${guessLine}\n\n_Suggested label only — Pramaan never closes issues._`,
   );
 
   // 4. Abstained warning if applicable

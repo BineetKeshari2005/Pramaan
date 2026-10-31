@@ -1,9 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { type PipelineDeps, ReportSchema, parseTargetUrl, runPipeline } from "../core";
+import { type BestGuessLabel, bestGuess, type PipelineDeps, ReportSchema, parseTargetUrl, runPipeline, type TriageLabel } from "../core";
 import { renderReportMarkdown } from "../core/report";
 import type { EvalCase } from "./dataset";
-import { computeMetrics, type EvalRow, type Metrics } from "./metrics";
+import { asBestGuessRows, computeMetrics, type EvalRow, majorityBaseline, type Metrics } from "./metrics";
 import { renderSummary } from "./render";
 
 export interface RunOptions {
@@ -17,7 +17,10 @@ export interface RunOptions {
 
 export interface RunResult {
   rows: EvalRow[];
+  /** Scored on the committed label (abstentions count as not answered). */
   metrics: Metrics;
+  /** Scored on the forced-choice best guess. */
+  bestGuessMetrics: Metrics;
   models: string[];
 }
 
@@ -43,9 +46,12 @@ export async function runEvaluation(cases: EvalCase[], deps: PipelineDeps, optio
     if (!options.fresh && existsSync(jsonPath)) {
       const saved = ReportSchema.parse(JSON.parse(readFileSync(jsonPath, "utf8")));
       saved.models.forEach((m) => models.add(m));
+      // Grading-only fields are recomputed from the saved claims and evidence; the model is not re-run.
+      const guess = saved.triage.bestGuess ?? bestGuess(saved.triage.label, saved.extraction.status === "ok", saved.assessments);
+      writeFileSync(path.join(reportsDir, `${c.id}.md`), renderReportMarkdown({ ...saved, triage: { ...saved.triage, bestGuess: guess } }));
       const previous = previousRows.find((r) => r.id === c.id);
-      rows.push({ id: c.id, url: c.url, reference: c.reference, predicted: saved.triage.label, durationMs: previous?.durationMs ?? 0 });
-      log(`${prefix}: reused saved report → ${saved.triage.label}`);
+      rows.push(rowFor(c, saved.triage.label, guess, previous?.durationMs ?? 0));
+      log(`${prefix}: reused saved report → ${saved.triage.label} (best guess ${guess.label})`);
       continue;
     }
 
@@ -55,8 +61,9 @@ export async function runEvaluation(cases: EvalCase[], deps: PipelineDeps, optio
       writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
       writeFileSync(path.join(reportsDir, `${c.id}.md`), renderReportMarkdown(report));
       report.models.forEach((m) => models.add(m));
-      rows.push({ id: c.id, url: c.url, reference: c.reference, predicted: report.triage.label, durationMs: Date.now() - started });
-      log(`${prefix}: ${report.triage.label} (maintainers: ${c.reference}) in ${((Date.now() - started) / 1000).toFixed(0)}s`);
+      const guess = report.triage.bestGuess ?? bestGuess(report.triage.label, report.extraction.status === "ok", report.assessments);
+      rows.push(rowFor(c, report.triage.label, guess, Date.now() - started));
+      log(`${prefix}: ${report.triage.label}, best guess ${guess.label} (maintainers: ${c.reference}) in ${((Date.now() - started) / 1000).toFixed(0)}s`);
     } catch (err) {
       const message = (err as Error).message.split("\n")[0] ?? "unknown error";
       rows.push({ id: c.id, url: c.url, reference: c.reference, predicted: "error", durationMs: Date.now() - started, error: message });
@@ -67,13 +74,28 @@ export async function runEvaluation(cases: EvalCase[], deps: PipelineDeps, optio
   }
 
   const metrics = computeMetrics(rows);
+  const bestGuessMetrics = computeMetrics(asBestGuessRows(rows));
+  const baseline = majorityBaseline(rows);
   writeFileSync(path.join(options.outDir, "results.json"), `${JSON.stringify(rows, null, 2)}\n`);
-  writeFileSync(path.join(options.outDir, "metrics.json"), `${JSON.stringify(metrics, null, 2)}\n`);
+  writeFileSync(
+    path.join(options.outDir, "metrics.json"),
+    `${JSON.stringify({ strict: metrics, bestGuess: bestGuessMetrics, majorityBaseline: baseline }, null, 2)}\n`,
+  );
   writeFileSync(
     path.join(options.outDir, "SUMMARY.md"),
-    renderSummary(metrics, rows, { dataset: options.datasetLabel, models: [...models], generatedAt: now().toISOString() }),
+    renderSummary(metrics, rows, {
+      dataset: options.datasetLabel,
+      models: [...models],
+      generatedAt: now().toISOString(),
+      bestGuess: bestGuessMetrics,
+      baseline,
+    }),
   );
-  return { rows, metrics, models: [...models] };
+  return { rows, metrics, bestGuessMetrics, models: [...models] };
+}
+
+function rowFor(c: EvalCase, predicted: TriageLabel, guess: { label: BestGuessLabel; rule: string }, durationMs: number): EvalRow {
+  return { id: c.id, url: c.url, reference: c.reference, predicted, bestGuess: guess.label, bestGuessRule: guess.rule, durationMs };
 }
 
 function readPreviousRows(outDir: string): EvalRow[] {

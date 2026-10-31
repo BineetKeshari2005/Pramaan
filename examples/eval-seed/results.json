@@ -4,6 +4,8 @@
     "url": "https://github.com/sqlmapproject/sqlmap/issues/6154",
     "reference": "invalid",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 56209
   },
   {
@@ -11,6 +13,8 @@
     "url": "https://github.com/moh3n9595/js-abbreviation-number/issues/39",
     "reference": "invalid",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 24936
   },
   {
@@ -18,6 +22,8 @@
     "url": "https://github.com/nebra-lang/nebra/issues/157",
     "reference": "invalid",
     "predicted": "needs-info",
+    "bestGuess": "invalid",
+    "bestGuessRule": "The report has no checkable technical detail: no code references, steps, logs or traces.",
     "durationMs": 24814
   },
   {
@@ -25,6 +31,8 @@
     "url": "https://github.com/Exa-Networks/exabgp/issues/955",
     "reference": "cannot-reproduce",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 35438
   },
   {
@@ -32,6 +40,8 @@
     "url": "https://github.com/christiaangoossens/hass-oidc-auth/issues/334",
     "reference": "cannot-reproduce",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 51955
   },
   {
@@ -39,6 +49,8 @@
     "url": "https://github.com/time4tea/gopro-dashboard-overlay/issues/241",
     "reference": "cannot-reproduce",
     "predicted": "needs-human-review",
+    "bestGuess": "invalid",
+    "bestGuessRule": "The report names code that does not exist at the checked commit.",
     "durationMs": 53307
   },
   {
@@ -46,6 +58,8 @@
     "url": "https://github.com/jentic/jentic-one/issues/1712",
     "reference": "confirmed",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 58743
   },
   {
@@ -53,6 +67,8 @@
     "url": "https://github.com/Kalinka-Player/KalinkaPlayer/issues/159",
     "reference": "confirmed",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 40342
   },
   {
@@ -60,6 +76,8 @@
     "url": "https://github.com/meellm/MeManga/issues/234",
     "reference": "confirmed",
     "predicted": "needs-info",
+    "bestGuess": "confirmed",
+    "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
     "durationMs": 38142
   }
 ]

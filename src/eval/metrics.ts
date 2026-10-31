@@ -19,8 +19,23 @@ export interface EvalRow {
   url: string;
   reference: ReferenceLabel;
   predicted: Predicted;
+  /** The forced-choice label (equal to `predicted` when that is already one of the three answers). */
+  bestGuess?: ReferenceLabel;
+  bestGuessRule?: string;
   durationMs: number;
   error?: string;
+}
+
+/** The same rows scored on the forced-choice label instead of the committed one. */
+export function asBestGuessRows(rows: EvalRow[]): EvalRow[] {
+  return rows.map((r) => ({ ...r, predicted: r.bestGuess ?? r.predicted }));
+}
+
+/** Accuracy of always answering the most common reference label: what a guess must beat. */
+export function majorityBaseline(rows: EvalRow[]): { label: ReferenceLabel; accuracy: number } {
+  const counts = REFERENCE_LABELS.map((l) => ({ label: l, n: rows.filter((r) => r.reference === l).length }));
+  const best = counts.reduce((a, b) => (b.n > a.n ? b : a));
+  return { label: best.label, accuracy: rows.length === 0 ? 0 : best.n / rows.length };
 }
 
 export interface ClassMetrics {

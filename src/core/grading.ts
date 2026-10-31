@@ -133,3 +133,52 @@ export function triage(
     rationale: "The evidence is not strong enough for a verdict; the report needs more detail.",
   };
 }
+
+export type BestGuessLabel = "invalid" | "cannot-reproduce" | "confirmed";
+
+/**
+ * The closest closed-issue label when forced to choose. Derived only from what a report already
+ * contains, by fixed rules checked in order (set before evaluation, not tuned to results).
+ * A committed triage label always wins; otherwise this is a lower-confidence guess.
+ */
+export function bestGuess(
+  strict: TriageLabel,
+  extractionOk: boolean,
+  assessments: ClaimAssessment[],
+): { label: BestGuessLabel; rule: string } {
+  if (strict === "confirmed" || strict === "invalid" || strict === "cannot-reproduce") {
+    return { label: strict, rule: "Same as the committed label." };
+  }
+  const evidence = assessments.flatMap((a) => a.evidence);
+  const executed = (verdict: ClaimAssessment["verdict"]) =>
+    assessments.some((a) => a.verdict === verdict && a.evidence.some((e) => e.kind === "executed_repro"));
+
+  if (executed("reproduced")) {
+    return { label: "confirmed", rule: "The reporter's code reproduced the problem when executed." };
+  }
+  if (executed("not_reproduced")) {
+    return { label: "cannot-reproduce", rule: "The reporter's code ran without the problem." };
+  }
+  if (assessments.some((a) => a.verdict === "contradicted")) {
+    return { label: "invalid", rule: "The report names code that does not exist at the checked commit." };
+  }
+  const substantive = assessments.filter((a) => !a.missing.includes(CONTEXT_ONLY));
+  // Code references only: models also file UI actions such as "CTRL+Space" under commands, and real
+  // shell commands the reporter ran are already counted as repro_steps by detectProvidedEvidence.
+  const anyReference = substantive.some((a) => {
+    const r = a.claim.references;
+    return r.files.length + r.symbols.length + r.lines.length > 0;
+  });
+  const technical = new Set(substantive.flatMap((a) => a.claim.evidenceProvided).filter((e) => e !== "none" && e !== "screenshot"));
+  if (!extractionOk || substantive.length === 0 || (!anyReference && technical.size === 0)) {
+    return { label: "invalid", rule: "The report has no checkable technical detail: no code references, steps, logs or traces." };
+  }
+  if (evidence.some((e) => e.source === "stack-trace" && /does not line up/.test(e.summary))) {
+    return { label: "cannot-reproduce", rule: "The stack trace does not match the code, so the report likely comes from another version or setup." };
+  }
+  const supported = evidence.some((e) => e.kind === "static_proof");
+  if (supported && (technical.has("stack_trace") || technical.has("repro_steps"))) {
+    return { label: "confirmed", rule: "The report gives a trace or steps, and the code it names exists at the checked commit." };
+  }
+  return { label: "cannot-reproduce", rule: "The claims could not be checked and the report gives no trace or steps to reproduce." };
+}

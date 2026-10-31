@@ -221,6 +221,13 @@ export default function JobPage() {
                   Suggested label: {triageLabelText(report.triage.label)}
                 </h2>
                 <p style={{ margin: 0 }}>{report.triage.rationale}</p>
+                {report.triage.bestGuess && report.triage.bestGuess.label !== report.triage.label && (
+                  <p style={{ margin: "8px 0 0" }}>
+                    <strong>Best guess if a label must be chosen:</strong>{" "}
+                    {triageLabelText(report.triage.bestGuess.label)}: {report.triage.bestGuess.rule}{" "}
+                    <em>(a guess from fixed evidence rules, not a verdict)</em>
+                  </p>
+                )}
                 <p className="triage-disclaimer">
                   Suggested label only — Pramaan never closes issues.
                 </p>

@@ -5,6 +5,8 @@
 **Suggested label:** **Needs more information**
 The evidence is not strong enough for a verdict; the report needs more detail.
 
+**Best guess if a label must be chosen:** Confirmed: The report gives a trace or steps, and the code it names exists at the checked commit. _(a guess from fixed evidence rules, not a verdict)_
+
 _Suggested label only — Pramaan never closes issues._
 
 | # | Claim | Verdict | Confidence | Human review |

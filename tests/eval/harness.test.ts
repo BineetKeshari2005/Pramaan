@@ -4,7 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import type { Checkout, ExtractionResult, RepoRef, TargetDocument, TargetRef } from "../../src/core";
 import { parseDataset } from "../../src/eval/dataset";
-import { computeMetrics, type EvalRow } from "../../src/eval/metrics";
+import { asBestGuessRows, computeMetrics, type EvalRow, majorityBaseline } from "../../src/eval/metrics";
 import { renderSummary } from "../../src/eval/render";
 import { runEvaluation } from "../../src/eval/runner";
 import { FakeExtractor, FakeGitHub, FakeVerifier, makeClaim, makeTarget } from "../fakes";
@@ -81,6 +81,27 @@ describe("computeMetrics", () => {
     expect(md).toContain("| **invalid** | 1 | 1 | 0 | 1 | 0 | 0 |");
     expect(md).toContain("[json](reports/i1.json)");
     expect(md).toContain("⚠️ error");
+  });
+
+  it("scores the best guess separately and compares it with the majority baseline", () => {
+    const guessed: EvalRow[] = [
+      { ...row("a", "invalid", "needs-info"), bestGuess: "invalid", bestGuessRule: "No technical detail." },
+      { ...row("b", "confirmed", "needs-info"), bestGuess: "cannot-reproduce" },
+      { ...row("c", "confirmed", "confirmed"), bestGuess: "confirmed" },
+    ];
+    const g = computeMetrics(asBestGuessRows(guessed));
+    expect(g).toMatchObject({ decided: 3, correct: 2, abstained: 0 });
+    expect(majorityBaseline(guessed)).toEqual({ label: "confirmed", accuracy: 2 / 3 });
+    const md = renderSummary(computeMetrics(guessed), guessed, {
+      dataset: "d",
+      models: [],
+      generatedAt: "t",
+      bestGuess: g,
+      baseline: majorityBaseline(guessed),
+    });
+    expect(md).toContain("## Best guess (forced to choose)");
+    expect(md).toContain('| Baseline: always answer "confirmed" | 67% |');
+    expect(md).toContain("| ➖ needs-info | ✅ invalid | No technical detail. |");
   });
 });
 

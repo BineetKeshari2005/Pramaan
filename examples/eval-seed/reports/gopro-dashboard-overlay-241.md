@@ -5,6 +5,8 @@
 **Suggested label:** **Needs human review**
 A security claim could not be settled automatically; a maintainer should look.
 
+**Best guess if a label must be chosen:** Likely invalid: The report names code that does not exist at the checked commit. _(a guess from fixed evidence rules, not a verdict)_
+
 _Suggested label only — Pramaan never closes issues._
 
 | # | Claim | Verdict | Confidence | Human review |
