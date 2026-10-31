@@ -4,6 +4,8 @@ import path from "node:path";
 const SKIP_DIRS = new Set([".git", "node_modules", ".venv", "venv", "__pycache__", ".tox", ".next", "dist", "build", "target"]);
 const MAX_FILES = 60_000;
 const MAX_TEXT_BYTES = 1_000_000;
+/** Total text kept in the line cache; searches never cache, so this stays small on huge repos. */
+const MAX_CACHED_CHARS = 32_000_000;
 const SOURCE_EXT = /\.(py|pyi|js|jsx|mjs|cjs|ts|tsx|mts|cts|go|rs|java|kt|kts|scala|rb|php|c|cc|cpp|cxx|h|hh|hpp|cs|swift|m|mm|sh|bash|lua|pl|pm|r|dart|ex|exs|erl|hs|ml|clj|groovy|gradle|vue|svelte)$/i;
 
 export interface CodeLocation {
@@ -26,6 +28,7 @@ export class RepoIndex {
   readonly files: string[];
   private readonly fileSet: Set<string>;
   private readonly lineCache = new Map<string, string[] | null>();
+  private cachedChars = 0;
 
   constructor(readonly root: string) {
     this.files = listFiles(root);
@@ -53,23 +56,39 @@ export class RepoIndex {
     return { similar };
   }
 
+  /** Lines of a text file, from a small size-capped cache (only files shown as evidence are cached). */
   lines(file: string): string[] | null {
-    if (this.lineCache.has(file)) return this.lineCache.get(file) ?? null;
-    let lines: string[] | null = null;
-    const abs = path.join(this.root, file);
-    if (isInside(this.root, abs)) {
-      try {
-        const stat = fs.lstatSync(abs);
-        if (stat.isFile() && stat.size <= MAX_TEXT_BYTES) {
-          const text = fs.readFileSync(abs, "utf8");
-          if (!text.includes("\u0000")) lines = text.split(/\r?\n/);
-        }
-      } catch {
-        lines = null;
-      }
+    const cached = this.lineCache.get(file);
+    if (cached !== undefined) {
+      // Re-insert so the Map's insertion order works as least-recently-used order.
+      this.lineCache.delete(file);
+      this.lineCache.set(file, cached);
+      return cached;
     }
+    const text = this.readText(file);
+    const lines = text === null ? null : text.split(/\r?\n/);
     this.lineCache.set(file, lines);
+    this.cachedChars += text?.length ?? 0;
+    while (this.cachedChars > MAX_CACHED_CHARS && this.lineCache.size > 1) {
+      const oldest = this.lineCache.keys().next().value as string;
+      this.cachedChars -= (this.lineCache.get(oldest) ?? []).reduce((n, l) => n + l.length + 1, 0);
+      this.lineCache.delete(oldest);
+    }
     return lines;
+  }
+
+  /** Reads a text file inside the checkout without caching it; null for binaries, big files and anything outside. */
+  private readText(file: string): string | null {
+    const abs = path.join(this.root, file);
+    if (!isInside(this.root, abs)) return null;
+    try {
+      const stat = fs.lstatSync(abs);
+      if (!stat.isFile() || stat.size > MAX_TEXT_BYTES) return null;
+      const text = fs.readFileSync(abs, "utf8");
+      return text.includes("\u0000") ? null : text;
+    } catch {
+      return null;
+    }
   }
 
   /** Definitions of a function, method, class, type or variable, across common languages. */
@@ -92,22 +111,27 @@ export class RepoIndex {
       ].join("|"),
       "m",
     );
-    return this.search(pattern, limit, true);
+    return this.search(pattern, limit, true, symbol);
   }
 
   /** Any whole-word occurrence (or literal occurrence for flags like --force-ssl). */
   findMentions(token: string, limit = 5): CodeLocation[] {
     const escaped = escapeRegex(token);
     const pattern = /^[\w$]/.test(token) && /[\w$]$/.test(token) ? new RegExp(`\\b${escaped}\\b`) : new RegExp(escaped);
-    return this.search(pattern, limit, false);
+    return this.search(pattern, limit, false, token);
   }
 
-  private search(pattern: RegExp, limit: number, sourceOnly: boolean): CodeLocation[] {
+  /**
+   * Scans files without caching them, so a search over a very large repository holds one file in
+   * memory at a time. `needle` is a plain substring every match must contain: a cheap pre-filter.
+   */
+  private search(pattern: RegExp, limit: number, sourceOnly: boolean, needle: string): CodeLocation[] {
     const out: CodeLocation[] = [];
     for (const file of this.files) {
       if (sourceOnly && !SOURCE_EXT.test(file)) continue;
-      const lines = this.lines(file);
-      if (!lines) continue;
+      const text = this.readText(file);
+      if (text === null || !text.includes(needle)) continue;
+      const lines = text.split(/\r?\n/);
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i] ?? "";
         if (line.length < 2000 && pattern.test(line)) {
