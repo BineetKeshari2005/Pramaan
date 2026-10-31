@@ -1,0 +1,157 @@
+{
+  "target": {
+    "owner": "acme-org",
+    "repo": "widget-engine",
+    "number": 42,
+    "kind": "issue",
+    "url": "https://github.com/acme-org/widget-engine/issues/42",
+    "title": "Widget.render() crashes with a TypeError when props.items is undefined",
+    "commit": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+  },
+  "generatedAt": "2026-10-31T18:00:00.000Z",
+  "models": ["llama3.2:3b", "codellama:7b"],
+  "extraction": {
+    "status": "ok",
+    "claimCount": 4
+  },
+  "assessments": [
+    {
+      "claim": {
+        "id": "claim-1",
+        "type": "behavior",
+        "statement": "Widget.render() throws a TypeError when props.items is undefined",
+        "quote": "Widget.render() crashes with a TypeError when props.items is undefined",
+        "references": {
+          "files": ["src/widget.ts"],
+          "symbols": ["Widget.render"],
+          "lines": [{ "file": "src/widget.ts", "line": 47 }],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": ["stack_trace", "repro_steps"]
+      },
+      "verdict": "reproduced",
+      "confidence": "high",
+      "needsHumanReview": false,
+      "evidence": [
+        {
+          "kind": "executed_repro",
+          "source": "ReproRunner",
+          "summary": "Ran the reproduction script; observed TypeError: Cannot read properties of undefined (reading 'map') at Widget.render (src/widget.ts:47)",
+          "location": {
+            "file": "src/widget.ts",
+            "startLine": 45,
+            "endLine": 52,
+            "permalink": "https://github.com/acme-org/widget-engine/blob/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2/src/widget.ts#L45-L52"
+          },
+          "log": "$ node repro.js\nTypeError: Cannot read properties of undefined (reading 'map')\n    at Widget.render (src/widget.ts:47:22)\n    at Object.<anonymous> (repro.js:8:12)\n\nExit code: 1"
+        }
+      ],
+      "missing": []
+    },
+    {
+      "claim": {
+        "id": "claim-2",
+        "type": "security_impact",
+        "statement": "The crash can be triggered by any authenticated user via the /api/widgets endpoint, constituting a denial-of-service vulnerability",
+        "quote": "Any authenticated user can trigger this crash via /api/widgets, causing a service outage",
+        "references": {
+          "files": ["src/api/widgets.ts", "src/widget.ts"],
+          "symbols": ["widgetsHandler"],
+          "lines": [],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": ["repro_steps"]
+      },
+      "verdict": "insufficient_evidence",
+      "confidence": "low",
+      "needsHumanReview": true,
+      "evidence": [
+        {
+          "kind": "plausible_text",
+          "source": "StaticAnalyzer",
+          "summary": "The route handler at src/api/widgets.ts does forward props to Widget.render() without validating items, but whether this constitutes a security boundary violation requires human review.",
+          "location": {
+            "file": "src/api/widgets.ts",
+            "startLine": 23,
+            "endLine": 35,
+            "permalink": "https://github.com/acme-org/widget-engine/blob/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2/src/api/widgets.ts#L23-L35"
+          }
+        }
+      ],
+      "missing": [
+        "Authentication bypass analysis confirming any authenticated user can supply arbitrary props",
+        "Load-testing evidence demonstrating service-wide outage vs. single-request failure"
+      ]
+    },
+    {
+      "claim": {
+        "id": "claim-3",
+        "type": "code_location",
+        "statement": "The fix should add a null guard before calling props.items.map() on line 47 of src/widget.ts",
+        "quote": "The fix is simple: just add a null check before line 47",
+        "references": {
+          "files": ["src/widget.ts"],
+          "symbols": [],
+          "lines": [{ "file": "src/widget.ts", "line": 47 }],
+          "versions": [],
+          "commands": []
+        },
+        "evidenceProvided": ["code_snippet"]
+      },
+      "verdict": "contradicted",
+      "confidence": "medium",
+      "needsHumanReview": false,
+      "evidence": [
+        {
+          "kind": "static_proof",
+          "source": "CodeAnalyzer",
+          "summary": "Line 47 has already been patched in the current HEAD with an optional chaining operator (props.items?.map). The root cause is actually in the prop normalization layer at src/widget-factory.ts:12, which does not coerce undefined to an empty array.",
+          "location": {
+            "file": "src/widget.ts",
+            "startLine": 47,
+            "endLine": 47,
+            "permalink": "https://github.com/acme-org/widget-engine/blob/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2/src/widget.ts#L47"
+          },
+          "log": "grep -n 'items' src/widget.ts\n47:    const rows = props.items?.map(item => renderRow(item)) ?? [];\n\ngrep -n 'items' src/widget-factory.ts\n12:    // TODO: normalise items\n13:    return new Widget({ ...options });"
+        }
+      ],
+      "missing": []
+    },
+    {
+      "claim": {
+        "id": "claim-4",
+        "type": "version",
+        "statement": "The bug was introduced in version 2.3.0 and is not present in 2.2.x",
+        "quote": "This started in 2.3.0 — 2.2.x was fine",
+        "references": {
+          "files": [],
+          "symbols": [],
+          "lines": [],
+          "versions": ["2.3.0", "2.2.x"],
+          "commands": []
+        },
+        "evidenceProvided": ["none"]
+      },
+      "verdict": "not_reproduced",
+      "confidence": "none",
+      "needsHumanReview": false,
+      "evidence": [
+        {
+          "kind": "none",
+          "source": "VersionChecker",
+          "summary": "No CHANGELOG, git tags, or release notes were found that correlate the crash with version 2.3.0. The repository does not tag releases, so cross-version comparison could not be automated."
+        }
+      ],
+      "missing": [
+        "Git tags or release notes correlating the crash to a specific version",
+        "A repro script pinned to version 2.2.x confirming absence of the bug"
+      ]
+    }
+  ],
+  "triage": {
+    "label": "needs-human-review",
+    "rationale": "Claim 1 was reproduced with high confidence. Claim 2 raises a potential security impact that could not be automatically verified and requires human judgment before action. Claims 3 and 4 were contradicted or could not be reproduced due to insufficient version history. Overall the issue is real but the security scope is unclear."
+  }
+}
