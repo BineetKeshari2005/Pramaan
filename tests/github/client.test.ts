@@ -300,7 +300,7 @@ describe("OctokitGitHubClient checkout with fake GitRunner", () => {
       });
 
       const res = await client.checkout({ owner: "acme", repo: "widgets" }, "feature-branch");
-      const expectedDir = path.resolve(tmpCacheDir, "acme__widgets");
+      const expectedDir = path.resolve(tmpCacheDir, "acme__widgets@feature-branch");
 
       expect(res).toEqual({
         dir: expectedDir,
@@ -359,7 +359,7 @@ describe("OctokitGitHubClient checkout with fake GitRunner", () => {
     };
 
     const tmpCacheDir = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-checkout-existing-"));
-    const repoDir = path.join(tmpCacheDir, "acme__widgets");
+    const repoDir = path.join(tmpCacheDir, "acme__widgets@HEAD");
     fs.mkdirSync(repoDir, { recursive: true });
 
     try {
@@ -440,6 +440,100 @@ describe("OctokitGitHubClient checkout with fake GitRunner", () => {
       }
     } finally {
       fs.rmSync(tmpCacheDir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("OctokitGitHubClient commit resolution and per-commit checkouts", () => {
+  const FULL = "a81591327a72605498fe7a29c5c56ab1a40da94a";
+  const OTHER = "b571b29cdabda3455b33c8c491f4053731fbb08e";
+
+  function recordingGit(headFor: (cwd: string) => string) {
+    const calls: Array<{ args: string[]; cwd?: string }> = [];
+    const git = async (args: string[], opts?: { cwd?: string }) => {
+      calls.push({ args, cwd: opts?.cwd });
+      if (args.at(-1) === "init" && opts?.cwd) fs.mkdirSync(path.join(opts.cwd, ".git"), { recursive: true });
+      if (args.at(-2) === "rev-parse") return { stdout: `${headFor(opts?.cwd ?? "")}\n` };
+      await new Promise((r) => setTimeout(r, 5));
+      return { stdout: "" };
+    };
+    return { git, calls };
+  }
+
+  const octokitResolving = (shas: Record<string, string>, defaultBranch = "main") =>
+    ({
+      rest: {
+        repos: {
+          get: async () => ({ data: { default_branch: defaultBranch } }),
+          getCommit: async ({ ref }: { ref: string }) => {
+            const sha = shas[ref];
+            if (!sha) throw Object.assign(new Error("No commit found"), { status: 422 });
+            return { data: { sha } };
+          },
+        },
+      },
+    }) as unknown as Octokit;
+
+  it("resolves a short SHA to the full SHA before fetching, since GitHub cannot fetch short SHAs", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-resolve-"));
+    try {
+      const { git, calls } = recordingGit(() => FULL);
+      const client = new OctokitGitHubClient({ octokit: octokitResolving({ a815913: FULL }), git, cacheDir: tmp });
+      const res = await client.checkout({ owner: "github", repo: "gitignore" }, "a815913");
+      expect(res).toEqual({ dir: path.resolve(tmp, `github__gitignore@${FULL}`), commit: FULL });
+      expect(calls.find((c) => c.args.includes("fetch"))?.args.at(-1)).toBe(FULL);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it("resolves the default branch when no commit is given", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-default-"));
+    try {
+      const { git } = recordingGit(() => FULL);
+      const client = new OctokitGitHubClient({ octokit: octokitResolving({ main: FULL }), git, cacheDir: tmp });
+      expect((await client.checkout({ owner: "o", repo: "r" })).commit).toBe(FULL);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it("reports an unknown commit clearly without running git", async () => {
+    const { git, calls } = recordingGit(() => FULL);
+    const client = new OctokitGitHubClient({ octokit: octokitResolving({}), git });
+    await expect(client.checkout({ owner: "o", repo: "r" }, "deadbee")).rejects.toThrow(/does not exist in o\/r/);
+    expect(calls).toHaveLength(0);
+  });
+
+  it("checks out different commits into different directories, concurrently", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-concurrent-"));
+    try {
+      const { git } = recordingGit((cwd) => (cwd.endsWith(FULL) ? FULL : OTHER));
+      const client = new OctokitGitHubClient({ octokit: octokitResolving({}), git, cacheDir: tmp });
+      const [a, b] = await Promise.all([
+        client.checkout({ owner: "o", repo: "r" }, FULL),
+        client.checkout({ owner: "o", repo: "r" }, OTHER),
+      ]);
+      expect(a).toEqual({ dir: path.resolve(tmp, `o__r@${FULL}`), commit: FULL });
+      expect(b).toEqual({ dir: path.resolve(tmp, `o__r@${OTHER}`), commit: OTHER });
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it("serializes concurrent checkouts of the same commit and reuses the finished checkout", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "pramaan-same-"));
+    try {
+      const { git, calls } = recordingGit(() => FULL);
+      const client = new OctokitGitHubClient({ octokit: octokitResolving({}), git, cacheDir: tmp });
+      await Promise.all([client.checkout({ owner: "o", repo: "r" }, FULL), client.checkout({ owner: "o", repo: "r" }, FULL)]);
+      expect(calls.filter((c) => c.args.includes("init"))).toHaveLength(1);
+      expect(calls.filter((c) => c.args.includes("fetch"))).toHaveLength(1);
+
+      await client.checkout({ owner: "o", repo: "r" }, FULL);
+      expect(calls.filter((c) => c.args.includes("fetch"))).toHaveLength(1);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
     }
   });
 });

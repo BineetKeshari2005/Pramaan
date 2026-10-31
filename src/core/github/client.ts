@@ -20,6 +20,7 @@ export class OctokitGitHubClient implements GitHubClient {
   private readonly cacheDir: string;
   private readonly remoteBase: string;
   private readonly allowFileProtocol: boolean;
+  private readonly locks = new Map<string, Promise<unknown>>();
 
   constructor(options: OctokitGitHubClientOptions) {
     this.octokit = options.octokit;
@@ -167,8 +168,60 @@ export class OctokitGitHubClient implements GitHubClient {
       validateCommit(commit);
     }
 
-    const repoDir = path.resolve(this.cacheDir, `${repo.owner}__${repo.repo}`);
+    const sha = await this.resolveCommit(repo, commit);
+    const ref = sha ?? commit ?? "HEAD";
+    // One directory per commit, so concurrent jobs on different commits never share a work tree.
+    const repoDir = path.resolve(this.cacheDir, `${repo.owner}__${repo.repo}@${ref.replace(/\//g, "_")}`);
+    return this.withLock(repoDir, () => this.checkoutInto(repo, ref, sha, repoDir));
+  }
+
+  /**
+   * Resolves short SHAs, branches and tags (or the default branch) to a full SHA via the API,
+   * because git can only fetch a commit from GitHub by its full SHA. Returns undefined when the
+   * API cannot answer (for example a non-GitHub remote), and the ref is then fetched by name.
+   */
+  private async resolveCommit(repo: RepoRef, commit?: string): Promise<string | undefined> {
+    if (commit && /^[0-9a-f]{40}$/i.test(commit)) return commit.toLowerCase();
+    const rest = this.rest;
+    if (typeof rest.repos?.getCommit !== "function") return undefined;
+
+    let ref = commit;
+    try {
+      if (!ref) {
+        const { data } = await rest.repos.get({ owner: repo.owner, repo: repo.repo });
+        ref = data?.default_branch;
+        if (!ref) return undefined;
+      }
+      const { data } = await rest.repos.getCommit({ owner: repo.owner, repo: repo.repo, ref, per_page: 1 });
+      return typeof data?.sha === "string" ? data.sha : undefined;
+    } catch (err) {
+      const status = (err as { status?: number }).status;
+      if (status === 404 || status === 422) {
+        throw new CheckoutError(`Commit or ref "${commit}" does not exist in ${repo.owner}/${repo.repo}`);
+      }
+      handleOctokitError(err);
+    }
+  }
+
+  private async withLock<T>(key: string, fn: () => Promise<T>): Promise<T> {
+    const previous = this.locks.get(key) ?? Promise.resolve();
+    const run = previous.catch(() => undefined).then(fn);
+    const settled = run.catch(() => undefined);
+    this.locks.set(key, settled);
+    try {
+      return await run;
+    } finally {
+      if (this.locks.get(key) === settled) this.locks.delete(key);
+    }
+  }
+
+  private async checkoutInto(repo: RepoRef, ref: string, sha: string | undefined, repoDir: string): Promise<Checkout> {
     const securityFlags = getGitSecurityFlags(this.allowFileProtocol);
+
+    if (sha && fs.existsSync(path.join(repoDir, ".git"))) {
+      const head = await this.runGit([...securityFlags, "rev-parse", "HEAD"], repoDir).catch(() => undefined);
+      if (head?.stdout.trim() === sha) return { dir: repoDir, commit: sha };
+    }
 
     if (!fs.existsSync(repoDir)) {
       fs.mkdirSync(repoDir, { recursive: true });
@@ -185,9 +238,8 @@ export class OctokitGitHubClient implements GitHubClient {
       );
     }
 
-    const targetCommit = commit ?? "HEAD";
     await this.runGit(
-      [...securityFlags, "fetch", "--depth", "1", "origin", targetCommit],
+      [...securityFlags, "fetch", "--depth", "1", "origin", ref],
       repoDir,
     );
     await this.runGit(

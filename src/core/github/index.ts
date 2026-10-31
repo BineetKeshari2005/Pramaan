@@ -11,7 +11,10 @@ export function createGitHubClientFromEnv(
   options: Partial<Omit<OctokitGitHubClientOptions, "octokit">> = {},
 ): OctokitGitHubClient {
   const token = env.GITHUB_TOKEN?.trim();
-  const octokit = new Octokit(token ? { auth: token } : {});
+  const quiet = () => {};
+  // Failed requests already surface as typed errors; Octokit's own request logging is noise.
+  const log = { debug: quiet, info: quiet, warn: console.warn, error: quiet };
+  const octokit = new Octokit(token ? { auth: token, log } : { log });
   return new OctokitGitHubClient({
     octokit,
     git: options.git ?? defaultGitRunner,
