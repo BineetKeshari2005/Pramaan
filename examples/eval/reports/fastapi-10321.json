@@ -8,7 +8,7 @@
     "title": "Pydantic 2 Regression: Openapi error when \"examples\" contains models",
     "commit": "69a7c99b447c9ef103dc03e93d172cabd99ac832"
   },
-  "generatedAt": "2026-10-31T22:26:02.932Z",
+  "generatedAt": "2026-10-31T22:56:52.500Z",
   "models": [
     "gemma4:e2b-it-qat"
   ],

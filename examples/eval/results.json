@@ -6,7 +6,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 2209
+    "durationMs": 2150
   },
   {
     "id": "sqlmap-6135",
@@ -15,7 +15,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 2103
+    "durationMs": 1952
   },
   {
     "id": "bc-java-2497",
@@ -24,7 +24,7 @@
     "predicted": "needs-human-review",
     "bestGuess": "invalid",
     "bestGuessRule": "The report has no checkable technical detail: no code references, steps, logs or traces.",
-    "durationMs": 1899
+    "durationMs": 1731
   },
   {
     "id": "js-abbreviation-number-39",
@@ -33,7 +33,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 1729
+    "durationMs": 1635
   },
   {
     "id": "click-3732",
@@ -42,7 +42,7 @@
     "predicted": "needs-info",
     "bestGuess": "invalid",
     "bestGuessRule": "The report has no checkable technical detail: no code references, steps, logs or traces.",
-    "durationMs": 1849
+    "durationMs": 1782
   },
   {
     "id": "printrun-1393",
@@ -51,7 +51,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 2073
+    "durationMs": 1770
   },
   {
     "id": "scrapling-524",
@@ -60,7 +60,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 2232
+    "durationMs": 1964
   },
   {
     "id": "scrapling-428",
@@ -69,7 +69,7 @@
     "predicted": "needs-info",
     "bestGuess": "invalid",
     "bestGuessRule": "The report has no checkable technical detail: no code references, steps, logs or traces.",
-    "durationMs": 1701
+    "durationMs": 1608
   },
   {
     "id": "sinatra-2143",
@@ -78,7 +78,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1711
+    "durationMs": 1790
   },
   {
     "id": "overleaf-sync-54",
@@ -87,7 +87,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 1729
+    "durationMs": 1734
   },
   {
     "id": "overleaf-sync-50",
@@ -96,7 +96,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1680
+    "durationMs": 1998
   },
   {
     "id": "tailscale-gnome-qs-67",
@@ -105,7 +105,7 @@
     "predicted": "invalid",
     "bestGuess": "invalid",
     "bestGuessRule": "Same as the committed label.",
-    "durationMs": 1807
+    "durationMs": 1876
   },
   {
     "id": "tailscale-gnome-qs-59",
@@ -114,7 +114,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1810
+    "durationMs": 1732
   },
   {
     "id": "python-decompile3-158",
@@ -123,7 +123,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 1670
+    "durationMs": 1669
   },
   {
     "id": "python-decompile3-120",
@@ -132,7 +132,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1824
+    "durationMs": 2288
   },
   {
     "id": "printrun-1444",
@@ -141,7 +141,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1790
+    "durationMs": 2244
   },
   {
     "id": "coc-nvim-5703",
@@ -150,7 +150,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1800
+    "durationMs": 1798
   },
   {
     "id": "ublock-issues-4183",
@@ -159,7 +159,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1742
+    "durationMs": 1818
   },
   {
     "id": "fastapi-12313",
@@ -168,7 +168,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 3715
+    "durationMs": 3417
   },
   {
     "id": "fastapi-10321",
@@ -177,7 +177,7 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 3227
+    "durationMs": 3273
   },
   {
     "id": "flaresolverr-1741",
@@ -186,7 +186,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 2564
+    "durationMs": 1850
   },
   {
     "id": "flaresolverr-1534",
@@ -195,7 +195,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1779
+    "durationMs": 1771
   },
   {
     "id": "torrent-889",
@@ -204,7 +204,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1728
+    "durationMs": 1845
   },
   {
     "id": "torrent-795",
@@ -213,16 +213,16 @@
     "predicted": "needs-info",
     "bestGuess": "confirmed",
     "bestGuessRule": "The report gives a trace or steps, and the code it names exists at the checked commit.",
-    "durationMs": 1761
+    "durationMs": 1785
   },
   {
     "id": "plugins-2",
     "url": "https://github.com/memroot/plugins/issues/2",
     "reference": "confirmed",
     "predicted": "needs-info",
-    "bestGuess": "invalid",
-    "bestGuessRule": "The report has no checkable technical detail: no code references, steps, logs or traces.",
-    "durationMs": 1795
+    "bestGuess": "cannot-reproduce",
+    "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
+    "durationMs": 1847
   },
   {
     "id": "plugins-1",
@@ -231,7 +231,7 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1914
+    "durationMs": 2989
   },
   {
     "id": "mailcow-dockerized-6747",
@@ -240,6 +240,6 @@
     "predicted": "needs-info",
     "bestGuess": "cannot-reproduce",
     "bestGuessRule": "The claims could not be checked and the report gives no trace or steps to reproduce.",
-    "durationMs": 1783
+    "durationMs": 2034
   }
 ]

@@ -1,8 +1,10 @@
 import type { Verifier } from "../ports";
+import { PrDiffVerifier } from "./pr-diff";
 import { ReferencesVerifier } from "./references";
 import { RepoIndex } from "./repo-index";
 import { StackTraceVerifier } from "./stack-trace";
 
+export * from "./pr-diff";
 export * from "./references";
 export * from "./repo-index";
 export * from "./stack-trace";
@@ -15,10 +17,10 @@ export function createStaticVerifiers(): Verifier[] {
     if (!index) {
       index = new RepoIndex(dir);
       indexes.set(dir, index);
-      // Keep the few most recent checkouts; a long-running server sees many commits.
+      // Keep the two most recent checkouts: a PR needs its head and base at once.
       if (indexes.size > 2) indexes.delete(indexes.keys().next().value as string);
     }
     return index;
   };
-  return [new ReferencesVerifier(indexFor), new StackTraceVerifier(indexFor)];
+  return [new ReferencesVerifier(indexFor), new StackTraceVerifier(indexFor), new PrDiffVerifier(indexFor)];
 }

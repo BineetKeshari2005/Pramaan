@@ -46,3 +46,13 @@ describe("excerpt", () => {
     expect(excerpt(["a", "b", "c"], 0, 9)).toBe("1 | a\n2 | b\n3 | c");
   });
 });
+
+describe("case-insensitive fallback", () => {
+  it("prefers the exact case but finds lowercased names, reporting the real line", () => {
+    expect(index.findDefinitions("renderPage")[0]).toMatchObject({ file: "web/app.js", line: 1 });
+    expect(index.findDefinitions("renderpage")[0]).toMatchObject({ file: "web/app.js", line: 1 });
+    expect(index.findDefinitions("URLCACHE")[0]).toMatchObject({ file: "src/url.py", line: 16 });
+    expect(index.findMentions("SINGLESTRING")[0]).toMatchObject({ file: "lib/controller/action.py", line: 7 });
+    expect(index.findDefinitions("renderpage")[0]?.text).toContain("renderPage");
+  });
+});

@@ -1,4 +1,5 @@
 import type { TargetDocument } from "../ports";
+import { codeSymbol, looksLikePath } from "../static/references";
 import { parseStackTrace, reportText } from "../static/stack-trace";
 import type { Claim, ProvidedEvidence } from "../types";
 
@@ -34,5 +35,40 @@ export function withDetectedEvidence(claims: Claim[], detected: ProvidedEvidence
     if (!REPORT_LEVEL_TYPES.has(claim.type)) return claim;
     const merged = [...new Set([...claim.evidenceProvided, ...detected])].filter((e) => e !== "none");
     return { ...claim, evidenceProvided: merged };
+  });
+}
+
+const CODE_SPAN = /`([^`\n]{2,80})`/g;
+const VERSIONISH = /^v?\d[\w.-]*$/;
+const MAX_MINED = 8;
+
+/**
+ * Copies code tokens the claim itself names in backticks into its references, so the verifiers
+ * check them even when the model forgot to. Deterministic: only single backticked tokens from the
+ * claim's own (grounded) text, classified with the same rules the verifiers use.
+ */
+export function mineReferences(claims: Claim[]): Claim[] {
+  return claims.map((claim) => {
+    const files = new Set(claim.references.files);
+    const symbols = new Set(claim.references.symbols);
+    for (const m of `${claim.statement}\n${claim.quote}`.matchAll(CODE_SPAN)) {
+      const token = (m[1] as string).trim();
+      if (/\s/.test(token) || VERSIONISH.test(token)) continue; // fragments and versions, not names
+      if (looksLikePath(token) && !token.endsWith(")")) {
+        files.add(token.replace(/^\.\//, ""));
+      } else if (codeSymbol(token)) {
+        // Keep the raw token: "isvalid()" stays identifier-like for the verifiers, "isvalid" would not.
+        symbols.add(token);
+      }
+    }
+    if (files.size === claim.references.files.length && symbols.size === claim.references.symbols.length) return claim;
+    return {
+      ...claim,
+      references: {
+        ...claim.references,
+        files: [...files].slice(0, MAX_MINED),
+        symbols: [...symbols].slice(0, MAX_MINED),
+      },
+    };
   });
 }

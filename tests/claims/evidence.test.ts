@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { detectProvidedEvidence, withDetectedEvidence } from "../../src/core/claims";
+import { detectProvidedEvidence, mineReferences, withDetectedEvidence } from "../../src/core/claims";
 import type { TargetDocument } from "../../src/core/ports";
 import { makeClaim, makeTarget } from "../fakes";
 
@@ -60,5 +60,37 @@ describe("withDetectedEvidence", () => {
     );
     expect(behavior?.evidenceProvided).toEqual(["stack_trace"]);
     expect(location?.evidenceProvided).toEqual([]);
+  });
+});
+
+describe("mineReferences", () => {
+  const claim = (statement: string, refs: Partial<{ files: string[]; symbols: string[] }> = {}) =>
+    makeClaim({
+      id: "m1",
+      type: "behavior",
+      statement,
+      quote: statement,
+      references: { files: [], symbols: [], lines: [], versions: [], commands: [], ...refs },
+    });
+
+  it("copies backticked code tokens from the claim text into its references", () => {
+    const [mined] = mineReferences([
+      claim("Invalid IDs are rejected in `getTask()` and `deleteTask()` before `ValidationTaskId.java` is used."),
+    ]);
+    expect(mined?.references.symbols).toEqual(["getTask()", "deleteTask()"]);
+    expect(mined?.references.files).toEqual(["ValidationTaskId.java"]);
+  });
+
+  it("keeps existing references and skips fragments, versions and plain words", () => {
+    const [mined] = mineReferences([
+      claim("Since `v2.3.0`, `return x + 1` and `config` behave the same in `src/url.py`.", { symbols: ["parse_url"] }),
+    ]);
+    expect(mined?.references.symbols).toEqual(["parse_url"]);
+    expect(mined?.references.files).toEqual(["src/url.py"]);
+  });
+
+  it("returns the claim unchanged when there is nothing to mine", () => {
+    const original = claim("The app crashes on start.");
+    expect(mineReferences([original])[0]).toBe(original);
   });
 });
