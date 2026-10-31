@@ -55,7 +55,14 @@ describe("pipeline with the real extractor logic and static verifiers", () => {
 describe("createDeps", () => {
   it("builds the real adapters from the environment without touching the network", () => {
     const deps = createDeps({ PRAMAAN_EXTRACT_MODEL: "gemma4:e2b-it-qat" });
-    expect(deps.verifiers.map((v) => v.name)).toEqual(["code-references", "stack-trace"]);
+    expect(deps.verifiers.map((v) => v.name)).toEqual(["code-references", "stack-trace", "sandbox-repro"]);
+    expect(deps.sandbox).toBeDefined();
     expect(deps.extractor).toBeInstanceOf(LlmClaimExtractor);
+  });
+
+  it("leaves the sandbox out when PRAMAAN_SANDBOX=off", () => {
+    const deps = createDeps({ PRAMAAN_SANDBOX: "off" });
+    expect(deps.sandbox).toBeUndefined();
+    expect(deps.verifiers.map((v) => v.name)).not.toContain("sandbox-repro");
   });
 });
