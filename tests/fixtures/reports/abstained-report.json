@@ -1,0 +1,22 @@
+{
+  "target": {
+    "owner": "acme-org",
+    "repo": "widget-engine",
+    "number": 99,
+    "kind": "issue",
+    "url": "https://github.com/acme-org/widget-engine/issues/99",
+    "title": "It does not work",
+    "commit": null
+  },
+  "generatedAt": "2026-11-01T00:00:00.000Z",
+  "models": ["llama3.2:3b"],
+  "extraction": {
+    "status": "abstained",
+    "reason": "The issue description contains no technical details or steps to reproduce"
+  },
+  "assessments": [],
+  "triage": {
+    "label": "needs-info",
+    "rationale": "The report provides insufficient information to extract any claims."
+  }
+}
