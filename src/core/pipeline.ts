@@ -67,7 +67,12 @@ export async function runPipeline(
       const results: VerificationResult[] = [];
       for (const verifier of deps.verifiers.filter((v) => v.appliesTo(claim))) {
         try {
-          const result = await verifier.verify(claim, { target, checkout, sandbox: deps.sandbox });
+          const result = await verifier.verify(claim, {
+            target,
+            checkout,
+            sandbox: deps.sandbox,
+            checkoutAt: (sha) => deps.github.checkout(ref, sha),
+          });
           if (result) {
             results.push(result);
             result.modelsUsed?.forEach((m) => models.add(m));
