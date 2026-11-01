@@ -238,6 +238,10 @@ export default function Home() {
             </a>
           </div>
 
+          <p className="queue-note">
+            Several links to go through? <a href="/queue">Use the triage queue →</a>
+          </p>
+
           <div className="examples">
             <span>Try:</span>
             {EXAMPLES.map((ex) => (

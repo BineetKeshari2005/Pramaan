@@ -1,11 +1,13 @@
-import { buildReporterReply, renderReportMarkdown } from "../../core/report";
+import { buildReporterReply, renderGitHubComment, renderReportMarkdown } from "../../core/report";
 import type { Report } from "../../core/types";
 
 export function shareContent(report: Report): {
+  comment: string;
   markdown: string;
   reply: string | null;
   replyReason: string;
 } {
+  const comment = renderGitHubComment(report);
   const markdown = renderReportMarkdown(report);
   const reply = buildReporterReply(report);
   const replyReason =
@@ -13,7 +15,7 @@ export function shareContent(report: Report): {
       ? "No questions for the reporter: every checkable claim was settled."
       : "";
 
-  return { markdown, reply, replyReason };
+  return { comment, markdown, reply, replyReason };
 }
 
 export function issueCommentUrl(report: Report): string {

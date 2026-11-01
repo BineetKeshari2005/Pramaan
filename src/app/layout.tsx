@@ -47,6 +47,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <a href="/#how" className="nav-secondary">
                 How it works
               </a>
+              <a href="/queue" className="nav-secondary">
+                Triage queue
+              </a>
               <a href="/jobs/sample" className="nav-secondary">
                 Sample report
               </a>
